@@ -5,10 +5,10 @@
             <div class="container">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <p class="d-flex align-items-center fw-medium fs-14 mb-2"><i class="isax isax-call5 me-2"></i>Toll
-                        Free : +1 56565 56594</p>
+                        Free : +91 89800 46600</p>
                     <div class="d-flex align-items-center">
                         <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><i
-                                class="isax isax-message-text-15 me-2"></i>Email : info@example.com</p>
+                                class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
                         <div class="dropdown flag-dropdown mb-2 me-3">
                             <a href="#" class="dropdown-toggle d-inline-flex align-items-center"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -446,7 +446,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="has-submenu megamenutab {{ Request::is('activity-grid', 'activity-list', 'activity-map', 'activity-details', 'activity-booking', 'activity-booking-confirmation', 'add-activity', 'visa-grid', 'visa-requirements', 'visa-list', 'visa-details', 'visa-booking-details', 'add-visa', 'visa-tracking', 'guide-grid', 'guide-details', 'guide-booking', 'guide-booking-confirmation', 'add-guide', 'about-us', 'gallery', 'testimonial', 'faq', 'pricing-plan', 'pricing-plan-2', 'team', 'invoices', 'blog-grid', 'blog-list', 'blog-details', 'index-rtl', 'destination', 'destination-details', 'recently-viewed', 'booking-confirmation', 'terms-conditions', 'privacy-policy', 'login', 'register', 'forgot-password', 'change-password', 'error-404', 'error-500', 'dashboard', 'customer-gift-cards', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-guides', 'chat', 'support-fixes', 'customer-activities-booking', 'customer-bus-booking', 'customer-flight-booking', 'customer-cruise-booking', 'customer-hotel-booking', 'customer-tour-booking', 'customer-car-booking', 'customer-visa-booking', 'review', 'wishlist', 'wallet', 'payment', 'customer-coupons', 'profile-settings', 'notification', 'my-profile', 'security-settings', 'notification-settings', 'integration-settings', 'agent-dashboard', 'agent-business-details', 'agent-cancellation-requests', 'agent-commission-summary', 'agent-tour-guide', 'agent-visa-booking', 'agent-listings', 'agent-activities-booking', 'agent-bus-booking', 'agent-flight-booking', 'agent-hotel-booking', 'agent-tour-booking', 'agent-cruise-booking', 'agent-car-booking', 'agent-enquirers', 'agent-earnings', 'agent-payment-history', 'agent-pending-payouts', 'agent-review', 'agent-settings', 'agent-account-settings', 'agent-security-settings', 'agent-plans-settings', 'agent-settings-notifications') ? 'active' : ''; }}">
+                                <li class="has-submenu megamenutab {{ Request::is('activity-grid', 'activity-list', 'activity-map', 'activity-details', 'activity-booking', 'activity-booking-confirmation', 'add-activity', 'visa-grid', 'visa-requirements', 'visa-list', 'visa-details', 'visa-booking-details', 'add-visa', 'visa-tracking', 'guide-grid', 'guide-details', 'guide-booking', 'guide-booking-confirmation', 'add-guide', 'gallery', 'testimonial', 'faq', 'pricing-plan', 'pricing-plan-2', 'team', 'invoices', 'blog-grid', 'blog-list', 'blog-details', 'index-rtl', 'destination', 'destination-details', 'recently-viewed', 'booking-confirmation', 'terms-conditions', 'privacy-policy', 'login', 'register', 'forgot-password', 'change-password', 'error-404', 'error-500', 'dashboard', 'customer-gift-cards', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-guides', 'chat', 'support-fixes', 'customer-activities-booking', 'customer-bus-booking', 'customer-flight-booking', 'customer-cruise-booking', 'customer-hotel-booking', 'customer-tour-booking', 'customer-car-booking', 'customer-visa-booking', 'review', 'wishlist', 'wallet', 'payment', 'customer-coupons', 'profile-settings', 'notification', 'my-profile', 'security-settings', 'notification-settings', 'integration-settings', 'agent-dashboard', 'agent-business-details', 'agent-cancellation-requests', 'agent-commission-summary', 'agent-tour-guide', 'agent-visa-booking', 'agent-listings', 'agent-activities-booking', 'agent-bus-booking', 'agent-flight-booking', 'agent-hotel-booking', 'agent-tour-booking', 'agent-cruise-booking', 'agent-car-booking', 'agent-enquirers', 'agent-earnings', 'agent-payment-history', 'agent-pending-payouts', 'agent-review', 'agent-settings', 'agent-account-settings', 'agent-security-settings', 'agent-plans-settings', 'agent-settings-notifications') ? 'active' : ''; }}">
                                     <a href="#">Pages<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
                                         <li>
@@ -698,6 +698,9 @@
                                             </div>
                                         </li>
                                     </ul>
+                                </li>
+                                <li class="{{ Request::is('about-us') ? 'active' : ''; }}">
+                                    <a href="{{url('about-us')}}">About Us</a>
                                 </li>
                                 <li class="{{ Request::is('contact-us') ? 'active' : ''; }}">
                                     <a href="{{url('contact-us')}}">Contact</a>
@@ -1454,6 +1457,9 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="{{ Request::is('about-us') ? 'active' : ''; }}">
+                                    <a href="{{url('about-us')}}">About Us</a>
+                                </li>
                                 <li class="{{ Request::is('contact-us') ? 'active' : ''; }}">
                                     <a href="{{url('contact-us')}}">Contact</a>
                                 </li>
@@ -1537,8 +1543,8 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center flex-wrap">
-                        <p class="d-flex align-items-center fs-14 mb-0 me-3 "><i class="isax isax-call5 me-2"></i>Toll Free : +1 56565 56594</p>
-                        <p class="mb-0 d-flex align-items-center fs-14"><i class="isax isax-message-text-15 me-2"></i>Email : info@example.com</p>
+                        <p class="d-flex align-items-center fs-14 mb-0 me-3 "><i class="isax isax-call5 me-2"></i>Toll Free : +91 89800 46600</p>
+                        <p class="mb-0 d-flex align-items-center fs-14"><i class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
                     </div>
                 </div>
             </div>
@@ -2283,10 +2289,10 @@
             <div class="container">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <p class="d-flex align-items-center fw-medium fs-14 mb-2"><i class="isax isax-call5 me-2"></i>Toll
-                        Free : +1 56565 56594</p>
+                        Free : +91 89800 46600</p>
                     <div class="d-flex align-items-center">
                         <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><i
-                                class="isax isax-message-text-15 me-2"></i>Email : info@example.com</p>
+                                class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
                         <div class="dropdown flag-dropdown mb-2 me-3">
                             <a href="#" class="dropdown-toggle d-inline-flex align-items-center"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -4565,9 +4571,9 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="d-flex align-items-center flex-wrap">
                         <p class="d-flex align-items-center fs-14 mb-2 me-3 "><i class="isax isax-call5 me-2"></i>Toll
-                            Free : +1 56565 56594</p>
+                            Free : +91 89800 46600</p>
                         <p class="mb-2 d-flex align-items-center fs-14"><i
-                                class="isax isax-message-text-15 me-2"></i>Email : info@example.com</p>
+                                class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="dropdown flag-dropdown mb-2 me-3">
@@ -6084,9 +6090,9 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                     <div class="d-flex align-items-center flex-wrap">
                         <p class="d-flex align-items-center fs-14 mb-2 me-3 "><i class="isax isax-call5 me-2"></i>Toll
-                            Free : +1 56565 56594</p>
+                            Free : +91 89800 46600</p>
                         <p class="mb-2 d-flex align-items-center fs-14"><i
-                                class="isax isax-message-text-15 me-2"></i>Email : info@example.com</p>
+                                class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
                     </div>
                     <div class="navbar-logo mb-2">
                         <a class="logo-dark header-logo" href="{{url('index')}}">

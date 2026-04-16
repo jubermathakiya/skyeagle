@@ -48,7 +48,7 @@
                                         class="isax isax-sms5 fs-24"></i></span>
                                 <div>
                                     <p class="fs-14 mb-0">Email Address</p>
-                                    <h6 class="text-gray-6">dreamtourinfo@example.com</h6>
+                                    <h6 class="text-gray-6">info@skyeagletrip.com</h6>
                                 </div>
                             </div>
                         </div>

@@ -243,7 +243,7 @@
                                                     class="btn btn-primary btn-xs mb-1">Change</a>
                                             </div>
                                         </div>
-                                        <p class="fs-14 text-gray-6 fw-normal">Verified Email : info@example.com</p>
+                                        <p class="fs-14 text-gray-6 fw-normal">Verified Email : info@skyeagletrip.com</p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 d-flex">

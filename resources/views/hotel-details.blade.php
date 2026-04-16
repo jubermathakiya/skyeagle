@@ -1605,7 +1605,7 @@
                                     <div class="d-flex align-items-center">
                                         <span class="avatar avatar-sm me-2 rounded-circle flex-shrink-0 bg-primary"><i
                                                 class="isax isax-message-search5"></i></span>
-                                        <p>Email : Info@example.com</p>
+                                        <p>Email : info@skyeagletrip.com</p>
                                     </div>
                                 </div>
                             </div>

@@ -220,6 +220,7 @@ Route::get('/coming-soon', function () {
 })->name('coming-soon');
 
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
+Route::get('/about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 
 Route::get('/cruise-booking', function () {
     return view('cruise-booking');
