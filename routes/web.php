@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -218,9 +219,7 @@ Route::get('/coming-soon', function () {
     return view('coming-soon');
 })->name('coming-soon');
 
-Route::get('/contact-us', function () {
-    return view('contact-us');
-})->name('contact-us');
+Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 
 Route::get('/cruise-booking', function () {
     return view('cruise-booking');
