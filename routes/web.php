@@ -4,8 +4,8 @@ use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
-})->name('index');
+    return view('index-3');
+})->name('index-3');
 
 Route::get('/index', function () {
     return view('index');
