@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\TouresController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -478,13 +479,15 @@ Route::get('/tour-details', function () {
     return view('tour-details');
 })->name('tour-details');
 
-Route::get('/tour-grid', function () {
-    return view('tour-grid');
-})->name('tour-grid');
+// Route::get('/tour-grid', function () {
+//     return view('tour-grid');
+// })->name('tour-grid');
 
-Route::get('/tour-list', function () {
-    return view('tour-list');
-})->name('tour-list');
+// Route::get('/tour-list', function () {
+//     return view('tour-list');
+// })->name('tour-list');
+// Route::get('/tour-grid', [TouresController::class, 'index'])->name('tour-grid');
+Route::get('/tour-list', [TouresController::class, 'index'])->name('tour-list');
 
 Route::get('/tour-map', function () {
     return view('tour-map');

@@ -224,7 +224,7 @@
                                         </li>
                                     </ul>
                                 </li> --}}
-                                {{-- <li class="has-submenu mega-innermenu {{ Request::is('tour-grid', 'edit-tour', 'tour-list', 'tour-map', 'tour-details', 'tour-booking', 'tour-booking-confirmation', 'add-tour') ? 'active subdrop' : ''; }}">
+                                <li class="has-submenu mega-innermenu {{ Request::is('tour-grid', 'edit-tour', 'tour-list', 'tour-map', 'tour-details', 'tour-booking', 'tour-booking-confirmation', 'add-tour') ? 'active subdrop' : ''; }}">
                                     <a href="#">Tour<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
                                         <li>
@@ -252,7 +252,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li> --}}
+                                </li>
                                 {{-- <li class="has-submenu mega-innermenu {{ Request::is('bus-list', 'bus-left-sidebar', 'bus-right-sidebar', 'bus-details', 'bus-seat-selection', 'bus-booking', 'bus-booking-confirmation', 'add-bus') ? 'active subdrop' : ''; }}">
                                     <a href="#">Bus<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
