@@ -862,42 +862,40 @@
                                             <div class="img-slider image-slide owl-carousel nav-center">
                                                 @foreach($package->images as $image)
                                                     <div class="slide-images">
-                                                        <a href="{{url('tour-details')}}">
-                                                            <img src="{{ backend_image($image->image) }}" class="img-fluid" 
+                                                        <a href="{{ route('tour-details', $package->slug) }}">
+                                                            <img src="{{ backend_image($image->image) }}" style="width:100%; height:250px; object-fit:cover;" class="img-fluid" 
                                                                 alt="img">
                                                         </a>
                                                     </div>
-                                                    
                                                 @endforeach
                                             </div>
                                             <div class="fav-item">
-                                                <a href="#" class="fav-icon selected">
+                                                <a href="{{ route('tour-details', $package->slug) }}" class="fav-icon selected">
                                                     <i class="isax isax-heart5"></i>
                                                 </a>
                                                 <span class="badge bg-info d-inline-flex align-items-center"><i
-                                                        class="isax isax-ranking me-1"></i>Trending</span>
+                                                    class="isax isax-ranking me-1"></i>Trending</span>
                                             </div>
                                         </div>
                                         <div class="place-content">
                                             <div
                                                 class="d-flex align-items-center justify-content-between flex-wrap row-gap-2 mb-3">
                                                 <div>
-                                                    <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">{{ $package->package_name }}</a></h5>
+                                                    <h5 class="mb-1 text-truncate"><a href="{{route('tour-details',$package->slug)}}">{{ $package->package_name }}</a></h5>
                                                     <p class="fs-14 d-flex align-items-center"><i
-                                                        class="isax isax-location5 me-2"></i> {{ $package->sourceCity->name ?? '' }} , {{ $package->destinationCity->name ?? '' }}</p>
+                                                        class="isax isax-location5 me-2"></i> {{ $package->source_city }} , {{ $package->destination_city }}</p>
                                                 </div>
                                                 <div class="d-flex align-items-center">
                                                     <p class="fs-14 text-gray-9  border-end pe-2 me-2 mb-0">
                                                         <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                                        Ecotourism
+                                                        {{ $package->category->name}}
                                                     </p>
                                                     <span
                                                         class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">5.0</span>
                                                     <p class="fs-14">(105 Reviews)</p>
                                                 </div>
                                             </div>
-                                            <p class="fs-14 border-bottom pb-3 mb-3">Journey through majestic peaks and
-                                                serene valleys, where nature’s beauty surrounds you at every turn.</p>
+                                            <p class="fs-14 border-bottom pb-3 mb-3">{{ $package->short_title ?? '' }}</p>
                                             <div
                                                 class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
                                                 <div class="d-flex align-items-center">

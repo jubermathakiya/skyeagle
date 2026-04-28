@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TouresController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index-3');
-})->name('index-3');
+// Route::get('/', function () {
+//     return view('index-3');
+// })->name('index-3');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 
 Route::get('/index', function () {
     return view('index');
@@ -475,9 +478,9 @@ Route::get('/tour-booking-confirmation', function () {
     return view('tour-booking-confirmation');
 })->name('tour-booking-confirmation');
 
-Route::get('/tour-details', function () {
-    return view('tour-details');
-})->name('tour-details');
+// Route::get('/tour-details', function () {
+//     return view('tour-details');
+// })->name('tour-details');
 
 // Route::get('/tour-grid', function () {
 //     return view('tour-grid');
@@ -487,6 +490,7 @@ Route::get('/tour-details', function () {
 //     return view('tour-list');
 // })->name('tour-list');
 // Route::get('/tour-grid', [TouresController::class, 'index'])->name('tour-grid');
+Route::get('/tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
 Route::get('/tour-list', [TouresController::class, 'index'])->name('tour-list');
 
 Route::get('/tour-map', function () {

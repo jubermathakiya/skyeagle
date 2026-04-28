@@ -33,58 +33,49 @@
                 <div class="col-xl-8">
 
                     <!-- Slider -->
+                    @php
+                        $images = $packageDetails->images->values();
+                    @endphp
                     <div>
                         <div class="service-wrap mb-4">
                             <div class="slider-wrap vertical-slider tour-vertical-slide d-flex align-items-center">
                                 <div class="slider-for nav-center" id="large-img">
-                                    <div class="service-img">
-                                        <img src="{{URL::asset('build/img/tours/tour-large-01.jpg')}}" class="img-fluid"
-                                            alt="Slider Img">
-                                    </div>
-                                    <div class="service-img">
-                                        <img src="{{URL::asset('build/img/tours/tour-large-02.jpg')}}" class="img-fluid"
-                                            alt="Slider Img">
-                                    </div>
-                                    <div class="service-img">
-                                        <img src="{{URL::asset('build/img/tours/tour-large-03.jpg')}}" class="img-fluid"
-                                            alt="Slider Img">
-                                    </div>
-                                    <div class="service-img">
-                                        <img src="{{URL::asset('build/img/tours/tour-large-04.jpg')}}" class="img-fluid"
-                                            alt="Slider Img">
-                                    </div>
-                                    <div class="service-img">
-                                        <img src="{{URL::asset('build/img/tours/tour-large-05.jpg')}}" class="img-fluid"
-                                            alt="Slider Img">
-                                    </div>
+                                    @foreach($packageDetails->images as $image)
+                                        <div class="service-img">
+                                            <a href="{{ backend_image($image->image) }}" data-fancybox="tour-gallery">
+                                                <img src="{{ backend_image($image->image) }} " 
+                                                    class="img-fluid"
+                                                    alt="Slider Img">
+                                            </a>
+                                        </div>
+                                    @endforeach
                                 </div>
-                                <a href="{{URL::asset('build/img/tours/tour-large-01.jpg')}}" data-fancybox="gallery"
-                                    class="btn btn-white btn-xs view-btn"><i class="isax isax-image me-1"></i>See
-                                    All</a>
+                                <a href="{{ backend_image($packageDetails->images[0]->image ?? '') }}" 
+                                    data-fancybox="tour-gallery"
+                                    class="btn btn-white btn-xs view-btn">
+                                    <i class="isax isax-image me-1"></i>See All
+                                    </a>
                                 <div class="slider-nav nav-center" id="small-img">
-                                    <div><img src="{{URL::asset('build/img/tours/tour-thumb-01.jpg')}}" class="img-fluid"
-                                            alt="Slider Img"></div>
-                                    <div><img src="{{URL::asset('build/img/tours/tour-thumb-02.jpg')}}" class="img-fluid"
-                                            alt="Slider Img"></div>
-                                    <div><img src="{{URL::asset('build/img/tours/tour-thumb-03.jpg')}}" class="img-fluid"
-                                            alt="Slider Img"></div>
-                                    <div><img src="{{URL::asset('build/img/tours/tour-thumb-04.jpg')}}" class="img-fluid"
-                                            alt="Slider Img"></div>
-                                    <div><img src="{{URL::asset('build/img/tours/tour-thumb-05.jpg')}}" class="img-fluid"
-                                            alt="Slider Img"></div>
+                                    @foreach($packageDetails->images as $image)
+                                        <div>
+                                            <img src="{{ backend_image($image->image) }}" 
+                                                class="img-fluid custom-thumb"
+                                                alt="Slider Img">
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div class="mb-2">
-                                <h4 class="mb-1 d-flex align-items-center flex-wrap mb-2">Rainbow Mountain Valley<span
+                                <h4 class="mb-1 d-flex align-items-center flex-wrap mb-2">{{ $packageDetails->package_name }}<span
                                         class="badge badge-xs bg-success rounded-pill ms-2"><i
                                             class="isax isax-ticket-star me-1"></i>Verified</span></h4>
                                 <div class="d-flex align-items-center flex-wrap">
                                     <p class="fs-14 mb-2 me-3 pe-3 border-end"><i
-                                            class="isax isax-receipt text-primary me-2"></i>Adventure Tour</p>
+                                            class="isax isax-receipt text-primary me-2"></i>{{ $packageDetails->category->name }}</p>
                                     <p class="fs-14 mb-2 me-3 pe-3 border-end"><i
-                                            class="isax isax-location5 me-2"></i>Ciutat Vella, Barcelona
+                                            class="isax isax-location5 me-2"></i>{{ $packageDetails->source_city }}, {{ $packageDetails->destination_city }}
                                         <a href="#location"
                                             class="link-primary text-decoration-underline fw-medium ms-2">View
                                             Location</a>
@@ -106,49 +97,47 @@
                         </div>
                     </div>
                     <!-- /Slider -->
-
-                    <!-- Description -->
-                    <div class="bg-light-200 card-bg-light mb-4">
-                        <h5 class="fs-18 mb-3">Description</h5>
-                        <div class="mb-2">
-                            <p>Kicking off on April 1, 2025, the "DreamsTour" will take Luna to major cities across
-                                North America and Europe, including Los Angeles, New York, Chicago, Toronto, and London.
-                                Each concert will showcase her unique blend of pop
-                                and ethereal soundscapes, bringing her music to life in a way you've never seen before.
-                            </p>
-                        </div>
-                        <div class="read-more">
-                            <div class="more-text">
-                                <p>Each concert will showcase her unique blend of pop and ethereal soundscapes, bringing
-                                    her music to life in a way you've never seen before.</p>
+                        @php
+                            use Illuminate\Support\Str;
+                            $fullText = $packageDetails->description ?? '';
+                            $plainText = strip_tags($fullText);
+                            $shortText = Str::limit($plainText, 200);
+                            $remainingText = substr($plainText, 200);
+                        @endphp
+                        <!-- Description -->
+                        <div class="bg-light-200 card-bg-light mb-4">
+                            <h5 class="fs-18 mb-3">Description</h5>
+                            <div class="mb-2">
+                                <p>
+                                    {{ $shortText }}
+                                    @if(strlen($remainingText) > 0) ... @endif
+                                </p>
                             </div>
-                            <a href="#" class="fs-14 fw-medium more-link text-decoration-underline mb-2">Show More</a>
+                            @if(strlen($remainingText) > 0)
+                                <div class="read-more">
+                                    <div class="more-text">
+                                        <p>{{ $remainingText }}</p>
+                                    </div>
+                                    <a href="#" class="fs-14 fw-medium more-link text-decoration-underline mb-2">Show More</a>
+                                </div>
+                            @endif
                         </div>
-                    </div>
-                    <!-- /Description -->
+                        <!-- /Description -->
 
                     <!-- Highlights -->
                     <div class="bg-light-200 card-bg-light mb-4">
                         <h5 class="fs-18 mb-3">Highlights</h5>
                         <div>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="avatar avatar-md bg-primary-transparent rounded-circle me-2">
-                                    <i class="isax isax-send-sqaure-2 fs-16"></i>
-                                </span>
-                                <p>Exclusive merchandise available at each show</p>
-                            </div>
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="avatar avatar-md bg-primary-transparent rounded-circle me-2">
-                                    <i class="isax isax-send-sqaure-2 fs-16"></i>
-                                </span>
-                                <p>VIP packages with meet-and-greet options</p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md bg-primary-transparent rounded-circle me-2">
-                                    <i class="isax isax-send-sqaure-2 fs-16"></i>
-                                </span>
-                                <p>Special acoustic set in select cities</p>
-                            </div>
+                        @if($packageDetails->highlights && $packageDetails->highlights->count() > 0)
+                            @foreach($packageDetails->highlights as $highlight)
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="avatar avatar-md bg-primary-transparent rounded-circle me-2">
+                                        <i class="isax isax-send-sqaure-2 fs-16"></i>
+                                    </span>
+                                    <p>{{ $highlight->highlight }}</p>
+                                </div>
+                            @endforeach
+                        @endif
                         </div>
                     </div>
                     <!-- /Highlights -->
@@ -159,75 +148,35 @@
                         <div class="card shadow-none mb-0">
                             <div class="card-body p-3">
                                 <div class="stage-flow">
-                                    <div class="d-flex align-items-center flows-step">
-                                        <span class="flow-step">01</span>
-                                        <div class="flow-content">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div>
-                                                    <h6 class="fw-medium mb-1">Day 1, Kickoff in Los Angeles</h6>
-                                                    <p>25 May 2025, 04:45 AM</p>
+                                    @php
+                                        $startDate = \Carbon\Carbon::parse($packageDetails->start_date);
+                                    @endphp
+                                    @foreach($packageDetails->itinerary as $key => $item)
+                                        @php
+                                            $dayDate = $startDate->copy()->addDays($key);
+                                        @endphp
+                                        <div class="d-flex align-items-center flows-step">
+                                            <span class="flow-step">
+                                                {{ str_pad($key + 1, 2, '0', STR_PAD_LEFT) }}
+                                            </span>
+                                            <div class="flow-content">
+                                                <div class="d-flex align-items-center justify-content-between mb-2"> 
+                                                    <div>
+                                                        <h6 class="fw-medium mb-1">
+                                                            Day {{ $key + 1 }}, {{ $item->title }}
+                                                        </h6>
+                                                        <p>
+                                                            {{ $dayDate->format('d M Y') }}
+                                                        </p>
+                                                    </div>
+                                                    {{-- <span class="avatar avatar-lg avatar-rounded flex-shrink-0">
+                                                        <img src="{{ $item->image ? asset('storage/'.$item->image) : URL::asset('build/img/tours/tours-16.jpg') }}" alt="Img">
+                                                    </span> --}}
                                                 </div>
-                                                <span class="avatar avatar-lg avatar-rounded flex-shrink-0"><img
-                                                        src="{{URL::asset('build/img/tours/tours-16.jpg')}}" alt="Img"></span>
+                                                <p>{{ $item->description }}</p>
                                             </div>
-                                            <p>The tour launches with a spectacular concert at The Hollywood Bowl, where
-                                                Luna will debut her latest hits amidst a breathtaking backdrop of lights
-                                                and visuals.
-                                            </p>
                                         </div>
-                                    </div>
-                                    <div class="d-flex align-items-center flows-step">
-                                        <span class="flow-step">02</span>
-                                        <div class="flow-content">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div>
-                                                    <h6 class="fw-medium mb-1">Day 2, West Coast Wonders</h6>
-                                                    <p>26 May 2025, 09:45 AM</p>
-                                                </div>
-                                                <span class="avatar avatar-lg avatar-rounded flex-shrink-0"><img
-                                                        src="{{URL::asset('build/img/tours/tours-17.jpg')}}" alt="Img"></span>
-                                            </div>
-                                            <p>Fans in Seattle and Portland can look forward to intimate performances,
-                                                complete with fan meet-and-greets that allow for personal connections
-                                                with Luna.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center flows-step">
-                                        <span class="flow-step">03</span>
-                                        <div class="flow-content">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div>
-                                                    <h6 class="fw-medium mb-1">Day 3, Midwest Magic</h6>
-                                                    <p>27 May 2025, 09:45 AM</p>
-                                                </div>
-                                                <span class="avatar avatar-lg avatar-rounded flex-shrink-0"><img
-                                                        src="{{URL::asset('build/img/tours/tours-18.jpg')}}" alt="Img"></span>
-                                            </div>
-                                            <p>The tour moves to Chicago, where Luna will perform at the iconic United
-                                                Center. Expect a night filled with energy and emotion as she shares her
-                                                music with devoted fans.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center flows-step">
-                                        <span class="flow-step">04</span>
-                                        <div class="flow-content">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div>
-                                                    <h6 class="fw-medium mb-1">Day 4, East Coast Excitement</h6>
-                                                    <p>31 May 2025, 09:45 AM</p>
-                                                </div>
-                                                <span class="avatar avatar-lg avatar-rounded flex-shrink-0"><img
-                                                        src="{{URL::asset('build/img/tours/tours-19.jpg')}}" alt="Img"></span>
-                                            </div>
-                                            <p>
-                                                The New York show at Madison Square Garden promises to be a highlight of
-                                                the tour, featuring special guests and surprises. Luna will also engage
-                                                with fans in Central Park, offering a chance for unforgettable memories.
-                                            </p>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -238,40 +187,27 @@
                     <div class="bg-light-200 card-bg-light mb-4">
                         <h5 class="fs-18 mb-3">Includes & Excludes</h5>
                         <div class="row gy-2">
+                            @php
+                                preg_match_all('/<li>(.*?)<\/li>/', $packageDetails->inclusions, $matches);
+                            @endphp
                             <div class="col-md-6">
+                            @foreach($matches[1] as $include)
                                 <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-tick-square5 text-success me-2"></i> Exclusive Merchandise
+                                    <i class="isax isax-tick-square5 text-success me-2"></i>
+                                    {!! $include !!}
                                 </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-tick-square5 text-success me-2"></i> Early Venue Access
-                                </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-tick-square5 text-success me-2"></i> Acoustic Performance
-                                </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-tick-square5 text-success me-2"></i> Tour Program
-                                </p>
-                                <p class="d-flex align-items-center">
-                                    <i class="isax isax-tick-square5 text-success me-2"></i> Transportation (if
-                                    applicable)
-                                </p>
+                            @endforeach
                             </div>
+                            @php
+                                preg_match_all('/<li>(.*?)<\/li>/', $packageDetails->exclusions, $matchesEx);
+                            @endphp
                             <div class="col-md-6">
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-close-square5 text-danger me-2"></i> Travel Expenses
-                                </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-close-square5 text-danger me-2"></i> Accommodation
-                                </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-close-square5 text-danger me-2"></i> Food and Beverage
-                                </p>
-                                <p class="d-flex align-items-center mb-2">
-                                    <i class="isax isax-close-square5 text-danger me-2"></i> Parking Fees
-                                </p>
-                                <p class="d-flex align-items-center">
-                                    <i class="isax isax-close-square5 text-danger me-2"></i> Personal Expenses
-                                </p>
+                                @foreach($matchesEx[1] as $exclude)
+                                    <p class="d-flex align-items-center mb-2">
+                                        <i class="isax isax-close-square5 text-danger me-2"></i>
+                                        {!! $exclude !!}
+                                    </p>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -280,31 +216,17 @@
                     <!-- Gallery -->
                     <div class="bg-light-200 card-bg-light mb-4">
                         <h5 class="fs-18 mb-3">Gallery</h5>
+                        @php
+                            $galleryImages = $packageDetails->images->take(10);
+                        @endphp
                         <div class="tour-gallery-slider owl-carousel">
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-01.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-01.jpg')}}" alt="img">
-                            </a>
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-02.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-02.jpg')}}" alt="img">
-                            </a>
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-03.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-03.jpg')}}" alt="img">
-                            </a>
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-04.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-04.jpg')}}" alt="img">
-                            </a>
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-05.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-05.jpg')}}" alt="img">
-                            </a>
-                            <a class="galley-wrap" data-fancybox="gallery"
-                                href="{{URL::asset('build/img/tours/gallery-tour-lg-06.jpg')}}">
-                                <img src="{{URL::asset('build/img/tours/gallery-tour-06.jpg')}}" alt="img">
-                            </a>
+                            @foreach($galleryImages as $image)
+                                <a class="galley-wrap" data-fancybox="gallery"
+                                href="{{ backend_image($image->image) }}">
+                                    <img src="{{ backend_image($image->image) }}" alt="img">
+                                </a>
+                            @endforeach
+                           
                         </div>
                     </div>
                     <!-- /Gallery -->
@@ -325,97 +247,31 @@
                     <div class="bg-light-200 card-bg-light mb-4">
                         <h5 class="fs-18 mb-3">Frequently Asked Questions</h5>
                         <div class="accordion faq-accordion" id="accordionFaq">
-                            <div class="accordion-item show mb-2">
-                                <div class="accordion-header">
-                                    <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#faq-collapseOne" aria-expanded="false"
-                                        aria-controls="faq-collapseOne">
-                                        Does offer free cancellation for a full refund?
-                                    </button>
-                                </div>
-                                <div id="faq-collapseOne" class="accordion-collapse collapse show"
-                                    data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p class="mb-0">Does have fully refundable room rates available to book on our
-                                            site. If you’ve booked a fully refundable room rate, this can be cancelled
-                                            up to a few days before check-in depending on the property's cancellation
-                                            policy. Just make sure to check this property's cancellation policy for the
-                                            exact terms and conditions.</p>
+                            @foreach($packageDetails->faqs as $key => $faq)
+                                <div class="accordion-item show mb-2">
+                                    <div class="accordion-header">
+                                        <button class="accordion-button fw-medium {{ $key != 0 ? 'collapsed' : '' }}"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#faq-{{ $key }}"
+                                            aria-expanded="{{ $key == 0 ? 'true' : 'false' }}"
+                                            aria-controls="faq-{{ $key }}">
+
+                                            {{ $faq->question }}
+                                        </button>
+                                    </div>
+                                    <div id="faq-{{ $key }}"
+                                        class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}"
+                                        data-bs-parent="#accordionFaq">
+
+                                        <div class="accordion-body">
+                                            <p class="mb-0">
+                                                {{ $faq->answer }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="accordion-item mb-2">
-                                <div class="accordion-header">
-                                    <button class="accordion-button fw-medium collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#faq-two" aria-expanded="false"
-                                        aria-controls="faq-two">
-                                        Is there a pool?
-                                    </button>
-                                </div>
-                                <div id="faq-two" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p class="mb-0">Does have fully refundable room rates available to book on our
-                                            site. If you’ve booked a fully refundable room rate, this can be cancelled
-                                            up to a few days before check-in depending on the property's cancellation
-                                            policy. Just make sure to check this property's cancellation policy for the
-                                            exact terms and conditions.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item mb-2">
-                                <div class="accordion-header">
-                                    <button class="accordion-button fw-medium collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#faq-three" aria-expanded="false"
-                                        aria-controls="faq-three">
-                                        Are pets allowed?
-                                    </button>
-                                </div>
-                                <div id="faq-three" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p class="mb-0">Does have fully refundable room rates available to book on our
-                                            site. If you’ve booked a fully refundable room rate, this can be cancelled
-                                            up to a few days before check-in depending on the property's cancellation
-                                            policy. Just make sure to check this property's cancellation policy for the
-                                            exact terms and conditions.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item mb-2">
-                                <div class="accordion-header">
-                                    <button class="accordion-button fw-medium collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#faq-four" aria-expanded="false"
-                                        aria-controls="faq-four">
-                                        Is airport shuttle service offered?
-                                    </button>
-                                </div>
-                                <div id="faq-four" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p class="mb-0">Does have fully refundable room rates available to book on our
-                                            site. If you’ve booked a fully refundable room rate, this can be cancelled
-                                            up to a few days before check-in depending on the property's cancellation
-                                            policy. Just make sure to check this property's cancellation policy for the
-                                            exact terms and conditions.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item mb-2">
-                                <div class="accordion-header">
-                                    <button class="accordion-button fw-medium collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#faq-five" aria-expanded="false"
-                                        aria-controls="faq-five">
-                                        What are the check-in and check-out times?
-                                    </button>
-                                </div>
-                                <div id="faq-five" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
-                                    <div class="accordion-body">
-                                        <p class="mb-0">Does have fully refundable room rates available to book on our
-                                            site. If you’ve booked a fully refundable room rate, this can be cancelled
-                                            up to a few days before check-in depending on the property's cancellation
-                                            policy. Just make sure to check this property's cancellation policy for the
-                                            exact terms and conditions.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <!-- /FAQ -->
@@ -661,27 +517,27 @@
                             <div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Date</h6>
-                                    <p class="flex-fill">25 May 2025 - 31 May 2025</p>
+                                    <p class="flex-fill">{{ $packageDetails->start_date }} - {{ $packageDetails->end_date }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Destination</h6>
-                                    <p class="flex-fill">Eidnesburg</p>
+                                    <p class="flex-fill">{{ $packageDetails->destination_city ?? '' }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Duration</h6>
-                                    <p class="flex-fill">4 Day, 3 Night</p>
+                                    <p class="flex-fill">{{ $packageDetails->duration['text'] ?? '-' }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Departure</h6>
-                                    <p class="flex-fill">25 May 2025, 04:45 AM</p>
+                                    <p class="flex-fill">{{ $packageDetails->start_date }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Return</h6>
-                                    <p class="flex-fill">31 May 2025, 10:00 PM</p>
+                                    <p class="flex-fill">{{ $packageDetails->end_date }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Total Peoples</h6>
-                                    <p class="flex-fill">28</p>
+                                    <p class="flex-fill">{{ $packageDetails->max_people }}</p>
                                 </div>
                             </div>
                         </div>

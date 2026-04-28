@@ -4,21 +4,14 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Toures extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'packages';
-    protected $appends = ['duration']; // IMPORTANT
-
-    public function sourceCity()
-    {
-        return $this->belongsTo(City::class, 'source_city_id');
-    }
-
-    public function destinationCity()
-    {
-        return $this->belongsTo(City::class, 'destination_city_id');
-    }
+    protected $appends = ['duration'];
 
     public function getDurationAttribute()
     {
@@ -32,12 +25,32 @@ class Toures extends Model
         return [
             'days' => $days,
             'nights' => $nights,
-            'text' => "{$days} Days, {$nights} Nights"
+            'text' => "{$nights} Nights,{$days} Days"
         ];
     }
 
     public function images()
     {
         return $this->hasMany(PackageImage::class, 'package_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'categories_id');
+    }
+
+    public function faqs()
+    {
+        return $this->hasMany(PackageFaqs::class, 'package_id');
+    }
+
+    public function highlights()
+    {
+        return $this->hasMany(PackageHighlight::class, 'package_id');
+    }
+
+    public function itinerary()
+    {
+        return $this->hasMany(PackageItinerary::class, 'package_id');
     }
 }

@@ -12,9 +12,11 @@ class TouresController extends Controller
      */
     public function index()
     {
-        $packages = Toures::with(['sourceCity', 'destinationCity','images' => function ($query) {
-            $query->limit(4);
-        }])
+        $packages = Toures::with([
+            'images' => function ($query) {
+                $query->limit(4);
+            }
+        ])
         ->where('status', 1)
         ->latest()
         ->paginate(5);
@@ -40,9 +42,19 @@ class TouresController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        //
+        $packageDetails = Toures::with([
+            'images',
+            'faqs',
+            'highlights',
+            'itinerary'
+        ])
+        ->where('slug', $slug)
+        ->where('status', 1)
+        ->firstOrFail();
+
+        return view('tour-details', compact('packageDetails'));
     }
 
     /**

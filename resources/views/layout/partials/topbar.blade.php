@@ -97,7 +97,7 @@
                 <div class="header-nav">
                     <div class="main-menu-wrapper">
                         <div class="navbar-logo">
-                            <a class="logo-white header-logo" href="{{url('index')}}">
+                            <a class="logo-white header-logo" href="{{ route('home')}}">
                                 <img src="{{URL::asset('build/img/sky_logo.png')}}" width="100px" height="100px" class="logo" alt="Logo">
                             </a>
                             {{-- <a class="logo-dark header-logo" href="{{url('index')}}">
@@ -106,9 +106,9 @@
                         </div>
                         <nav id="mobile-menu">
                             <ul class="main-nav">
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('index-3') }}">Home</a>
-                                </li>
+                                </li> --}}
                                 {{-- <li class="has-submenu mega-innermenu {{ Request::is('flight-grid', 'edit-flight', 'flight-list', 'flight-details', 'flight-booking', 'flight-booking-confirmation', 'add-flight') ? 'active subdrop' : ''; }}">
                                     <a href="#">Flight<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
@@ -2278,9 +2278,9 @@
                         </div>
                         <nav id="mobile-menu">
                             <ul class="main-nav">
-                                <li class="has-submenu megamenu {{ Request::is('index', '/', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-9', 'index-10', 'index-11', 'index-12') ? 'active subdrop' : ''; }}">
+                                {{-- <li class="has-submenu megamenu {{ Request::is('index', '/', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-9', 'index-10', 'index-11', 'index-12') ? 'active subdrop' : ''; }}">
                                     <a href="{{ url('index-3') }}">Home</a>
-                                </li>
+                                </li> --}}
                                 <li class="has-submenu mega-innermenu {{ Request::is('flight-grid', 'edit-flight', 'flight-list', 'flight-details', 'flight-booking', 'flight-booking-confirmation', 'add-flight') ? 'active subdrop' : ''; }}">
                                     <ul class="submenu mega-submenu">
                                         <li>
