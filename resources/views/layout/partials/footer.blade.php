@@ -162,7 +162,7 @@
                                     </span>
                                     <div class="ms-2">
                                         <p class="mb-1">Customer Support</p>
-                                        <p class="fw-medium text-dark">+1 56589 54598</p>
+                                        <p class="fw-medium text-dark">+91 89800 46600</p>
                                     </div>
                                 </div>
                                 <div
@@ -172,7 +172,7 @@
                                     </span>
                                     <div class="ms-2">
                                         <p class="mb-1">Drop Us an Email</p>
-                                        <p class="fw-medium text-dark">info@example.com</p>
+                                        <p class="fw-medium text-dark">info@skyeagletrip.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                                     </span>
                                     <div class="ms-2">
                                         <p class="fs-14 mb-1 text-white">Customer Support</p>
-                                        <div class="fw-medium text-light">+1 56589 54598</div>
+                                        <div class="fw-medium text-light">+91 89800 46600</div>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +313,7 @@
                                     </span>
                                     <div class="ms-2">
                                         <p class="fs-14 mb-1 text-white">Drop Us an Email</p>
-                                        <div class="fw-medium text-light">info@example.com</div>
+                                        <div class="fw-medium text-light">info@skyeagletrip.com</div>
                                     </div>
                                 </div>
                             </div>
@@ -613,7 +613,7 @@
                                         </div>
                                         <div class="customer-info-content">
                                             <span>Drop Us an Email</span>
-                                            <h6>info@example.com</h6>
+                                            <h6>info@skyeagletrip.com</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -800,7 +800,7 @@
                                         </span>
                                         <div class="ms-2">
                                             <p class="fs-14 mb-1">Customer Support</p>
-                                            <h6 class="fw-medium text-light">+1 56589 54598</h6>
+                                            <h6 class="fw-medium text-light">+91 89800 46600</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -811,7 +811,7 @@
                                         </span>
                                         <div class="ms-2">
                                             <p class="fs-14 mb-1">Drop Us an Email</p>
-                                            <h6 class="fw-medium text-light">info@example.com</h6>
+                                            <h6 class="fw-medium text-light">info@skyeagletrip.com</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -1011,7 +1011,7 @@
                                     </span>
                                     <div class="ms-2">
                                         <p class="fs-14 mb-1">Drop Us an Email</p>
-                                        <h6 class="fw-medium text-dark">info@example.com</h6>
+                                        <h6 class="fw-medium text-dark">info@skyeagletrip.com</h6>
                                     </div>
                                 </div>
                             </div>
@@ -1159,7 +1159,7 @@
                                 </div>
                                 <div class="customer-info-content">
                                     <span>Drop Us an Email</span>
-                                    <h6>info@example.com</h6>
+                                    <h6>info@skyeagletrip.com</h6>
                                 </div>
                             </div>
                             <div class="customer-info">
@@ -1581,7 +1581,7 @@
                                         <div>
                                             <h4 class="number">
                                                 <span>Drop Us an Email</span>
-                                                info@example.com
+                                                info@skyeagletrip.com
                                             </h4>
                                         </div>
                                     </div>
@@ -1750,7 +1750,7 @@
                                         </div>
                                         <div class="customer-info-content">
                                             <span>Drop Us an Email</span>
-                                            <span class="customer-info-text">info@example.com</span>
+                                            <span class="customer-info-text">info@skyeagletrip.com</span>
                                         </div>
                                     </div>
                                     <div class="customer-info mb-0">
@@ -1871,7 +1871,7 @@
                                         <i class="ti ti-headphones-filled fs-24"></i>
                                     </span>
                                     <div class="ms-2">
-                                        <div class="fw-medium text-light mb-1 fs-16 fw-medium text-white"><a href="#" class="text-white">+1 56589 54598</a></div>
+                                        <div class="fw-medium text-light mb-1 fs-16 fw-medium text-white"><a href="#" class="text-white">+91 89800 46600</a></div>
                                         <p class="fs-14 text-light">Customer Support</p>
                                     </div>
                                 </div>
@@ -1882,7 +1882,7 @@
                                         <i class="isax isax-message-25 fs-24"></i>
                                     </span>
                                     <div class="ms-2">
-                                        <div class="fw-medium text-light mb-1 fs-16 fw-medium text-white"><a href="#" class="text-white">info@example.com</a></div>
+                                        <div class="fw-medium text-light mb-1 fs-16 fw-medium text-white"><a href="#" class="text-white">info@skyeagletrip.com</a></div>
                                         <p class="fs-14 text-light">Drop Us an Email</p>
                                     </div>
                                 </div>

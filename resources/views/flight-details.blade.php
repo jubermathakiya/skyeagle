@@ -1801,7 +1801,7 @@
                                     <div class="d-flex align-items-center border-bottom pb-3 mb-3">
                                         <span class="avatar avatar-sm me-2 rounded-circle flex-shrink-0 bg-primary"><i
                                                 class="isax isax-message-search5"></i></span>
-                                        <p>Info@example.com</p>
+                                        <p>info@skyeagletrip.com</p>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span class="avatar avatar-sm me-2 rounded-circle flex-shrink-0 bg-primary"><i

@@ -8,4 +8,9 @@ class FrontController extends Controller
     {
         return view('pages.contact-us');
     }
+
+    public function aboutUs()
+    {
+        return view('pages.about-us');
+    }
 }
