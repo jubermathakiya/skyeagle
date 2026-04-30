@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TouresController;
@@ -492,6 +494,8 @@ Route::get('/tour-booking-confirmation', function () {
 // Route::get('/tour-grid', [TouresController::class, 'index'])->name('tour-grid');
 Route::get('/tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
 Route::get('/tour-list', [TouresController::class, 'index'])->name('tour-list');
+Route::resource('enquiry', EnquiryController::class);
+Route::resource('contact', ContactController::class);
 
 Route::get('/tour-map', function () {
     return view('tour-map');

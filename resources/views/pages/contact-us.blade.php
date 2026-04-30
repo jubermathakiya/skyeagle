@@ -81,41 +81,35 @@
                                 <h2 class="mb-1">Get in Touch</h2>
                                 <p class="text-gray-6 mb-1">How we can help you? Please write down your query</p>
                             </div>
-                            <form action="{{url('contact-us')}}">
+                            <form id="contact_form" action="{{ route('contact.store') }}" method="POST">
+                            @csrf
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label class="form-label">First Name <span
+                                            <label class="form-label">Name <span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Last Name <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" name="name"  class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control">
+                                            <input type="email" name="email" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" id="phone" name="phone" class="form-control"
+                                            maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Message <span class="text-danger">*</span></label>
-                                            <textarea class="form-control" rows="3"></textarea>
+                                            <textarea name="message" class="form-control" rows="3"></textarea>
                                         </div>
                                     </div>
-
                                 </div>
                                 <button type="submit" class="btn btn-primary">Send Message</button>
                             </form>
@@ -137,6 +131,8 @@
     ========================= -->
 
 @endsection
-
+@section('script')
+    @vite(['resources/js/contact/create.js'])
+@endsection
 
 
