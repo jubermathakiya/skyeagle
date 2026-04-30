@@ -23,7 +23,19 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/css/style.css', 'resources/js/script.js'],
+            input: [
+                'resources/css/style.css', 
+                'resources/js/script.js',
+                
+                //custom js
+                'resources/js/common/form-handler.js',
+
+                //Enquiry js
+                'resources/js/enquiry/create.js',
+
+                //Contact js
+                'resources/js/contact/create.js'
+            ],
             refresh: true,
         }),
 

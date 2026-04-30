@@ -672,22 +672,25 @@
                         <div class="card-body">
                             <h5 class="fs-18 mb-3">Enquire Us</h5>
                             <div class="banner-form">
-                                <form action="{{url('tour-details')}}">
+                                <form action="{{ route('enquiry.store') }}" method="POST" id="toures_details_form">
+                                @csrf
+                                <input type="hidden" name="tour_details_id" value="{{ $packageDetails->id }}">
                                     <div class="mb-3">
                                         <label class="form-label">Name</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="name" class="form-control">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="text" class="form-control">
+                                        <input type="email" name="email" class="form-control">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Phone</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" id="phone" name="phone" class="form-control"
+                                            maxlength="15" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Message</label>
-                                        <textarea class="form-control" rows="3"></textarea>
+                                        <textarea name="message" class="form-control" rows="3"></textarea>
                                     </div>
                                     <button type="submit"
                                         class="btn btn-primary btn-lg search-btn ms-0 w-100 fs-14">Submit
@@ -749,6 +752,6 @@
     ========================= -->
 
 @endsection
-
-
-
+@section('script')
+    @vite(['resources/js/enquiry/create.js'])
+@endsection
