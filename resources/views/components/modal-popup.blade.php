@@ -1,4 +1,4 @@
-@if (Route::is(['index-3']))
+
     <!-- Login Modal -->
     <div class="modal fade" id="login-modal">
         <div class="modal-dialog modal-dialog-centered">
@@ -266,7 +266,7 @@
         </div>
     </div>
     <!-- /Forgot Password -->
-@endif
+
 
 @if (Route::is(['index-5']))
     <!-- Login Modal -->
@@ -1955,7 +1955,7 @@
     <!-- /Forgot Password -->
 @endif
 
-@if (Route::is(['activity-list']))
+@if (Route::is(['activity-list', 'become-an-expert', 'about-us', 'contact-us']))
     <!-- Login Modal -->
     <div class="modal fade" id="login-modal">
         <div class="modal-dialog modal-dialog-centered">
