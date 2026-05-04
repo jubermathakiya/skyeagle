@@ -36,6 +36,29 @@
                     @php
                         $images = $packageDetails->images->values();
                     @endphp
+                    <style>
+                        .tour-main-image-frame {
+                            width: 100%;
+                            height: 420px;
+                            overflow: hidden;
+                            border-radius: 10px;
+                            background: #f2f4f7;
+                        }
+
+                        .tour-main-image {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            display: block;
+                        }
+
+                        .tour-thumb-image {
+                            width: 100%;
+                            height: 96px;
+                            object-fit: cover;
+                            border-radius: 8px;
+                        }
+                    </style>
                     <div>
                         <div class="service-wrap mb-4">
                             <div class="slider-wrap vertical-slider tour-vertical-slide d-flex align-items-center">
@@ -43,9 +66,11 @@
                                     @foreach($packageDetails->images as $image)
                                         <div class="service-img">
                                             <a href="{{ backend_image($image->image) }}" data-fancybox="tour-gallery">
-                                                <img src="{{ backend_image($image->image) }} " 
-                                                    class="img-fluid"
+                                                <div class="tour-main-image-frame">
+                                                    <img src="{{ backend_image($image->image) }} "
+                                                    class="img-fluid tour-main-image"
                                                     alt="Slider Img">
+                                                </div>
                                             </a>
                                         </div>
                                     @endforeach
@@ -58,8 +83,8 @@
                                 <div class="slider-nav nav-center" id="small-img">
                                     @foreach($packageDetails->images as $image)
                                         <div>
-                                            <img src="{{ backend_image($image->image) }}" 
-                                                class="img-fluid custom-thumb"
+                                            <img src="{{ backend_image($image->image) }}"
+                                                class="img-fluid custom-thumb tour-thumb-image"
                                                 alt="Slider Img">
                                         </div>
                                     @endforeach
@@ -221,7 +246,7 @@
                         @endphp
                         <div class="tour-gallery-slider owl-carousel">
                             @foreach($galleryImages as $image)
-                                <a class="galley-wrap" data-fancybox="gallery"
+                                <a class="galley-wrap" data-fancybox="tour-gallery-grid"
                                 href="{{ backend_image($image->image) }}">
                                     <img src="{{ backend_image($image->image) }}" alt="img">
                                 </a>
@@ -369,15 +394,15 @@
                                 <p class="mb-2">It was a good location however the cocoon concept was weird. No tables,
                                     chairs etc was difficult as everything went on the floor.</p>
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-md me-2 mb-2" data-fancybox="gallery"
+                                    <div class="avatar avatar-md me-2 mb-2" data-fancybox="review-gallery"
                                         href="{{URL::asset('build/img/tours/tour-large-01.jpg')}}">
                                         <img src="{{URL::asset('build/img/tours/tour-thumb-01.jpg')}}" class="br-10" alt="img">
                                     </div>
-                                    <div class="avatar avatar-md me-2 mb-2" data-fancybox="gallery"
+                                    <div class="avatar avatar-md me-2 mb-2" data-fancybox="review-gallery"
                                         href="{{URL::asset('build/img/tours/tour-large-02.jpg')}}">
                                         <img src="{{URL::asset('build/img/tours/tour-thumb-02.jpg')}}" class="br-10" alt="img">
                                     </div>
-                                    <div class="avatar avatar-md me-0 mb-2" data-fancybox="gallery"
+                                    <div class="avatar avatar-md me-0 mb-2" data-fancybox="review-gallery"
                                         href="{{URL::asset('build/img/tours/tour-large-03.jpg')}}">
                                         <img src="{{URL::asset('build/img/tours/tour-thumb-03.jpg')}}" class="br-10" alt="img">
                                     </div>

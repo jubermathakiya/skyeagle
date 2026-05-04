@@ -7,9 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TouresController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('index-3');
-// })->name('index-3');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
