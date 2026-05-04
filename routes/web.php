@@ -7,10 +7,21 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TouresController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('index-3');
-// })->name('index-3');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
+Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
+Route::resource('enquiry', EnquiryController::class);
+Route::resource('contact', ContactController::class);
+
+// Tour Routes
+Route::get('tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
+Route::get('tours', [TouresController::class, 'index'])->name('tour-list');
+
+
+
+
+
 
 
 Route::get('/index', function () {
@@ -40,10 +51,6 @@ Route::get('/index-6', function () {
 Route::get('/index-7', function () {
     return view('index-7');
 })->name('index-7');
-
-Route::get('/about-us', function () {
-    return view('about-us');
-})->name('about-us');
 
 Route::get('/add-bus', function () {
     return view('add-bus');
@@ -224,9 +231,6 @@ Route::get('/chat', function () {
 Route::get('/coming-soon', function () {
     return view('coming-soon');
 })->name('coming-soon');
-
-Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
-Route::get('/about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 
 Route::get('/cruise-booking', function () {
     return view('cruise-booking');
@@ -488,14 +492,8 @@ Route::get('/tour-booking-confirmation', function () {
 //     return view('tour-grid');
 // })->name('tour-grid');
 
-// Route::get('/tour-list', function () {
-//     return view('tour-list');
-// })->name('tour-list');
 // Route::get('/tour-grid', [TouresController::class, 'index'])->name('tour-grid');
-Route::get('/tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
-Route::get('/tour-list', [TouresController::class, 'index'])->name('tour-list');
-Route::resource('enquiry', EnquiryController::class);
-Route::resource('contact', ContactController::class);
+
 
 Route::get('/tour-map', function () {
     return view('tour-map');
