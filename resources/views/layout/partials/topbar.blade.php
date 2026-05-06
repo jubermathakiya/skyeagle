@@ -585,8 +585,14 @@
                                             href="{{url('profile-settings')}}">Settings</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium p-2"
-                                            href="{{url('login')}}">Logout</a>
+                                        <form action="{{ route('auth.logout') }}" method="POST" id="logout-form">
+                                            @csrf
+                                            <a href="#"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="dropdown-item d-inline-flex align-items-center rounded fw-medium p-2">
+                                                Logout
+                                            </a>
+                                        </form>
                                     </li>
                                 </ul>
                             </div>
@@ -876,7 +882,7 @@
                                         </li>
                                     </ul>
                                 </li> --}}
-                                {{-- <li class="has-submenu mega-innermenu {{ Request::is('tour-grid', 'edit-tour', 'tour-list', 'tour-map', 'tour-details', 'tour-booking', 'tour-booking-confirmation', 'add-tour') ? 'active subdrop' : ''; }}">
+                                <li class="has-submenu mega-innermenu {{ Request::is('tour-grid', 'edit-tour', 'tour-list', 'tour-map', 'tour-details', 'tour-booking', 'tour-booking-confirmation', 'add-tour') ? 'active subdrop' : ''; }}">
                                     <a href="#">Tour<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
                                         <li>
@@ -886,7 +892,7 @@
                                                         <h6>Tour Bookings</h6>
                                                         <ul>
                                                             <li class="{{ Request::is('tour-grid', 'edit-tour') ? 'active' : ''; }}"><a href="{{url('tour-grid')}}">Tour Grid</a></li>
-                                                            <li class="{{ Request::is('tour-list') ? 'active' : ''; }}"><a href="{{url('tour-list')}}">Tour List</a></li>
+                                                            <li class="{{ Request::is('tours') ? 'active' : ''; }}"><a href="{{url('tours')}}">Tour List</a></li>
                                                             <li class="{{ Request::is('tour-map') ? 'active' : ''; }}"><a href="{{url('tour-map')}}">Tour Map</a></li>
                                                             <li class="{{ Request::is('tour-details', 'tour-booking') ? 'active' : ''; }}"><a href="{{url('tour-details')}}">Tour Details</a></li>
                                                             <li class="{{ Request::is('tour-booking-confirmation') ? 'active' : ''; }}"><a href="{{url('tour-booking-confirmation')}}">Tour
@@ -904,7 +910,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li> --}}
+                                </li> 
                                 {{-- <li class="has-submenu mega-innermenu {{ Request::is('bus-list', 'bus-left-sidebar', 'bus-right-sidebar', 'bus-details', 'bus-seat-selection', 'bus-booking', 'bus-booking-confirmation', 'add-bus') ? 'active subdrop' : ''; }}">
                                     <a href="#">Bus<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">

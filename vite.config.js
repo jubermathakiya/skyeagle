@@ -34,7 +34,10 @@ export default defineConfig({
                 'resources/js/enquiry/create.js',
 
                 //Contact js
-                'resources/js/contact/create.js'
+                'resources/js/contact/create.js',
+
+                //Auth js
+                'resources/js/auth/auth.js'
             ],
             refresh: true,
         }),

@@ -56,6 +56,31 @@ class ContactController extends Controller
         }
     }
 
+    public function saveEnquiry(Request $request)
+    {
+        try {
+            $this->contactRepository->storeEnquiry($request);
+            session()->flash('success', 'Enquiry submitted successfully.');
+            return response()->json([
+                'status'   => true,
+                'message' => 'Enquiry submitted successfully.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Enquiry Store Error: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong. Please try again!'
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong. Please try again!');
+        }
+    }
+
     /**
      * Display the specified resource.
      */
