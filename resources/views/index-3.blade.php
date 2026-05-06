@@ -5,14 +5,18 @@
     <!-- ========================
         Start Page Content
     ========================= -->
-
+   
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="banner-slider banner-sec owl-carousel">
-            <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/Image-1.jpeg')}}" alt="Img">
-            </div>
-            <div class="slider-img">
+            @if($homeMedia && $homeMedia->images->count())
+                @foreach($homeMedia->images as $image)
+                    <div class="slider-img">
+                        <img src="{{ $image->image_url }}" alt="Img">
+                    </div>
+                @endforeach
+            @endif
+            {{-- <div class="slider-img">
                 <img src="{{URL::asset('build/img/banner/Image-2.jpeg')}}" alt="Img">
             </div>
             <div class="slider-img">
@@ -20,7 +24,7 @@
             </div>
             <div class="slider-img">
                 <img src="{{URL::asset('build/img/banner/Image-4.jpeg')}}" alt="Img">
-            </div>
+            </div> --}}
         </div>
         <div class="container">
             <div class="hero-content">

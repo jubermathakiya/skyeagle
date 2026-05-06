@@ -20,7 +20,7 @@ class TouresController extends Controller
         ->where('status', 1)
         ->latest()
         ->paginate(5);
-        return view('tour-list', compact('packages'));
+        return view('pages.toures.tour-list', compact('packages'));
     }
 
     /**
@@ -54,7 +54,7 @@ class TouresController extends Controller
         ->where('status', 1)
         ->firstOrFail();
 
-        return view('tour-details', compact('packageDetails'));
+        return view('pages.toures.tour-details', compact('packageDetails'));
     }
 
     /**

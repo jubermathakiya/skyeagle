@@ -79,7 +79,7 @@
                                     data-fancybox="tour-gallery"
                                     class="btn btn-white btn-xs view-btn">
                                     <i class="isax isax-image me-1"></i>See All
-                                    </a>
+                                </a>
                                 <div class="slider-nav nav-center" id="small-img">
                                     @foreach($packageDetails->images as $image)
                                         <div>

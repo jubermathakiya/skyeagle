@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TouresController;
@@ -11,16 +11,32 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
-Route::resource('enquiry', EnquiryController::class);
 Route::resource('contact', ContactController::class);
+Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
 // Tour Routes
 Route::get('tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
 Route::get('tours', [TouresController::class, 'index'])->name('tour-list');
 
+//auth routes
+Route::post('/auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');
+Route::post('/auth/register-otp/verify', [AuthController::class, 'verify'])->name('auth.register.otp.verify');
+Route::post('/auth/register-otp/resend', [AuthController::class, 'resend'])->name('auth.register.otp.resend');
 
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/forgot-password/send-otp', [AuthController::class, 'sendForgotOtp'])
+    ->name('auth.forgot.sendOtp');
+Route::post('/auth/forgot-password/verify-otp', [AuthController::class, 'verifyForgotOtp'])
+    ->name('auth.forgot.verifyOtp');
+Route::post('/auth/forgot-password/reset', [AuthController::class, 'resetForgotPassword'])
+    ->name('auth.forgot.reset');
+Route::post('/auth/change-password', [AuthController::class, 'changePassword'])
+    ->name('auth.changePassword');
+Route::post('/auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'])
+->name('auth.forgot.resendOtp');
 
-
+//logout
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
 

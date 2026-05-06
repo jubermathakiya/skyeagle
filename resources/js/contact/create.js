@@ -1,4 +1,4 @@
-import { initAjaxFormValidation,showToastmessage } from '../common/form-handler.js';
+import { initAjaxFormValidation } from '../common/form-handler.js';
 
 initAjaxFormValidation("#contact_form", {
     name: { required: true },
@@ -9,7 +9,6 @@ initAjaxFormValidation("#contact_form", {
     skipRequiredFor: ["name", "email", "phone", "message"],
     onSuccess: function (res) {
         $("#contact_form")[0].reset();
-        showToastmessage(res.message)
     },
     onError: function (res) {
         if (typeof window.showToastmessage === "function") {
