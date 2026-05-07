@@ -2,25 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Toures;
+use App\Repositories\ToureRepository;
 use Illuminate\Http\Request;
 
 class TouresController extends Controller
 {
+    protected $touresRepository;
+    public function __construct(ToureRepository $touresRepository)
+    {
+        $this->touresRepository = $touresRepository;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $packages = Toures::with([
-            'images' => function ($query) {
-                $query->limit(4);
-            }
-        ])
-        ->where('status', 1)
-        ->latest()
-        ->paginate(5);
-        return view('pages.toures.tour-list', compact('packages'));
+        $data = $this->touresRepository->getTours($request);
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view(
+                    'pages.toures.partials.tour-results',
+                    ['packages' => $data['packages']]
+                )->render(),
+                'total' => $data['packages']->total(),
+            ]);
+        }
+        return view(
+            'pages.toures.tour-list',
+            $data
+        );
     }
 
     /**
@@ -44,17 +54,11 @@ class TouresController extends Controller
      */
     public function show(string $slug)
     {
-        $packageDetails = Toures::with([
-            'images',
-            'faqs',
-            'highlights',
-            'itinerary'
-        ])
-        ->where('slug', $slug)
-        ->where('status', 1)
-        ->firstOrFail();
-
-        return view('pages.toures.tour-details', compact('packageDetails'));
+        $packageDetails = $this->touresRepository->getTourDetails($slug);
+        return view(
+            'pages.toures.tour-details',
+            compact('packageDetails')
+        );
     }
 
     /**
