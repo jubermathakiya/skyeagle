@@ -11,9 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('enquiries', function (Blueprint $table) {
-            $table->foreignId('tour_details_id')->after('id')->constrained()->onDelete('cascade');
-        });
+        if (!Schema::hasColumn('enquiries', 'tour_details_id')) {
+            Schema::table('enquiries', function (Blueprint $table) {
+                $table->unsignedBigInteger('tour_details_id')->nullable()->after('id');
+            });
+        }
+
+        if (Schema::hasTable('tour_details')) {
+            try {
+                Schema::table('enquiries', function (Blueprint $table) {
+                    $table->foreign('tour_details_id')
+                        ->references('id')
+                        ->on('tour_details')
+                        ->cascadeOnDelete();
+                });
+            } catch (\Throwable $e) {
+                // Foreign key may already exist.
+            }
+        }
     }
 
     /**
@@ -22,7 +37,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('enquiries', function (Blueprint $table) {
-            //
+            try {
+                $table->dropForeign(['tour_details_id']);
+            } catch (\Throwable $e) {
+                // Foreign key may not exist in some environments.
+            }
+
+            if (Schema::hasColumn('enquiries', 'tour_details_id')) {
+                $table->dropColumn('tour_details_id');
+            }
         });
     }
 };
