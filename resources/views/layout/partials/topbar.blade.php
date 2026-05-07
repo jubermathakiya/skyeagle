@@ -100,11 +100,12 @@
                     <div class="main-menu-wrapper">
                         <div class="navbar-logo">
                             <a class="logo-white header-logo" href="{{ route('home')}}">
-                                <img src="{{URL::asset('build/img/sky_logo.png')}}" width="100px" height="100px" class="logo" alt="Logo">
+                                <img src="{{ asset('assets/img/sky_logo.png') }}" 
+                                    width="100" 
+                                    height="100" 
+                                    class="logo" 
+                                    alt="Logo">
                             </a>
-                            {{-- <a class="logo-dark header-logo" href="{{url('index')}}">
-                                <img src="{{URL::asset('build/img/logo-dark.svg')}}" class="logo" alt="Logo">
-                            </a> --}}
                         </div>
                         <nav id="mobile-menu">
                             <ul class="main-nav">
@@ -757,12 +758,13 @@
                     <div class="main-menu-wrapper">
                         <div class="navbar-logo">
                         {{-- logo --}}
-                            <a class="logo-white header-logo" href="{{url('index-3')}}">
-                                <img src="{{URL::asset('build/img/sky_logo.png')}}" width="100px" height="100px" class="logo" alt="Logo"> 
+                            <a class="logo-white header-logo" href="{{route('home')}}">
+                                <img src="{{ asset('assets/img/sky_logo.png') }}" 
+                                    width="100" 
+                                    height="100" 
+                                    class="logo" 
+                                    alt="Logo">
                             </a>
-                            {{-- <a class="logo-dark header-logo" href="{{url('index')}}">
-                                <img src="{{URL::asset('build/img/logo-dark.svg')}}" class="logo" alt="Logo">
-                            </a> --}}
                         </div>
                         <nav id="mobile-menu">
                             <ul class="main-nav">

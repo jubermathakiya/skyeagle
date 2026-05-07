@@ -16,15 +16,6 @@
                     </div>
                 @endforeach
             @endif
-            {{-- <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/Image-2.jpeg')}}" alt="Img">
-            </div>
-            <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/Image-3.jpeg')}}" alt="Img">
-            </div>
-            <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/Image-4.jpeg')}}" alt="Img">
-            </div> --}}
         </div>
         <div class="container">
             <div class="hero-content">
