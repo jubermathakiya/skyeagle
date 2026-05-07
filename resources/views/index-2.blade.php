@@ -5429,7 +5429,7 @@
                                         </span>
                                         <div class="ms-2">
                                             <p class="fs-14 mb-0 text-gray-4">Customer Support</p>
-                                            <div class="fw-medium text-light">+1 56589 54598</div>
+                                            <div class="fw-medium text-light">+91 89800 46600</div>
                                         </div>
                                     </div>
                                 </div>

@@ -1,4 +1,4 @@
-@if (Route::is(['index-3']))
+
     <!-- Login Modal -->
     <div class="modal fade" id="login-modal">
         <div class="modal-dialog modal-dialog-centered">
@@ -7,7 +7,8 @@
                     <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
                 </div>
                 <div class="modal-body p-4 pt-0">
-                    <form action="{{url('index')}}">
+                    <form id="auth_login_form" action="{{route('auth.login')}}" method="POST" >
+                    @csrf
                         <div class="text-center mb-3">
                             <h5 class="mb-1">Sign In</h5>
                             <p>Sign in to Start Manage your DreamsTour Account</p>
@@ -18,7 +19,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-message"></i>
                                 </span>
-                                <input type="email" class="form-control form-control-lg" placeholder="Enter Email">
+                                <input type="text" name="login" class="form-control form-control-lg" placeholder="Enter Email or Phone">
                             </div>
                         </div>
                         <div class="mb-2">
@@ -27,7 +28,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-lock"></i>
                                 </span>
-                                <input type="password" class="form-control form-control-lg pass-input"
+                                <input type="password" name="password" class="form-control form-control-lg pass-input"
                                     placeholder="Enter Password">
                                 <span class="input-icon-addon toggle-password">
                                     <i class="isax isax-eye-slash"></i>
@@ -70,11 +71,45 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- /Login Modal -->
+
+    <!-- /OTP Modal -->
+    <div class="modal fade" id="register-otp-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
+                <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
+            </div>
+            <div class="modal-body p-4 pt-0">
+                <form id="register_otp_form" method="POST" action="{{ route('auth.register.otp.verify') }}">
+                @csrf
+                <div class="text-center border-bottom mb-3">
+                    <h5 class="mb-1">Verify OTP</h5>
+                    <p class="mb-2">Enter 6-digit OTP sent to your phone</p>
+                    <p class="mb-0">Expires in: <span id="otp_countdown">05:00</span></p>
+                </div>
+
+                <input type="hidden" name="email" id="otp_email_holder">
+
+                <div class="mb-3">
+                    <label class="form-label">OTP</label>
+                    <input type="text" class="form-control form-control-lg" name="otp" id="otp_input" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit OTP">
+                </div>
+
+                <div class="mb-2">
+                    <button type="submit" class="btn btn-xl btn-primary w-100">Verify & Register</button>
+                </div>
+                <div class="text-center">
+                    <a href="#" id="resend_otp_btn" class="link-primary fw-medium">Resend OTP</a>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Register Modal -->
     <div class="modal fade" id="register-modal">
@@ -84,18 +119,27 @@
                     <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
                 </div>
                 <div class="modal-body p-4 pt-0">
-                    <form action="{{url('index')}}">
+                    <form action="{{route('auth.register.otp')}}" method="POST" id="auth_register_form">
                         <div class="text-center border-bottom mb-3">
                             <h5 class="mb-1">Sign Up</h5>
                             <p class="mb-3">Create your DreamsTour Account</p>
                         </div>
                         <div class="mb-2">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">First Name</label>
                             <div class="input-icon">
                                 <span class="input-icon-addon">
                                     <i class="isax isax-user"></i>
                                 </span>
-                                <input type="text" class="form-control form-control-lg" placeholder="Enter Full Name">
+                                <input type="text" name="first_name" class="form-control form-control-lg" placeholder="Enter First Name">
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Last Name</label>
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <i class="isax isax-user"></i>
+                                </span>
+                                <input type="text" name="last_name" class="form-control form-control-lg" placeholder="Enter Last Name">
                             </div>
                         </div>
                         <div class="mb-2">
@@ -104,7 +148,16 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-message"></i>
                                 </span>
-                                <input type="email" class="form-control form-control-lg" placeholder="Enter Email">
+                                <input type="email" name="email" class="form-control form-control-lg" placeholder="Enter Email">
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Phone</label>
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <i class="isax isax-call"></i>
+                                </span>
+                                <input type="text" name="phone" class="form-control form-control-lg" placeholder="Enter Phone">
                             </div>
                         </div>
                         <div class="mb-2">
@@ -113,7 +166,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-lock"></i>
                                 </span>
-                                <input type="password" class="form-control form-control-lg pass-input"
+                                <input type="password" name="password" class="form-control form-control-lg pass-input"
                                     placeholder="Enter Password">
                                 <span class="input-icon-addon toggle-password">
                                     <i class="isax isax-eye-slash"></i>
@@ -126,7 +179,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-lock"></i>
                                 </span>
-                                <input type="password" class="form-control form-control-lg pass-input"
+                                <input type="password" name="password_confirmation" class="form-control form-control-lg pass-input"
                                     placeholder="Enter Password">
                                 <span class="input-icon-addon toggle-password">
                                     <i class="isax isax-eye-slash"></i>
@@ -164,25 +217,24 @@
                         </div>
                         <div class="d-flex justify-content-center">
                             <p class="fs-14">Already have an account? <a href="#" class="link-primary fw-medium"
-                                    data-bs-toggle="modal" data-bs-target="#login-modal">Sign In</a></p>
+                                data-bs-toggle="modal" data-bs-target="#login-modal">Sign In</a></p>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- /Register Modal -->
 
     <!-- Change Password -->
-    <div class="modal fade" id="change-password">
+    <div class="modal fade" id="change_password_form">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
                     <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
                 </div>
                 <div class="modal-body p-4 pt-0">
-                    <form action="#">
+                    <form id="change_password_form" action="{{ route('auth.changePassword') }}" method="POST">
                         <div class="text-center border-bottom mb-3">
                             <h5 class="mb-1">Change Password</h5>
                             <p class="mb-3">Enter Details to Change Password</p>
@@ -193,7 +245,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-lock"></i>
                                 </span>
-                                <input type="password" class="form-control form-control-lg pass-input"
+                                <input type="password" name="password" class="form-control form-control-lg pass-input"
                                     placeholder="Enter Password">
                                 <span class="input-icon-addon toggle-password">
                                     <i class="isax isax-eye-slash"></i>
@@ -206,7 +258,7 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-lock"></i>
                                 </span>
-                                <input type="password" class="form-control form-control-lg pass-input"
+                                <input type="password" name="password_confirmation" class="form-control form-control-lg pass-input"
                                     placeholder="Enter Password">
                                 <span class="input-icon-addon toggle-password">
                                     <i class="isax isax-eye-slash"></i>
@@ -214,14 +266,13 @@
                             </div>
                         </div>
                         <div class="mb-0">
-                            <button type="button"
+                            <button type="submit"
                                 class="btn btn-xl btn-primary d-flex align-items-center justify-content-center w-100"
                                 data-bs-toggle="modal" data-bs-target="#login-password">Change Password<i
                                     class="isax isax-arrow-right-3 ms-2"></i></button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -235,7 +286,8 @@
                     <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
                 </div>
                 <div class="modal-body p-4 pt-0">
-                    <form action="#">
+                    <form id="forgot_send_otp_form"  action="{{ route('auth.forgot.sendOtp') }}" method="POST">
+                        @csrf
                         <div class="text-center border-bottom mb-3">
                             <h5 class="mb-1">Forgot Password</h5>
                             <p>Reset Your DreamsTour Password</p>
@@ -246,14 +298,14 @@
                                 <span class="input-icon-addon">
                                     <i class="isax isax-message"></i>
                                 </span>
-                                <input type="email" class="form-control form-control-lg" placeholder="Enter Email">
+                                <input type="email" name="email"  class="form-control form-control-lg" placeholder="Enter Email">
                             </div>
                         </div>
                         <div class="mb-3">
-                            <button type="button"
-                                class="btn btn-xl btn-primary d-flex align-items-center justify-content-center w-100"
-                                data-bs-toggle="modal" data-bs-target="#change-password">Reset Password<i
-                                    class="isax isax-arrow-right-3 ms-2"></i></button>
+                            <button type="submit"
+                                class="btn btn-xl btn-primary d-flex align-items-center justify-content-center w-100">
+                                Reset Password
+                            </button>
                         </div>
                         <div class="d-flex justify-content-center">
                             <p class="fs-14">Remember Password ? <a href="#" class="link-primary fw-medium"
@@ -261,12 +313,119 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- /Forgot Password -->
-@endif
+
+    <!-- Forgot OTP Modal -->
+    <div class="modal fade" id="forgot-otp-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
+                    <a href="#" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ti ti-x fs-20"></i>
+                    </a>
+                </div>
+                <div class="modal-body p-4 pt-0">
+                    <form id="forgot_verify_otp_form" method="POST" action="{{ route('auth.forgot.verifyOtp') }}">
+                        @csrf
+                        <div class="text-center border-bottom mb-3">
+                            <h5 class="mb-1">Verify OTP</h5>
+                            <p class="mb-2">Enter 6-digit OTP sent to your email</p>
+                            <p class="mb-0">
+                                Expires in: <span id="forgot_otp_countdown">05:00</span>
+                            </p>
+                        </div>
+                        <input type="hidden" name="email" id="forgot_otp_email_holder">
+                        <div class="mb-3">
+                            <label class="form-label">OTP</label>
+                            <input 
+                                type="text" 
+                                class="form-control form-control-lg" 
+                                name="otp" 
+                                id="forgot_otp_input"
+                                maxlength="6" 
+                                inputmode="numeric" 
+                                autocomplete="one-time-code"
+                                placeholder="Enter 6-digit OTP">
+                        </div>
+                        <div class="mb-2">
+                            <button type="submit" class="btn btn-xl btn-primary w-100">
+                                Verify OTP
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <a href="#" id="forgot_resend_otp_btn" class="link-primary fw-medium">
+                                Resend OTP
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Forgot Reset Password -->
+    <div class="modal fade" id="forgot-reset-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
+                    <a href="#" data-bs-dismiss="modal">
+                        <i class="ti ti-x fs-20"></i>
+                    </a>
+                </div>
+                <div class="modal-body p-4 pt-0">
+                    <form id="forgot_reset_password_form" method="POST" action="{{ route('auth.forgot.reset') }}">
+                        @csrf
+                        <div class="text-center border-bottom mb-3">
+                            <h5 class="mb-1">Reset Password</h5>
+                            <p class="mb-3">Create a new secure password for your account</p>
+                        </div>
+                        <input type="hidden" name="email">
+                        <div class="mb-2">
+                            <label class="form-label">New Password</label>
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <i class="isax isax-lock"></i>
+                                </span>
+                                <input 
+                                    type="password" 
+                                    name="password" 
+                                    class="form-control form-control-lg pass-input"
+                                    placeholder="Enter New Password">
+                                <span class="input-icon-addon toggle-password">
+                                    <i class="isax isax-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm Password</label>
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <i class="isax isax-lock"></i>
+                                </span>
+                                <input 
+                                    type="password" 
+                                    name="password_confirmation" 
+                                    class="form-control form-control-lg pass-input"
+                                    placeholder="Confirm New Password">
+                                <span class="input-icon-addon toggle-password">
+                                    <i class="isax isax-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>                        
+                        <div class="mb-2">
+                            <button type="submit" class="btn btn-xl btn-primary w-100">
+                                Reset Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>   
+
 
 @if (Route::is(['index-5']))
     <!-- Login Modal -->
@@ -1955,7 +2114,7 @@
     <!-- /Forgot Password -->
 @endif
 
-@if (Route::is(['activity-list']))
+@if (Route::is(['activity-list', 'become-an-expert', 'about-us', 'contact-us']))
     <!-- Login Modal -->
     <div class="modal fade" id="login-modal">
         <div class="modal-dialog modal-dialog-centered">
@@ -22973,6 +23132,6 @@
     </div>
     <!-- /Success -->
 @endif
-
-
-
+@section('script')
+    @vite(['resources/js/auth/auth.js'])
+@endsection

@@ -1,11 +1,44 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TouresController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
+Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
+Route::resource('contact', ContactController::class);
+Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
+
+// Tour Routes
+Route::get('tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
+Route::get('tours', [TouresController::class, 'index'])->name('tour-list');
+
+//auth routes
+Route::post('/auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');
+Route::post('/auth/register-otp/verify', [AuthController::class, 'verify'])->name('auth.register.otp.verify');
+Route::post('/auth/register-otp/resend', [AuthController::class, 'resend'])->name('auth.register.otp.resend');
+
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/forgot-password/send-otp', [AuthController::class, 'sendForgotOtp'])
+    ->name('auth.forgot.sendOtp');
+Route::post('/auth/forgot-password/verify-otp', [AuthController::class, 'verifyForgotOtp'])
+    ->name('auth.forgot.verifyOtp');
+Route::post('/auth/forgot-password/reset', [AuthController::class, 'resetForgotPassword'])
+    ->name('auth.forgot.reset');
+Route::post('/auth/change-password', [AuthController::class, 'changePassword'])
+    ->name('auth.changePassword');
+Route::post('/auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'])
+->name('auth.forgot.resendOtp');
+
+//logout
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+
 
 Route::get('/index', function () {
     return view('index');
@@ -34,10 +67,6 @@ Route::get('/index-6', function () {
 Route::get('/index-7', function () {
     return view('index-7');
 })->name('index-7');
-
-Route::get('/about-us', function () {
-    return view('about-us');
-})->name('about-us');
 
 Route::get('/add-bus', function () {
     return view('add-bus');
@@ -218,8 +247,6 @@ Route::get('/chat', function () {
 Route::get('/coming-soon', function () {
     return view('coming-soon');
 })->name('coming-soon');
-
-Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 
 Route::get('/cruise-booking', function () {
     return view('cruise-booking');
@@ -473,17 +500,16 @@ Route::get('/tour-booking-confirmation', function () {
     return view('tour-booking-confirmation');
 })->name('tour-booking-confirmation');
 
-Route::get('/tour-details', function () {
-    return view('tour-details');
-})->name('tour-details');
+// Route::get('/tour-details', function () {
+//     return view('tour-details');
+// })->name('tour-details');
 
-Route::get('/tour-grid', function () {
-    return view('tour-grid');
-})->name('tour-grid');
+// Route::get('/tour-grid', function () {
+//     return view('tour-grid');
+// })->name('tour-grid');
 
-Route::get('/tour-list', function () {
-    return view('tour-list');
-})->name('tour-list');
+// Route::get('/tour-grid', [TouresController::class, 'index'])->name('tour-grid');
+
 
 Route::get('/tour-map', function () {
     return view('tour-map');

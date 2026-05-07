@@ -15,6 +15,7 @@
     <meta name="keywords" content="travel booking template, tour booking, Bootstrap 5 travel template, DreamsTour, hotel booking, flights booking, holiday packages, tour agency website, travel agency template, travel HTML template, booking system, responsive travel template, Bootstrap travel website">
     <meta name="author" content="Dreams Technologies">
     <meta name="robots" content="index, follow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @include('layout.partials.head-css')
 </head>
@@ -52,6 +53,7 @@
 @if(!Route::is(['login','register','forgot-password','change-password','error-404','error-500','under-maintenance','coming-soon']))
 @include('layout.partials.topbar')
 @endif
+
 @yield('content')
 @if(!Route::is(['login','register','forgot-password','change-password','error-404','error-500','under-maintenance','coming-soon']))
 @include('layout.partials.footer')
@@ -72,6 +74,6 @@
 @endcomponent
 
 @include('layout.partials.vendor-scripts')
-
+@yield('script')
 </body>
 </html>

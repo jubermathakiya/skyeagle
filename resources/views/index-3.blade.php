@@ -1,26 +1,30 @@
 <?php $page="index-3";?>
 @extends('layout.mainlayout')
 @section('content')
-
+    
     <!-- ========================
         Start Page Content
     ========================= -->
-
+   
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="banner-slider banner-sec owl-carousel">
-            <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/banner-01.jpg')}}" alt="Img">
+            @if($homeMedia && $homeMedia->images->count())
+                @foreach($homeMedia->images as $image)
+                    <div class="slider-img">
+                        <img src="{{ $image->image_url }}" alt="Img">
+                    </div>
+                @endforeach
+            @endif
+            {{-- <div class="slider-img">
+                <img src="{{URL::asset('build/img/banner/Image-2.jpeg')}}" alt="Img">
             </div>
             <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/banner-02.jpg')}}" alt="Img">
+                <img src="{{URL::asset('build/img/banner/Image-3.jpeg')}}" alt="Img">
             </div>
             <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/banner-03.jpg')}}" alt="Img">
-            </div>
-            <div class="slider-img">
-                <img src="{{URL::asset('build/img/banner/banner-04.jpg')}}" alt="Img">
-            </div>
+                <img src="{{URL::asset('build/img/banner/Image-4.jpeg')}}" alt="Img">
+            </div> --}}
         </div>
         <div class="container">
             <div class="hero-content">
