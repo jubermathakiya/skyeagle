@@ -2,13 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Jobs\SendWhatsappOtpJob;
+use App\Mail\ForgotPasswordOtpMail;
 use App\Models\PasswordResetOtp;
 use App\Models\User;
 use App\Models\UserTemp;
+use App\Services\WhatsAppService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class AuthRepository
@@ -33,6 +37,7 @@ class AuthRepository
             'ip_address' => $ip,
             'user_agent' => $ua,
         ]);
+        //app(WhatsAppService::class)->sendOtp($data['phone'], $otp);
         return ['temp' => $temp, 'otp' => $otp, 'expires_at' => $expiresAt];
     }
 
@@ -79,6 +84,7 @@ class AuthRepository
             'attempt_count' => 0,
             'last_otp_sent_at' => now(),
         ]);
+        //SendWhatsappOtpJob::dispatch($temp->phone, $otp);
         return ['temp' => $temp, 'otp' => $otp, 'expires_at' => $expiresAt];
     }
 
@@ -110,7 +116,14 @@ class AuthRepository
             'otp' => $otp,
             'otp_expires_at' => $expiresAt,
             'last_otp_sent_at' => now(),
-        ]);
+        ]);  
+        Mail::to($user->email)->queue(
+            new ForgotPasswordOtpMail(
+                otp: $otp,
+                userName: $user->name,
+                expiresIn: '5 minutes'
+            )
+        );
         return ['record' => $record, 'otp' => $otp, 'expires_at' => $expiresAt];
     }
 
@@ -137,7 +150,7 @@ class AuthRepository
             throw ValidationException::withMessages(['email' => 'Verification expired. Re-verify OTP.']);
         }
         $user = User::query()->where('id', $record->user_id)->firstOrFail();
-        $user->update(['password' => $plainPassword]);
+        $user->update(['password' => Hash::make($plainPassword)]);
         $record->delete();
     }
 
@@ -147,7 +160,7 @@ class AuthRepository
         if (! Hash::check($current, $user->password)) {
             throw ValidationException::withMessages(['current_password' => 'Current password is incorrect.']);
         }
-        $user->update(['password' => $new]);
+        $user->update(['password' => Hash::make($new)]);
     }
 
     public function resendForgotOtp(string $email)
