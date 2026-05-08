@@ -407,3 +407,54 @@ export function confirmDelete(url, table = null) {
         }
     });
 }
+
+
+export function submitAjaxForm($form, extraOptions = {}) {
+
+    let formData;
+
+    if ($form.attr("method").toUpperCase() === "GET") {
+        formData = $form.serialize();
+    } else {
+        formData = new FormData($form[0]);
+        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    }
+
+    $.ajax({
+        url: $form.attr("action"),
+        type: $form.attr("method"),
+        data: formData,
+        processData: $form.attr("method").toUpperCase() === "GET",
+        contentType: $form.attr("method").toUpperCase() === "GET"
+            ? 'application/x-www-form-urlencoded; charset=UTF-8'
+            : false,
+
+        beforeSend: function () {
+
+            if (extraOptions.beforeSend) {
+                extraOptions.beforeSend($form);
+            }
+        },
+
+        success: function (response) {
+
+            if (extraOptions.onSuccess) {
+                extraOptions.onSuccess(response);
+            }
+        },
+
+        error: function (xhr) {
+
+            if (extraOptions.onError) {
+                extraOptions.onError(xhr.responseJSON || {});
+            }
+        },
+
+        complete: function () {
+
+            if (extraOptions.onComplete) {
+                extraOptions.onComplete($form);
+            }
+        }
+    });
+}
