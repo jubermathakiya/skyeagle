@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
@@ -37,6 +38,15 @@ Route::post('/auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'
 
 //logout
 Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+// Social login
+Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
+    ->where('provider', 'google|facebook')
+    ->name('auth.social.redirect');
+
+Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
+    ->where('provider', 'google|facebook')
+    ->name('auth.social.callback');
 
 
 
