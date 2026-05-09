@@ -23132,6 +23132,3 @@
     </div>
     <!-- /Success -->
 @endif
-@section('script')
-    @vite(['resources/js/auth/auth.js'])
-@endsection
