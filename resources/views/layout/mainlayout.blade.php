@@ -74,6 +74,7 @@
 @endcomponent
 
 @include('layout.partials.vendor-scripts')
+@vite(['resources/js/auth/auth.js'])
 @yield('script')
 </body>
 </html>

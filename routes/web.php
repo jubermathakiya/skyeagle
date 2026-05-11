@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TouresController;
+use App\Http\Controllers\ToursController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,8 +16,8 @@ Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
 // Tour Routes
-Route::get('tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
-Route::get('tours', [TouresController::class, 'index'])->name('tour-list');
+Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
+Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
 
 //auth routes
 Route::post('/auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');

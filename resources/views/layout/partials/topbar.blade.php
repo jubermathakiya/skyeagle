@@ -23,6 +23,15 @@
     $selectedDestination = request()->query('destination_city');
 @endphp
 
+@once
+    <style>
+        header .megamenu-wrapper ul.tour-mega-destinations {
+            max-height: 260px;
+            overflow-y: auto;
+        }
+    </style>
+@endonce
+
 @if (Auth::check())
     <div class="main-header">
         <!-- Header Topbar-->
@@ -259,73 +268,35 @@
                                                     <div class="col-lg-6">
                                                         <h6>Tour Bookings</h6>
                                                         <ul>
-                                                            <li class="{{ Request::is('tour-grid', 'edit-tour') ? 'active' : ''; }}"><a href="{{url('tour-grid')}}">Tour Grid</a></li>
-                                                            <li class="{{ Request::is('tour-list') ? 'active' : ''; }}"><a href="{{url('tour-list')}}">Tour List</a></li>
-                                                            <li class="{{ Request::is('tour-map') ? 'active' : ''; }}"><a href="{{url('tour-map')}}">Tour Map</a></li>
-                                                            <li class="{{ Request::is('tour-details', 'tour-booking') ? 'active' : ''; }}"><a href="{{url('tour-details')}}">Tour Details</a></li>
-                                                            <li class="{{ Request::is('tour-booking-confirmation') ? 'active' : ''; }}"><a href="{{url('tour-booking-confirmation')}}">Tour
-                                                                    Booking</a></li>
-                                                            <li class="{{ Request::is('add-tour') ? 'active' : ''; }}"><a href="{{url('add-tour')}}">Add Tour</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="menu-img">
-                                                            <img src="{{URL::asset('build/img/menu/tour.jpg')}}" alt="img"
-                                                                class="img-fluid">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu mega-innermenu {{ Request::is('tour-list') && $selectedType === 'Domestic' ? 'active subdrop' : ''; }}">
-                                    <a href="#">Domestic<i class="fa-solid fa-angle-down"></i></a>
-                                    <ul class="submenu mega-submenu">
-                                        <li>
-                                            <div class="megamenu-wrapper">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <h6>Domestic Tours</h6>
-                                                        <ul>
-                                                            <li class="{{ Request::is('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : ''; }}">
-                                                                <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
+                                                            <li class="{{ Request::routeIs('tour-list') && empty($selectedType) && empty($selectedDestination) ? 'active' : '' }}">
+                                                                <a href="{{ route('tour-list') }}">Tour List</a>
                                                             </li>
-                                                            @foreach ($domesticDestinations as $destination)
-                                                                <li class="{{ Request::is('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : ''; }}">
-                                                                    <a href="{{ route('tour-list', ['type' => 'Domestic', 'destination_city' => $destination]) }}">{{ $destination }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="menu-img">
-                                                            <img src="{{URL::asset('build/img/menu/tour.jpg')}}" alt="img"
-                                                                class="img-fluid">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu mega-innermenu {{ Request::is('tour-list') && $selectedType === 'International' ? 'active subdrop' : ''; }}">
-                                    <a href="#">International<i class="fa-solid fa-angle-down"></i></a>
-                                    <ul class="submenu mega-submenu">
-                                        <li>
-                                            <div class="megamenu-wrapper">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <h6>International Tours</h6>
-                                                        <ul>
-                                                            <li class="{{ Request::is('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : ''; }}">
-                                                                <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
+                                                            <li class="has-submenu {{ $selectedType === 'Domestic' ? 'active subdrop' : '' }}">
+                                                                <a href="#">Domestic</a>
+                                                                <ul class="submenu tour-mega-destinations">
+                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : '' }}">
+                                                                        <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
+                                                                    </li>
+                                                                    @foreach ($domesticDestinations as $destination)
+                                                                        <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : '' }}">
+                                                                            <a href="{{ route('tour-list', ['type' => 'Domestic', 'destination_city' => $destination]) }}">{{ $destination }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
                                                             </li>
-                                                            @foreach ($internationalDestinations as $destination)
-                                                                <li class="{{ Request::is('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : ''; }}">
-                                                                    <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>
-                                                                </li>
-                                                            @endforeach
+                                                            <li class="has-submenu {{ $selectedType === 'International' ? 'active subdrop' : '' }}">
+                                                                <a href="#">International</a>
+                                                                <ul class="submenu tour-mega-destinations">
+                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : '' }}">
+                                                                        <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
+                                                                    </li>
+                                                                    @foreach ($internationalDestinations as $destination)
+                                                                        <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : '' }}">
+                                                                            <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -854,7 +825,8 @@
                                 {{-- <li class="has-submenu megamenu {{ Request::is('index', '/', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-9', 'index-10', 'index-11', 'index-12') ? 'active subdrop' : ''; }}">
                                     <a href="{{ url('index-3') }}">Home</a>
                                 </li> --}}
-                                <li class="has-submenu mega-innermenu {{ Request::is('flight-grid', 'edit-flight', 'flight-list', 'flight-details', 'flight-booking', 'flight-booking-confirmation', 'add-flight') ? 'active subdrop' : ''; }}">
+                                {{-- <li class="has-submenu mega-innermenu {{ Request::is('flight-grid', 'edit-flight', 'flight-list', 'flight-details', 'flight-booking', 'flight-booking-confirmation', 'add-flight') ? 'active subdrop' : ''; }}">
+                                    <a href="#">Flight<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
                                         <li>
                                             <div class="megamenu-wrapper">
@@ -880,8 +852,9 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>
-                                <li class="has-submenu mega-innermenu {{ Request::is('hotel-grid', 'edit-hotel', 'hotel-list', 'hotel-map', 'hotel-details', 'hotel-booking', 'booking-confirmation', 'add-hotel') ? 'active subdrop' : ''; }}">
+                                </li> --}}
+                                {{-- <li class="has-submenu mega-innermenu {{ Request::is('hotel-grid', 'edit-hotel', 'hotel-list', 'hotel-map', 'hotel-details', 'hotel-booking', 'booking-confirmation', 'add-hotel') ? 'active subdrop' : ''; }}">
+                                    <a href="#">Hotel<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
                                         <li>
                                             <div class="megamenu-wrapper">
@@ -908,7 +881,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> --}}
                                 {{-- <li class="has-submenu mega-innermenu {{ Request::is('car-grid', 'edit-car', 'car-list', 'car-map', 'car-details', 'car-booking', 'car-booking-confirmation', 'add-car') ? 'active subdrop' : ''; }}">
                                     <a href="#">Car<i class="fa-solid fa-angle-down"></i></a>
                                     <ul class="submenu mega-submenu">
@@ -976,73 +949,35 @@
                                                     <div class="col-lg-6">
                                                         <h6>Tour Bookings</h6>
                                                         <ul>
-                                                            <li class="{{ Request::is('tour-grid', 'edit-tour') ? 'active' : ''; }}"><a href="{{url('tour-grid')}}">Tour Grid</a></li>
-                                                            <li class="{{ Request::is('tour-list') ? 'active' : ''; }}"><a href="{{ route('tour-list')}}">Tour List</a></li>
-                                                            <li class="{{ Request::is('tour-map') ? 'active' : ''; }}"><a href="{{url('tour-map')}}">Tour Map</a></li>
-                                                            <li class="{{ Request::is('tour-details', 'tour-booking') ? 'active' : ''; }}"><a href="{{url('tour-details')}}">Tour Details</a></li>
-                                                            <li class="{{ Request::is('tour-booking-confirmation') ? 'active' : ''; }}"><a href="{{url('tour-booking-confirmation')}}">Tour
-                                                                    Booking</a></li>
-                                                            <li class="{{ Request::is('add-tour') ? 'active' : ''; }}"><a href="{{url('add-tour')}}">Add Tour</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="menu-img">
-                                                            <img src="{{URL::asset('build/img/menu/tour.jpg')}}" alt="img"
-                                                                class="img-fluid">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu mega-innermenu {{ Request::is('tour-list') && $selectedType === 'Domestic' ? 'active subdrop' : ''; }}">
-                                    <a href="#">Domestic<i class="fa-solid fa-angle-down"></i></a>
-                                    <ul class="submenu mega-submenu">
-                                        <li>
-                                            <div class="megamenu-wrapper">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <h6>Domestic Tours</h6>
-                                                        <ul>
-                                                            <li class="{{ Request::is('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : ''; }}">
-                                                                <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
+                                                            <li class="{{ Request::routeIs('tour-list') && empty($selectedType) && empty($selectedDestination) ? 'active' : '' }}">
+                                                                <a href="{{ route('tour-list') }}">Tour List</a>
                                                             </li>
-                                                            @foreach ($domesticDestinations as $destination)
-                                                                <li class="{{ Request::is('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : ''; }}">
-                                                                    <a href="{{ route('tour-list', ['type' => 'Domestic', 'destination_city' => $destination]) }}">{{ $destination }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="menu-img">
-                                                            <img src="{{URL::asset('build/img/menu/tour.jpg')}}" alt="img"
-                                                                class="img-fluid">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu mega-innermenu {{ Request::is('tour-list') && $selectedType === 'International' ? 'active subdrop' : ''; }}">
-                                    <a href="#">International<i class="fa-solid fa-angle-down"></i></a>
-                                    <ul class="submenu mega-submenu">
-                                        <li>
-                                            <div class="megamenu-wrapper">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <h6>International Tours</h6>
-                                                        <ul>
-                                                            <li class="{{ Request::is('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : ''; }}">
-                                                                <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
+                                                            <li class="has-submenu {{ $selectedType === 'Domestic' ? 'active subdrop' : '' }}">
+                                                                <a href="#">Domestic</a>
+                                                                <ul class="submenu tour-mega-destinations">
+                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : '' }}">
+                                                                        <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
+                                                                    </li>
+                                                                    @foreach ($domesticDestinations as $destination)
+                                                                        <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : '' }}">
+                                                                            <a href="{{ route('tour-list', ['type' => 'Domestic', 'destination_city' => $destination]) }}">{{ $destination }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
                                                             </li>
-                                                            @foreach ($internationalDestinations as $destination)
-                                                                <li class="{{ Request::is('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : ''; }}">
-                                                                    <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>
-                                                                </li>
-                                                            @endforeach
+                                                            <li class="has-submenu {{ $selectedType === 'International' ? 'active subdrop' : '' }}">
+                                                                <a href="#">International</a>
+                                                                <ul class="submenu tour-mega-destinations">
+                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : '' }}">
+                                                                        <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
+                                                                    </li>
+                                                                    @foreach ($internationalDestinations as $destination)
+                                                                        <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : '' }}">
+                                                                            <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-lg-6">
@@ -1088,7 +1023,8 @@
                                         </li>
                                     </ul>
                                 </li> --}}
-                                <li class="has-submenu megamenutab {{ Request::is('activity-grid', 'activity-list', 'activity-map', 'activity-details', 'activity-booking', 'activity-booking-confirmation', 'add-activity', 'visa-grid', 'visa-requirements', 'visa-list', 'visa-details', 'visa-booking-details', 'add-visa', 'visa-tracking', 'guide-grid', 'guide-details', 'guide-booking', 'guide-booking-confirmation', 'add-guide', 'about-us', 'gallery', 'testimonial', 'faq', 'pricing-plan', 'pricing-plan-2', 'team', 'invoices', 'blog-grid', 'blog-list', 'blog-details', 'index-rtl', 'destination', 'destination-details', 'recently-viewed', 'booking-confirmation', 'terms-conditions', 'privacy-policy', 'login', 'register', 'forgot-password', 'change-password', 'error-404', 'error-500', 'dashboard', 'customer-gift-cards', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-guides', 'chat', 'support-fixes', 'customer-activities-booking', 'customer-bus-booking', 'customer-flight-booking', 'customer-cruise-booking', 'customer-hotel-booking', 'customer-tour-booking', 'customer-car-booking', 'customer-visa-booking', 'review', 'wishlist', 'wallet', 'payment', 'customer-coupons', 'profile-settings', 'notification', 'my-profile', 'security-settings', 'notification-settings', 'integration-settings', 'agent-dashboard', 'agent-business-details', 'agent-cancellation-requests', 'agent-commission-summary', 'agent-tour-guide', 'agent-visa-booking', 'agent-listings', 'agent-activities-booking', 'agent-bus-booking', 'agent-flight-booking', 'agent-hotel-booking', 'agent-tour-booking', 'agent-cruise-booking', 'agent-car-booking', 'agent-enquirers', 'agent-earnings', 'agent-payment-history', 'agent-pending-payouts', 'agent-review', 'agent-settings', 'agent-account-settings', 'agent-security-settings', 'agent-plans-settings', 'agent-settings-notifications') ? 'active' : ''; }}">
+                                {{-- <li class="has-submenu megamenutab {{ Request::is('activity-grid', 'activity-list', 'activity-map', 'activity-details', 'activity-booking', 'activity-booking-confirmation', 'add-activity', 'visa-grid', 'visa-requirements', 'visa-list', 'visa-details', 'visa-booking-details', 'add-visa', 'visa-tracking', 'guide-grid', 'guide-details', 'guide-booking', 'guide-booking-confirmation', 'add-guide', 'about-us', 'gallery', 'testimonial', 'faq', 'pricing-plan', 'pricing-plan-2', 'team', 'invoices', 'blog-grid', 'blog-list', 'blog-details', 'index-rtl', 'destination', 'destination-details', 'recently-viewed', 'booking-confirmation', 'terms-conditions', 'privacy-policy', 'login', 'register', 'forgot-password', 'change-password', 'error-404', 'error-500', 'dashboard', 'customer-gift-cards', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-guides', 'chat', 'support-fixes', 'customer-activities-booking', 'customer-bus-booking', 'customer-flight-booking', 'customer-cruise-booking', 'customer-hotel-booking', 'customer-tour-booking', 'customer-car-booking', 'customer-visa-booking', 'review', 'wishlist', 'wallet', 'payment', 'customer-coupons', 'profile-settings', 'notification', 'my-profile', 'security-settings', 'notification-settings', 'integration-settings', 'agent-dashboard', 'agent-business-details', 'agent-cancellation-requests', 'agent-commission-summary', 'agent-tour-guide', 'agent-visa-booking', 'agent-listings', 'agent-activities-booking', 'agent-bus-booking', 'agent-flight-booking', 'agent-hotel-booking', 'agent-tour-booking', 'agent-cruise-booking', 'agent-car-booking', 'agent-enquirers', 'agent-earnings', 'agent-payment-history', 'agent-pending-payouts', 'agent-review', 'agent-settings', 'agent-account-settings', 'agent-security-settings', 'agent-plans-settings', 'agent-settings-notifications') ? 'active' : ''; }}">
+                                    <a href="#">Pages<i class="fa-solid fa-angle-down"></i></a>
                                     
                                     <ul class="submenu mega-submenu">
                                         <li>
@@ -1340,7 +1276,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> --}}
                                 <li class="{{ Request::is('about-us') ? 'active' : ''; }}">
                                     <a href="{{url('about-us')}}">About Us</a>
                                 </li>

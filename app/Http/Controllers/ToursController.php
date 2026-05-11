@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\ToureRepository;
 use Illuminate\Http\Request;
 
-class TouresController extends Controller
+class ToursController extends Controller
 {
     protected $touresRepository;
     public function __construct(ToureRepository $touresRepository)
