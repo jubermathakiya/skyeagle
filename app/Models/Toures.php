@@ -53,4 +53,9 @@ class Toures extends Model
     {
         return $this->hasMany(PackageItinerary::class, 'package_id');
     }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class, 'package_id');
+    }
 }

@@ -828,7 +828,10 @@
                             <a href="{{url('login')}}" class="btn btn-white btn-sm mb-2">Sign In</a>
                         </div>
                     </div>
-                    @include('pages.toures.partials.tour-results', ['packages' => $packages])
+                    @include('pages.toures.partials.tour-results', [
+                        'packages' => $packages,
+                        'wishlistPackageIds' => $wishlistPackageIds ?? collect(),
+                    ])
 
                 </div>
 

@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ToureRepository;
+use App\Repositories\WishlistRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ToursController extends Controller
 {
     protected $touresRepository;
-    public function __construct(ToureRepository $touresRepository)
-    {
+    protected $wishlistRepository;
+
+    public function __construct(
+        ToureRepository $touresRepository,
+        WishlistRepository $wishlistRepository
+    ) {
         $this->touresRepository = $touresRepository;
+        $this->wishlistRepository = $wishlistRepository;
     }
     /**
      * Display a listing of the resource.
@@ -18,18 +25,28 @@ class ToursController extends Controller
     public function index(Request $request)
     {
         $data = $this->touresRepository->getTours($request);
+        $wishlistPackageIds = Auth::check()
+            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())
+            : collect();
+
         if ($request->ajax()) {
             return response()->json([
                 'html' => view(
                     'pages.toures.partials.tour-results',
-                    ['packages' => $data['packages']]
+                    [
+                        'packages' => $data['packages'],
+                        'wishlistPackageIds' => $wishlistPackageIds,
+                    ]
                 )->render(),
                 'total' => $data['packages']->total(),
             ]);
         }
+
         return view(
             'pages.toures.tour-list',
-            $data
+            array_merge($data, [
+                'wishlistPackageIds' => $wishlistPackageIds,
+            ])
         );
     }
 
@@ -55,9 +72,13 @@ class ToursController extends Controller
     public function show(string $slug)
     {
         $packageDetails = $this->touresRepository->getTourDetails($slug);
+        $isWishlisted = Auth::check()
+            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())->contains($packageDetails->id)
+            : false;
+
         return view(
             'pages.toures.tour-details',
-            compact('packageDetails')
+            compact('packageDetails', 'isWishlisted')
         );
     }
 

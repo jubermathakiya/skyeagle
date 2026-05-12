@@ -79,7 +79,7 @@
                         <div class="fav-dropdown mb-2">
                             <a href="{{url('wishlist')}}" class="position-relative">
                                 <i class="isax isax-heart"></i><span
-                                    class="count-icon bg-secondary text-gray-9">0</span>
+                                    class="count-icon bg-secondary text-gray-9">{{ $wishlistCount ?? 0 }}</span>
                             </a>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                         <div class="fav-dropdown">
                                             <a href="{{url('wishlist')}}" class="position-relative">
                                                 <i class="isax isax-heart"></i><span
-                                                    class="count-icon bg-secondary text-gray-9">0</span>
+                                                    class="count-icon bg-secondary text-gray-9">{{ $wishlistCount ?? 0 }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -711,7 +711,7 @@
                         <div class="fav-dropdown mb-2">
                             <a href="{{url('wishlist')}}" class="position-relative">
                                 <i class="isax isax-heart"></i><span
-                                    class="count-icon bg-secondary text-gray-9">0</span>
+                                    class="count-icon bg-secondary text-gray-9">{{ $wishlistCount ?? 0 }}</span>
                             </a>
                         </div>
                     </div>
@@ -744,7 +744,7 @@
                                         <div class="fav-dropdown">
                                             <a href="{{url('wishlist')}}" class="position-relative">
                                                 <i class="isax isax-heart"></i><span
-                                                    class="count-icon bg-secondary text-gray-9">0</span>
+                                                    class="count-icon bg-secondary text-gray-9">{{ $wishlistCount ?? 0 }}</span>
                                             </a>
                                         </div>
                                     </div>
