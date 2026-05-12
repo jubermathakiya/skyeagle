@@ -16,9 +16,18 @@
                                     @endforeach
                                 </div>
                                 <div class="fav-item">
-                                    <a href="{{ route('tour-details', $package->slug) }}" class="fav-icon selected">
+                                    @php
+                                        $isWishlisted = isset($wishlistPackageIds) && $wishlistPackageIds->contains($package->id);
+                                    @endphp
+                                    <button
+                                        type="button"
+                                        class="fav-icon wishlist-toggle {{ $isWishlisted ? 'selected' : '' }}"
+                                        data-package-id="{{ $package->id }}"
+                                        data-toggle-url="{{ route('wishlist.toggle') }}"
+                                        aria-label="Toggle wishlist"
+                                    >
                                         <i class="isax isax-heart5"></i>
-                                    </a>
+                                    </button>
                                     <span class="badge bg-info d-inline-flex align-items-center"><i class="isax isax-ranking me-1"></i>Trending</span>
                                 </div>
                             </div>

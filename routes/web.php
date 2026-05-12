@@ -3,9 +3,11 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ToursController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -122,9 +124,9 @@ Route::get('/agent-cruise-booking', function () {
     return view('agent-cruise-booking');
 })->name('agent-cruise-booking');
 
-Route::get('/agent-dashboard', function () {
-    return view('agent-dashboard');
-})->name('agent-dashboard');
+Route::get('/agent-dashboard', [DashboardController::class, 'agent'])
+    ->middleware('auth')
+    ->name('agent-dashboard');
 
 Route::get('/agent-earnings', function () {
     return view('agent-earnings');
@@ -306,9 +308,9 @@ Route::get('/customer-tour-booking', function () {
     return view('customer-tour-booking');
 })->name('customer-tour-booking');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'customer'])
+    ->middleware('auth')
+    ->name('dashboard');
 
 Route::get('/destination', function () {
     return view('destination');
@@ -533,9 +535,12 @@ Route::get('/wallet', function () {
     return view('wallet');
 })->name('wallet');
 
-Route::get('/wishlist', function () {
-    return view('wishlist');
-})->name('wishlist');
+Route::get('/wishlist', [WishlistController::class, 'index'])
+    ->middleware('auth')
+    ->name('wishlist');
+
+Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])
+    ->name('wishlist.toggle');
 
 // New Pages v1.0.9
 Route::get('/activity-booking-confirmation', function () {

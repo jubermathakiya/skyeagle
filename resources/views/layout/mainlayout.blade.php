@@ -16,6 +16,9 @@
     <meta name="author" content="Dreams Technologies">
     <meta name="robots" content="index, follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @if (session('open_login_modal'))
+        <meta name="open-login-modal" content="1">
+    @endif
 
 @include('layout.partials.head-css')
 </head>
@@ -74,7 +77,7 @@
 @endcomponent
 
 @include('layout.partials.vendor-scripts')
-@vite(['resources/js/auth/auth.js'])
+@vite(['resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js'])
 @yield('script')
 </body>
 </html>

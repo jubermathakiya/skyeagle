@@ -35,7 +35,10 @@ export default defineConfig({
                 'resources/js/contact/create.js',
 
                 //Auth js
-                'resources/js/auth/auth.js',   
+                'resources/js/auth/auth.js',
+
+                //Wishlist js
+                'resources/js/wishlist/wishlist.js',
 
                 //Package js 
                 'resources/js/package/index.js',

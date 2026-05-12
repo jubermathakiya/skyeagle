@@ -217,6 +217,15 @@ if ($("#change_password_form").length) {
     });
 }
 
+$(function () {
+    if (document.querySelector('meta[name="open-login-modal"]')) {
+        const loginModalEl = document.getElementById("login-modal");
+        if (loginModalEl) {
+            bootstrap.Modal.getOrCreateInstance(loginModalEl).show();
+        }
+    }
+});
+
 $(document).on("click", "#forgot_resend_otp_btn", function (e) {
     e.preventDefault();
     const email = $("#forgot_otp_email_holder").val();
