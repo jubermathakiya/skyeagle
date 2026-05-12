@@ -37,6 +37,9 @@ export default defineConfig({
                 //Auth js
                 'resources/js/auth/auth.js',
 
+                //Profile js
+                'resources/js/profile/settings.js',
+
                 //Wishlist js
                 'resources/js/wishlist/wishlist.js',
 

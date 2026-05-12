@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ToursController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,36 @@ Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
+
+//Dashboard
+Route::get('/dashboard', [DashboardController::class, 'customer'])
+    ->middleware('auth')
+    ->name('dashboard');
+Route::get('/agent-dashboard', [DashboardController::class, 'agent'])
+    ->middleware('auth')
+    ->name('agent-dashboard');
+
+//Profile route
+Route::get('/my-profile', [ProfileController::class, 'show'])
+    ->middleware('auth')
+    ->name('my-profile');
+Route::get('/profile-settings', [ProfileController::class, 'settings'])
+    ->middleware('auth')
+    ->name('profile-settings');
+
+Route::put('/profile-settings', [ProfileController::class, 'update'])
+    ->middleware('auth')
+    ->name('profile-settings.update');
+    
+
+//Wishlist route
+Route::get('/wishlist', [WishlistController::class, 'index'])
+    ->middleware('auth')
+    ->name('wishlist');
+
+Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])
+    ->name('wishlist.toggle');
+    
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
 Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
@@ -124,9 +155,7 @@ Route::get('/agent-cruise-booking', function () {
     return view('agent-cruise-booking');
 })->name('agent-cruise-booking');
 
-Route::get('/agent-dashboard', [DashboardController::class, 'agent'])
-    ->middleware('auth')
-    ->name('agent-dashboard');
+
 
 Route::get('/agent-earnings', function () {
     return view('agent-earnings');
@@ -308,9 +337,7 @@ Route::get('/customer-tour-booking', function () {
     return view('customer-tour-booking');
 })->name('customer-tour-booking');
 
-Route::get('/dashboard', [DashboardController::class, 'customer'])
-    ->middleware('auth')
-    ->name('dashboard');
+
 
 Route::get('/destination', function () {
     return view('destination');
@@ -444,9 +471,7 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::get('/my-profile', function () {
-    return view('my-profile');
-})->name('my-profile');
+
 
 Route::get('/notification', function () {
     return view('notification');
@@ -472,9 +497,7 @@ Route::get('/pricing-plan', function () {
     return view('pricing-plan');
 })->name('pricing-plan');
 
-Route::get('/profile-settings', function () {
-    return view('profile-settings');
-})->name('profile-settings');
+
 
 Route::get('/register', function () {
     return view('register');
@@ -535,12 +558,7 @@ Route::get('/wallet', function () {
     return view('wallet');
 })->name('wallet');
 
-Route::get('/wishlist', [WishlistController::class, 'index'])
-    ->middleware('auth')
-    ->name('wishlist');
 
-Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])
-    ->name('wishlist.toggle');
 
 // New Pages v1.0.9
 Route::get('/activity-booking-confirmation', function () {

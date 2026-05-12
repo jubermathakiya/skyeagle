@@ -1,4 +1,4 @@
-<?php $page="profile-settings";?>
+<?php $page="my-profile";?>
 @extends('layout.mainlayout')
 @section('content')
 
@@ -7,15 +7,15 @@
     ========================= -->
 
     <!-- Breadcrumb -->
-    <div class="breadcrumb-bar breadcrumb-bg-04 text-center">
+    <div class="breadcrumb-bar breadcrumb-bg-01 text-center">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-12">
-                    <h2 class="breadcrumb-title mb-2">Settings</h2>
+                    <h2 class="breadcrumb-title mb-2">My Profile</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{url('index')}}"><i class="isax isax-grid-55"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
+                            <li class="breadcrumb-item"><a href="{{url('index')}}"><i class="isax isax-home5"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Profile</li>
                         </ol>
                     </nav>
                 </div>
@@ -38,15 +38,15 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class=" d-flex align-items-center justify-content-center">
                                         <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
-                                            class="img-fluid avatar avatar-lg rounded-circle me-1">
+                                            class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
                                         <div>
-                                            <h6 class="fs-16">Jeffrey Wilson</h6>
-                                            <span class="fs-14 text-gray-6">Since 10 May 2025</span>
+                                            <h6 class="fs-16">{{ $user->name }}</h6>
+                                            <span class="fs-14 text-gray-6">Since {{ $user->created_at?->format('d M Y') }}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a href="{{url('profile-settings')}}"
+                                            <a href="{{ route('profile-settings') }}"
                                                 class="p-1 rounded-circle btn btn-light d-flex align-items-center justify-content-center"><i
                                                     class="isax isax-edit-2 fs-14"></i></a>
                                         </div>
@@ -60,7 +60,7 @@
                                     <span class="fs-14 text-gray-3 fw-medium mb-2">Main</span>
                                 </li>
                                 <li>
-                                    <a href="{{url('dashboard')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
                                         <i class="isax isax-grid-55"></i> Dashboard
                                     </a>
                                 </li>
@@ -104,6 +104,7 @@
                                             <a href="{{url('customer-activities-booking')}}"
                                                 class="fs-14 d-inline-flex align-items-center">Activities</a>
                                         </li>
+
                                     </ul>
                                 </li>
                                 <li>
@@ -120,7 +121,7 @@
                                     </div>
                                 </li>
                                 <li class="mb-2">
-                                    <a href="{{url('wishlist')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('wishlist') }}" class="d-flex align-items-center">
                                         <i class="isax isax-heart5"></i> Wishlist
                                     </a>
                                 </li>
@@ -167,7 +168,7 @@
                                     <span class="fs-14 text-gray-3 fw-medium mb-2">Account</span>
                                 </li>
                                 <li>
-                                    <a href="{{url('my-profile')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('my-profile') }}" class="d-flex align-items-center active">
                                         <i class="isax isax-profile-tick5"></i> My Profile
                                     </a>
                                 </li>
@@ -180,7 +181,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="{{url('profile-settings')}}" class="d-flex align-items-center active">
+                                    <a href="{{ route('profile-settings') }}" class="d-flex align-items-center">
                                         <i class="isax isax-setting-25"></i> Settings
                                     </a>
                                 </li>
@@ -195,125 +196,74 @@
                 </div>
                 <!-- /Sidebar -->
 
-                <!-- Profile Settings -->
+                <!-- My Profile -->
                 <div class="col-xl-9 col-lg-8">
-                    <div class="card settings mb-0">
-                        <div class="card-header">
-                            <h6>Settings</h6>
-                        </div>
-                        <div class="card-body pb-3">
-                            <div class="settings-link d-flex align-items-center flex-wrap">
-                                <a href="{{url('profile-settings')}}" class="active ps-3"><i
-                                        class="isax isax-user-octagon me-2"></i>Profile Settings</a>
-                                <a href="{{url('security-settings')}}"><i class="isax isax-shield-tick me-2"></i>Security</a>
-                                <a href="{{url('notification-settings')}}"><i
-                                        class="isax isax-notification me-2"></i>Notifications</a>
-                                <a href="{{url('integration-settings')}}" class="pe-3"><i
-                                        class="isax isax-hierarchy me-2"></i>Integrations</a>
+                    <div class="card shadow-none mb-0">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h6>My Profile</h6>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a href="{{ route('profile-settings') }}"
+                                    class="p-1 rounded-circle btn btn-light d-flex align-items-center justify-content-center"><i
+                                        class="isax isax-edit-2 fs-14"></i></a>
                             </div>
-
-                            <!-- Settings Content -->
-                            <div class="settings-content mb-3">
-                                <h6 class="fs-16 mb-3">Basic Information</h6>
-                                <div class="row gy-2">
-                                    <div class="col-lg-12">
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
-                                                class="img-fluid avatar avatar-xxl br-10 flex-shrink-0 me-3">
-                                            <div>
-                                                <p class="fs-14 text-gray-6 fw-normal mb-2">Recommended dimensions are
-                                                    typically 400 x 400 pixels.</p>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="me-2">
-                                                        <label class="upload-btn" for="fileUpload">Upload</label>
-                                                        <input type="file" id="fileUpload" style="display: none;">
-                                                    </div>
-                                                    <a href="#" class="btn btn-light btn-md">Remove</a>
-                                                </div>
-                                            </div>
-                                        </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="fs-16 mb-3">Basic Information</h6>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="avatar avatar-xl flex-shrink-0 me-3 ">
+                                    <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="Img" class="img-fluid rounded">
+                                </span>
+                                <div class="profile-upload">
+                                    <div class="mb-2">
+                                        <p class="fs-12">Recommended image size is 40px x 40px</p>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">First Name</label>
-                                            <input type="text" class="form-control">
+                                    <div class="profile-uploader d-flex align-items-center">
+                                        <div class="drag-upload-btn btn btn-sm btn-primary me-2">
+                                            Upload
+                                            <input type="file" class="form-control image-sign" multiple="">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Last Name</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Email</label>
-                                            <input type="email" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Phone</label>
-                                            <input type="email" class="form-control">
-                                        </div>
+                                        <a href="#" class="btn btn-light btn-sm">Cancel</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="settings-content">
-                                <h6 class="fs-16 mb-3">Address Information</h6>
-                                <div class="row gy-2">
-                                    <div class="col-lg-12">
-                                        <div>
-                                            <label class="form-label">Address</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Country</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">State</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>California</option>
-                                                <option>Texas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">City</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>New York</option>
-                                                <option>Tokyo </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Postal Code</label>
-                                            <input type="text" class="form-control">
-                                        </div>
+                            @include('pages.profile.partials.basic-information', ['user' => $user])
+                            <h6 class="fs-16 mb-3">Address Information</h6>
+                            <div class="row g-2">
+                                <div class="col-md-12">
+                                    <div>
+                                        <h6 class="fs-14">Address</h6>
+                                        <p>4530 Clousson Road, Houston </p>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- /Settings Content-->
-
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex align-items-center justify-content-end">
-                                <a href="#" class="btn btn-light me-2">Cancel</a>
-                                <a href="#" class="btn btn-primary">Save</a>
+                                <div class="col-md-6">
+                                    <div>
+                                        <h6 class="fs-14">Country</h6>
+                                        <p>United States Of America</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <h6 class="fs-14">State</h6>
+                                        <p>California</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <h6 class="fs-14">City</h6>
+                                        <p>San Francisco</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <h6 class="fs-14">Postal Code</h6>
+                                        <p>94105</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /Profile Settings -->
+                <!-- /My Profile -->
 
             </div>
         </div>
@@ -325,6 +275,3 @@
     ========================= -->
 
 @endsection
-
-
-
