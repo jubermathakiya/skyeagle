@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\FlightApiContract;
 use App\Repositories\WishlistRepository;
+use App\Services\Flight\DummyFlightApiService;
+use App\Services\Flight\HttpFlightApiService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -14,7 +17,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(FlightApiContract::class, function () {
+            $driver = config('flights.driver', 'dummy');
+
+            return $driver === 'http'
+                ? $this->app->make(HttpFlightApiService::class)
+                : $this->app->make(DummyFlightApiService::class);
+        });
     }
 
     /**
