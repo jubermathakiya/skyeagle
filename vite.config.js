@@ -45,6 +45,10 @@ export default defineConfig({
 
                 //Package js 
                 'resources/js/package/index.js',
+
+                //Flight js
+                'resources/js/flight/search-form.js',
+                'resources/js/flight/index.js',
             ],
             refresh: true,
         }),

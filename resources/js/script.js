@@ -2653,7 +2653,7 @@ $('.testimonial-slider-nine').each(function () {
     let checkOut = formInfo.find('.check-out');
 
     // Only initialize if checkIn exists
-    if (checkIn.length) {
+    if (checkIn.length && typeof $.fn.daterangepicker === 'function') {
         let today = moment();
         let tomorrow = today.clone().add(1, 'days');
 
@@ -2693,7 +2693,10 @@ $('.testimonial-slider-nine').each(function () {
 
             // Clicking checkout opens checkIn picker
             checkOut.on('click', function () {
-                checkIn.data('daterangepicker').show();
+                const picker = checkIn.data('daterangepicker');
+                if (picker) {
+                    picker.show();
+                }
             });
         }
     }

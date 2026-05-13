@@ -67,7 +67,8 @@
                                 <div>
                                     <div class="tab-content">
                                         <div class="tab-pane fade active show" id="flight">
-                                            <form action="{{url('flight-grid')}}">
+                                            @include('pages.flights.partials.flight-search-form', ['formContext' => 'home'])
+                                            @if(false)<form action="{{url('flight-grid')}}">
                                                 <div
                                                     class="d-flex align-items-center justify-content-between flex-wrap mb-2">
                                                     <div class="d-flex align-items-center">
@@ -559,7 +560,7 @@
                                                             class="btn btn-primary search-btn rounded">Search</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form>@endif
                                         </div>
                                         <div class="tab-pane fade" id="Hotels">
                                             <form action="{{url('hotel-grid')}}">
@@ -5157,6 +5158,10 @@
         End Page Content
     ========================= -->
 
+@endsection
+
+@section('script')
+    @vite(['resources/js/flight/search-form.js'])
 @endsection
 
 
