@@ -197,7 +197,12 @@
 
                 <!-- Profile Settings -->
                 <div class="col-xl-9 col-lg-8">
-                    <form id="profile_settings_form" action="{{ route('profile-settings.update') }}" method="POST">
+                    <form id="profile_settings_form" action="{{ route('profile-settings.update') }}" method="POST"
+                        data-states-url="{{ route('locations.states') }}"
+                        data-cities-url="{{ route('locations.cities') }}"
+                        data-countries-search-url="{{ route('locations.countries.search') }}"
+                        data-initial-state-id="{{ $user->userAddress->state_id ?? '' }}"
+                        data-initial-city-id="{{ $user->userAddress->city_id ?? '' }}">
                         @csrf
                         @method('PUT')
                     <div class="card settings mb-0">
@@ -262,49 +267,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="settings-content">
-                                <h6 class="fs-16 mb-3">Address Information</h6>
-                                <div class="row gy-2">
-                                    <div class="col-lg-12">
-                                        <div>
-                                            <label class="form-label">Address</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Country</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">State</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>California</option>
-                                                <option>Texas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">City</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>New York</option>
-                                                <option>Tokyo </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Postal Code</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('pages.profile.partials.address-form-fields', ['user' => $user])
                             <!-- /Settings Content-->
 
                         </div>

@@ -227,39 +227,7 @@
                                 </div>
                             </div>
                             @include('pages.profile.partials.basic-information', ['user' => $user])
-                            <h6 class="fs-16 mb-3">Address Information</h6>
-                            <div class="row g-2">
-                                <div class="col-md-12">
-                                    <div>
-                                        <h6 class="fs-14">Address</h6>
-                                        <p>4530 Clousson Road, Houston </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">Country</h6>
-                                        <p>United States Of America</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">State</h6>
-                                        <p>California</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">City</h6>
-                                        <p>San Francisco</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">Postal Code</h6>
-                                        <p>94105</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('pages.profile.partials.address-information', ['user' => $user])
                         </div>
                     </div>
                 </div>

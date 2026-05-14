@@ -35,10 +35,12 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request)
     {
         try {
-            $user = $this->profileRepository->updateBasicInformation(
+            $user = $this->profileRepository->updateProfile(
                 $request->user(),
                 $request->validated()
             );
+
+            $addr = $user->userAddress;
 
             return response()->json([
                 'status' => true,
@@ -49,6 +51,11 @@ class ProfileController extends Controller
                     'email' => $user->email,
                     'phone' => $user->phone,
                     'name' => $user->name,
+                    'address_line1' => $addr?->address_line1,
+                    'postal_code' => $addr?->postal_code,
+                    'country' => $addr?->country?->display_name,
+                    'state' => $addr?->state?->display_name,
+                    'city' => $addr?->city?->display_name,
                 ],
             ]);
         } catch (\Exception $e) {

@@ -8,6 +8,7 @@ use App\Http\Controllers\FlightController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ToursController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile-settings', [ProfileController::class, 'settings'])->name('profile-settings');
 
     Route::put('/profile-settings', [ProfileController::class, 'update'])->name('profile-settings.update');
-        
+
+    Route::prefix('locations')->group(function () {
+        Route::get('/countries/search', [LocationController::class, 'searchCountries'])
+            ->name('locations.countries.search');
+        Route::get('/states', [LocationController::class, 'states'])->name('locations.states');
+        Route::get('/cities', [LocationController::class, 'cities'])->name('locations.cities');
+    });
+
     //Wishlist route
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
