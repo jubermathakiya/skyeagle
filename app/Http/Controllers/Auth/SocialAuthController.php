@@ -67,6 +67,7 @@ class SocialAuthController extends Controller
                     'email' => $email,
                     'password' => bcrypt(Str::random(32)),
                     'email_verified_at' => now(),
+                    'role_id' => (int) config('roles.registration_default', config('roles.ids.user', 2)),
                 ]);
             }
             $this->applySocialFields(
@@ -80,6 +81,12 @@ class SocialAuthController extends Controller
                     'email_verified_at' => now(),
                 ])->save();
             }
+
+            $roleBlock = $this->nonCustomerSocialMessage($user);
+            if ($roleBlock !== null) {
+                return $this->finishRedirect($request, true, $roleBlock);
+            }
+
             Auth::login($user, true);
             Log::info("Social login success", [
                 'provider' => $provider,
@@ -124,13 +131,33 @@ class SocialAuthController extends Controller
         return $url;
     }
 
-    private function finishRedirect(Request $request, bool $withError): RedirectResponse
+    private function finishRedirect(Request $request, bool $withError, ?string $errorMessage = null): RedirectResponse
     {
         $to = $request->session()->pull('social_redirect') ?: route('home');
         if ($withError) {
-            return redirect($to)->with('error', 'Social login failed. Please try again.');
+            return redirect($to)->with(
+                'error',
+                $errorMessage ?? 'Social login failed. Please try again.'
+            );
         }
+
         return redirect($to);
+    }
+
+    /**
+     * Social login uses the same customer portal rules as password login.
+     */
+    private function nonCustomerSocialMessage(User $user): ?string
+    {
+        if ($user->hasAdminRole()) {
+            return config('roles.messages.admin_credentials_on_customer_login');
+        }
+
+        if (! $user->hasCustomerRole()) {
+            return config('roles.messages.non_user_role');
+        }
+
+        return null;
     }
 
     private function splitName(string $name): array

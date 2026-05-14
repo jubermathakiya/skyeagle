@@ -21,10 +21,13 @@ Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
+});
+
+Route::middleware(['auth', 'customer'])->group(function () {
 
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'customer'])->name('dashboard');
-    Route::get('/agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
 
     //Profile route
     Route::get('/my-profile', [ProfileController::class, 'show'])->name('my-profile');
