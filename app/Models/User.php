@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'role_id',
         'email_verified_at',
         'provider',
         'provider_id',
@@ -50,7 +51,18 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role_id' => 'integer',
         ];
+    }
+
+    public function hasAdminRole(): bool
+    {
+        return (int) ($this->role_id ?? 0) === (int) config('roles.ids.admin', 1);
+    }
+
+    public function hasCustomerRole(): bool
+    {
+        return (int) ($this->role_id ?? 0) === (int) config('roles.ids.user', 2);
     }
 
     protected function name(): Attribute
