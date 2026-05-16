@@ -16062,6 +16062,12 @@ footer.footer-eleven .footer-bottom a:hover {
   max-height: 300px;
   overflow-y: auto;
 }
+.banner-form .form-info .form-item.dropdown .dropdown-menu:not(.show) {
+  display: none !important;
+}
+.banner-form .tab-content > .tab-pane:not(.active) {
+  display: none !important;
+}
 .banner-form .form-info .form-item.dropdown .dropdown-menu.dropdown-xl {
   min-width: 600px;
   width: 100%;

@@ -416,11 +416,11 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-end">
+                                                                    <div class="d-flex justify-content-end d-none banner-dropdown-actions">
                                                                         <a href="#"
-                                                                            class="btn btn-light btn-sm me-2">Cancel</a>
+                                                                            class="btn btn-light btn-sm me-2 d-none">Cancel</a>
                                                                         <button type="button"
-                                                                            class="btn btn-primary btn-sm apply-btn">Apply</button>
+                                                                            class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -873,11 +873,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="d-flex justify-content-end">
+                                                                <div class="d-flex justify-content-end d-none banner-dropdown-actions">
                                                                     <a href="#"
-                                                                        class="btn btn-light btn-sm me-2">Cancel</a>
+                                                                        class="btn btn-light btn-sm me-2 d-none">Cancel</a>
                                                                     <button type="button"
-                                                                        class="btn btn-primary btn-sm apply-btn">Apply</button>
+                                                                        class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1417,11 +1417,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="d-flex justify-content-end">
+                                                                <div class="d-flex justify-content-end d-none banner-dropdown-actions">
                                                                     <a href="#"
-                                                                        class="btn btn-light btn-sm me-2">Cancel</a>
+                                                                        class="btn btn-light btn-sm me-2 d-none">Cancel</a>
                                                                     <button type="button"
-                                                                        class="btn btn-primary btn-sm apply-btn">Apply</button>
+                                                                        class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1629,11 +1629,11 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="d-flex justify-content-end">
+                                                                <div class="d-flex justify-content-end d-none banner-dropdown-actions">
                                                                     <a href="#"
-                                                                        class="btn btn-light btn-sm me-2">Cancel</a>
+                                                                        class="btn btn-light btn-sm me-2 d-none">Cancel</a>
                                                                     <button type="button"
-                                                                        class="btn btn-primary btn-sm apply-btn">Apply</button>
+                                                                        class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1961,11 +1961,11 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="d-flex justify-content-end">
+                                                                    <div class="d-flex justify-content-end d-none banner-dropdown-actions">
                                                                         <a href="#"
-                                                                            class="btn btn-light btn-sm me-2">Cancel</a>
+                                                                            class="btn btn-light btn-sm me-2 d-none">Cancel</a>
                                                                         <button type="button"
-                                                                            class="btn btn-primary btn-sm apply-btn">Apply</button>
+                                                                            class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                     </div>
                                                                 </div>
                                                             </div>

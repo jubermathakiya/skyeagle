@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="{{URL::asset('build/plugins/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('build/plugins/fontawesome/css/all.min.css')}}">
 
-@if (Route::is(['activity-details', 'bus-details', 'car-details', 'cruise-details', 'destination-details', 'flight-details', 'index-2', 'index-4', 'index-9', 'index-10', 'index-11', 'index-12', 'index', '/', 'tour-details']))
+@if (Route::is(['activity-details', 'bus-details', 'car-details', 'cruise-details', 'destination-details', 'flight-details', 'home', 'index-2', 'index-4', 'index-9', 'index-10', 'index-11', 'index-12', 'index', '/', 'tour-details']))
     <!-- Slick CSS -->
     <link rel="stylesheet" href="{{URL::asset('build/plugins/slick/slick.css')}}">
 @endif
@@ -76,10 +76,28 @@
     <link rel="stylesheet" href="{{URL::asset('build/plugins/intltelinput/css/intlTelInput.css')}}">
 @endif
 
-@if (Route::is(['agent-account-settings', 'agent-activities-booking', 'agent-bus-booking', 'agent-business-details', 'agent-cancellation-requests', 'agent-car-booking', 'agent-commission-summary', 'agent-cruise-booking', 'agent-earnings', 'agent-enquirers', 'agent-flight-booking', 'agent-hotel-booking', 'agent-payment-history', 'agent-pending-payouts', 'agent-plans-settings', 'agent-plans', 'agent-review', 'agent-security-settings', 'agent-settings-notifications', 'agent-settings', 'agent-tour-booking', 'agent-tour-guide', 'agent-visa-booking', 'customer-activities-booking', 'customer-bus-booking', 'customer-car-booking', 'customer-coupons', 'customer-cruise-booking', 'customer-flight-booking', 'customer-gift-cards', 'customer-hotel-booking', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-booking', 'customer-tour-guides', 'customer-visa-booking', 'destination', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-10', 'index-11', 'index-12', 'index-rtl', 'index', '/', 'integration-settings', 'notification-settings', 'payment', 'preferences-settings', 'profile-settings', 'review', 'security-settings', 'support-fixes', 'wallet', 'wishlist']))
+@if (Route::is(['agent-account-settings', 'agent-activities-booking', 'agent-bus-booking', 'agent-business-details', 'agent-cancellation-requests', 'agent-car-booking', 'agent-commission-summary', 'agent-cruise-booking', 'agent-earnings', 'agent-enquirers', 'agent-flight-booking', 'agent-hotel-booking', 'agent-payment-history', 'agent-pending-payouts', 'agent-plans-settings', 'agent-plans', 'agent-review', 'agent-security-settings', 'agent-settings-notifications', 'agent-settings', 'agent-tour-booking', 'agent-tour-guide', 'agent-visa-booking', 'customer-activities-booking', 'customer-bus-booking', 'customer-car-booking', 'customer-coupons', 'customer-cruise-booking', 'customer-flight-booking', 'customer-gift-cards', 'customer-hotel-booking', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-booking', 'customer-tour-guides', 'customer-visa-booking', 'destination', 'flight-grid', 'home', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-10', 'index-11', 'index-12', 'index-rtl', 'index', '/', 'integration-settings', 'notification-settings', 'payment', 'preferences-settings', 'profile-settings', 'review', 'security-settings', 'support-fixes', 'wallet', 'wishlist']))
     <!-- Daterangepikcer CSS -->
     <link rel="stylesheet" href="{{URL::asset('build/plugins/daterangepicker/daterangepicker.css')}}">
 @endif
 
     <!-- Style CSS -->
     <link rel="stylesheet" href="{{URL::asset('build/css/style.css')}}">
+
+    <style>
+        .dropdown-menu:not(.show) {
+            display: none !important;
+        }
+        .banner-form .tab-content > .tab-pane:not(.active) {
+            display: none !important;
+        }
+        body > .daterangepicker:not(.show-calendar) {
+            display: none !important;
+        }
+        .banner-form .banner-dropdown-actions {
+            display: none !important;
+        }
+        .banner-form .dropdown-menu.show .banner-dropdown-actions {
+            display: none !important;
+        }
+    </style>

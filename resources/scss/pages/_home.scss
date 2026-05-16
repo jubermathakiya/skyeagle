@@ -123,6 +123,9 @@
     }
 }
 .banner-form {
+    .tab-content > .tab-pane:not(.active) {
+        display: none !important;
+    }
     .nav {
         li {
             margin-right: 8px;
@@ -213,6 +216,9 @@
                     padding: 20px;
                     max-height: 300px;
                     overflow-y: auto;
+                    &:not(.show) {
+                        display: none !important;
+                    }
                     &.dropdown-xl {
                         min-width: 600px;
                         width: 100%;

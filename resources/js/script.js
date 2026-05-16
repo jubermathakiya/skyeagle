@@ -2703,49 +2703,100 @@ $('.testimonial-slider-nine').each(function () {
 });
 
 
+    function updateBannerDropdownSummary(dropdown) {
+        if (!dropdown) {
+            return;
+        }
+
+        const summaryPersons = dropdown.querySelector('.member-count');
+        const adultSpan = dropdown.querySelector('.adult');
+        const childrenSpan = dropdown.querySelector('.children');
+        const infantSpan = dropdown.querySelector('.infant');
+        const classSpan = dropdown.querySelector('.class-name');
+        const roomSpan = dropdown.querySelector('.room');
+
+        const adultInput = dropdown.querySelector('.input-number[data-type="adult"]');
+        const childrenInput = dropdown.querySelector('.input-number[data-type="children"]');
+        const infantInput = dropdown.querySelector('.input-number[data-type="infant"]');
+        const roomInput = dropdown.querySelector('.input-number[data-type="room"]');
+
+        const adults = adultInput ? Number(adultInput.value) : 0;
+        const children = childrenInput ? Number(childrenInput.value) : 0;
+        const infants = infantInput ? Number(infantInput.value) : 0;
+        const room = roomInput ? Number(roomInput.value) : 0;
+        const total = adults + children + infants + room;
+
+        const cabinClassInput = dropdown.querySelector('input[name="cabin-class"]:checked')
+            || dropdown.querySelector('input[name="cabin"]:checked');
+        const cabinClass = cabinClassInput ? cabinClassInput.value : (classSpan ? classSpan.textContent : 'Economy');
+
+        if (summaryPersons) {
+            summaryPersons.innerHTML = `${total} <span class="fw-normal fs-14">Persons</span>`;
+        }
+        if (adultSpan) {
+            adultSpan.textContent = adults;
+        }
+        if (childrenSpan) {
+            childrenSpan.textContent = children;
+        }
+        if (infantSpan) {
+            infantSpan.textContent = infants;
+        }
+        if (classSpan && cabinClassInput) {
+            classSpan.textContent = cabinClass;
+        }
+        if (roomSpan) {
+            roomSpan.textContent = room;
+        }
+    }
+
     // Member Count Dropdown
     document.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('apply-btn')) {
-            const dropdown = e.target.closest('.form-item.dropdown');
+        const applyBtn = e.target.closest('.banner-form .apply-btn');
+        if (applyBtn) {
+            const dropdown = applyBtn.closest('.form-item.dropdown');
+            updateBannerDropdownSummary(dropdown);
 
-            // Get summary spans
-            const summaryPersons = dropdown.querySelector('.member-count');
-            const adultSpan = dropdown.querySelector('.adult');
-            const childrenSpan = dropdown.querySelector('.children');
-            const infantSpan = dropdown.querySelector('.infant');
-            const classSpan = dropdown.querySelector('.class-name');
-            const roomSpan = dropdown.querySelector('.room');
+            const dropdownToggle = dropdown ? dropdown.querySelector('[data-bs-toggle="dropdown"]') : null;
+            if (dropdownToggle && typeof bootstrap !== 'undefined') {
+                bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
+            }
+            return;
+        }
 
-            // Get input values
-            const adultInput = dropdown.querySelector('.input-number[data-type="adult"]');
-            const childrenInput = dropdown.querySelector('.input-number[data-type="children"]');
-            const infantInput = dropdown.querySelector('.input-number[data-type="infant"]');
-            const roomInput = dropdown.querySelector('.input-number[data-type="room"]');
-
-            const adults = adultInput ? Number(adultInput.value) : 0;
-            const children = childrenInput ? Number(childrenInput.value) : 0;
-            const infants = infantInput ? Number(infantInput.value) : 0;
-            const room = roomInput ? Number(roomInput.value) : 0;
-            const total = adults + children + infants + room;
-
-            // Cabin class
-            const cabinClassInput = dropdown.querySelector('input[name="cabin-class"]:checked');
-            const cabinClass = cabinClassInput ? cabinClassInput.value : 'Economy';
-
-            // Update summary safely
-            if (summaryPersons) summaryPersons.innerHTML = `${total} <span class="fw-normal fs-14">Persons</span>`;
-            if (adultSpan) adultSpan.textContent = adults;
-            if (childrenSpan) childrenSpan.textContent = children;
-            if (infantSpan) infantSpan.textContent = infants;
-            if (classSpan) classSpan.textContent = cabinClass;
-            if (roomSpan) roomSpan.textContent = room;
-
-            // Close dropdown
-            const dropdownToggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
-            const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
-            bsDropdown.hide();
+        const qtyBtn = e.target.closest('.banner-form .quantity-right-plus, .banner-form .quantity-left-minus');
+        if (qtyBtn) {
+            const dropdown = qtyBtn.closest('.form-item.dropdown');
+            window.setTimeout(function () {
+                updateBannerDropdownSummary(dropdown);
+            }, 0);
         }
     });
+
+    document.addEventListener('change', function (e) {
+        if (!e.target.closest('.banner-form')) {
+            return;
+        }
+
+        if (e.target.matches('input[name="cabin-class"], input[name="cabin"], input[name="room"], input[name="property"]')) {
+            updateBannerDropdownSummary(e.target.closest('.form-item.dropdown'));
+        }
+    });
+
+    function hideBannerFormDropdownMenus() {
+        document.querySelectorAll('.banner-form .dropdown-menu').forEach(function (menu) {
+            menu.classList.remove('show');
+            menu.style.display = 'none';
+        });
+        document.querySelectorAll('body > .daterangepicker').forEach(function (picker) {
+            if (!picker.classList.contains('show-calendar')) {
+                picker.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', hideBannerFormDropdownMenus);
+    window.addEventListener('load', hideBannerFormDropdownMenus);
 
     // Select all way icons
    document.addEventListener('DOMContentLoaded', function () {
