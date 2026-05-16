@@ -68,7 +68,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane fade active show" id="flight">
                                             
-                                            @if(false)<form action="{{url('flight-grid')}}">
+                                            <form action="{{ route('flight-grid') }}" method="get">
                                                 <div
                                                     class="d-flex align-items-center justify-content-between flex-wrap mb-2">
                                                     <div class="d-flex align-items-center">
@@ -560,7 +560,7 @@
                                                             class="btn btn-primary search-btn rounded">Search</button>
                                                     </div>
                                                 </div>
-                                            </form>@endif
+                                            </form>
                                         </div>
                                         <div class="tab-pane fade" id="Hotels">
                                             <form action="{{url('hotel-grid')}}">

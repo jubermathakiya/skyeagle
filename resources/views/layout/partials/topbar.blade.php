@@ -275,7 +275,7 @@
                                                                 <a href="#">Domestic</a>
                                                                 <ul class="submenu tour-mega-destinations">
                                                                     <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : '' }}">
-                                                                        <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
+                                                                        
                                                                     </li>
                                                                     @foreach ($domesticDestinations as $destination)
                                                                         <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : '' }}">
@@ -287,9 +287,6 @@
                                                             <li class="has-submenu {{ $selectedType === 'International' ? 'active subdrop' : '' }}">
                                                                 <a href="#">International</a>
                                                                 <ul class="submenu tour-mega-destinations">
-                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : '' }}">
-                                                                        <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
-                                                                    </li>
                                                                     @foreach ($internationalDestinations as $destination)
                                                                         <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : '' }}">
                                                                             <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>
@@ -955,9 +952,6 @@
                                                             <li class="has-submenu {{ $selectedType === 'Domestic' ? 'active subdrop' : '' }}">
                                                                 <a href="#">Domestic</a>
                                                                 <ul class="submenu tour-mega-destinations">
-                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && empty($selectedDestination) ? 'active' : '' }}">
-                                                                        <a href="{{ route('tour-list', ['type' => 'Domestic']) }}">All Domestic Tours</a>
-                                                                    </li>
                                                                     @foreach ($domesticDestinations as $destination)
                                                                         <li class="{{ Request::routeIs('tour-list') && $selectedType === 'Domestic' && $selectedDestination === $destination ? 'active' : '' }}">
                                                                             <a href="{{ route('tour-list', ['type' => 'Domestic', 'destination_city' => $destination]) }}">{{ $destination }}</a>
@@ -968,9 +962,6 @@
                                                             <li class="has-submenu {{ $selectedType === 'International' ? 'active subdrop' : '' }}">
                                                                 <a href="#">International</a>
                                                                 <ul class="submenu tour-mega-destinations">
-                                                                    <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && empty($selectedDestination) ? 'active' : '' }}">
-                                                                        <a href="{{ route('tour-list', ['type' => 'International']) }}">All International Tours</a>
-                                                                    </li>
                                                                     @foreach ($internationalDestinations as $destination)
                                                                         <li class="{{ Request::routeIs('tour-list') && $selectedType === 'International' && $selectedDestination === $destination ? 'active' : '' }}">
                                                                             <a href="{{ route('tour-list', ['type' => 'International', 'destination_city' => $destination]) }}">{{ $destination }}</a>

@@ -393,6 +393,10 @@ Route::get('/flight-list', function () {
     return view('flight-list');
 })->name('flight-list');
 
+Route::get('/flight-grid', function () {
+    return view('flight-grid');
+})->name('flight-grid');
+
 Route::get('/forgot-password', function () {
     return view('forgot-password');
 })->name('forgot-password');
