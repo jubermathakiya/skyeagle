@@ -17,13 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(FlightApiContract::class, function () {
-            $driver = config('flights.driver', 'dummy');
-
-            return $driver === 'http'
-                ? $this->app->make(HttpFlightApiService::class)
-                : $this->app->make(DummyFlightApiService::class);
-        });
+      
     }
 
     /**

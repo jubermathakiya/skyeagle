@@ -21,67 +21,61 @@ Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
+    Route::get('agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
 });
 
 Route::middleware(['auth', 'customer'])->group(function () {
 
     //Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'customer'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'customer'])->name('dashboard');
 
     //Profile route
-    Route::get('/my-profile', [ProfileController::class, 'show'])->name('my-profile');
-    Route::get('/profile-settings', [ProfileController::class, 'settings'])->name('profile-settings');
-
-    Route::put('/profile-settings', [ProfileController::class, 'update'])->name('profile-settings.update');
+    Route::get('my-profile', [ProfileController::class, 'show'])->name('my-profile');
+    Route::get('profile-settings', [ProfileController::class, 'settings'])->name('profile-settings');
+    Route::put('profile-settings', [ProfileController::class, 'update'])->name('profile-settings.update');
 
     Route::prefix('locations')->group(function () {
-        Route::get('/countries/search', [LocationController::class, 'searchCountries'])
+        Route::get('countries/search', [LocationController::class, 'searchCountries'])
             ->name('locations.countries.search');
-        Route::get('/states', [LocationController::class, 'states'])->name('locations.states');
-        Route::get('/cities', [LocationController::class, 'cities'])->name('locations.cities');
+        Route::get('states', [LocationController::class, 'states'])->name('locations.states');
+        Route::get('cities', [LocationController::class, 'cities'])->name('locations.cities');
     });
 
     //Wishlist route
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
-    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });
  
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
 Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
 
-// Flight Routes
-Route::get('flights/airports/search', [FlightController::class, 'searchAirports'])
-    ->name('flights.airports.search');
-Route::get('flight-grid', [FlightController::class, 'index'])->name('flight-grid');
-
 //auth routes
-Route::post('/auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');
-Route::post('/auth/register-otp/verify', [AuthController::class, 'verify'])->name('auth.register.otp.verify');
-Route::post('/auth/register-otp/resend', [AuthController::class, 'resend'])->name('auth.register.otp.resend');
+Route::post('auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');
+Route::post('auth/register-otp/verify', [AuthController::class, 'verify'])->name('auth.register.otp.verify');
+Route::post('auth/register-otp/resend', [AuthController::class, 'resend'])->name('auth.register.otp.resend');
 
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/auth/forgot-password/send-otp', [AuthController::class, 'sendForgotOtp'])
+Route::post('auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('auth/forgot-password/send-otp', [AuthController::class, 'sendForgotOtp'])
     ->name('auth.forgot.sendOtp');
-Route::post('/auth/forgot-password/verify-otp', [AuthController::class, 'verifyForgotOtp'])
+Route::post('auth/forgot-password/verify-otp', [AuthController::class, 'verifyForgotOtp'])
     ->name('auth.forgot.verifyOtp');
-Route::post('/auth/forgot-password/reset', [AuthController::class, 'resetForgotPassword'])
+Route::post('auth/forgot-password/reset', [AuthController::class, 'resetForgotPassword'])
     ->name('auth.forgot.reset');
-Route::post('/auth/change-password', [AuthController::class, 'changePassword'])
+Route::post('auth/change-password', [AuthController::class, 'changePassword'])
     ->name('auth.changePassword');
-Route::post('/auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'])
+Route::post('auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'])
 ->name('auth.forgot.resendOtp');
 
 //logout
-Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 // Social login
-Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
+Route::get('auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
     ->where('provider', 'google|facebook')
     ->name('auth.social.redirect');
 
-Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
+Route::get('auth/{provider}/callback', [SocialAuthController::class, 'callback'])
     ->where('provider', 'google|facebook')
     ->name('auth.social.callback');
 
