@@ -23,7 +23,12 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'phone'
+        'phone',
+        'role_id',
+        'email_verified_at',
+        'provider',
+        'provider_id',
+        'avatar',
     ];
 
     /**
@@ -46,7 +51,18 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role_id' => 'integer',
         ];
+    }
+
+    public function hasAdminRole(): bool
+    {
+        return (int) ($this->role_id ?? 0) === (int) config('roles.ids.admin', 1);
+    }
+
+    public function hasCustomerRole(): bool
+    {
+        return (int) ($this->role_id ?? 0) === (int) config('roles.ids.user', 2);
     }
 
     protected function name(): Attribute
@@ -54,6 +70,16 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn() => trim("{$this->first_name} {$this->last_name}")
         );
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function userAddress()
+    {
+        return $this->hasOne(UserAddress::class);
     }
 
 }

@@ -4,8 +4,6 @@ import laravel from 'laravel-vite-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 export default defineConfig({
     build: {
-        manifest: true,
-        rtl: true,
         outDir: 'public/build/',
         cssCodeSplit: true,
         rollupOptions: {
@@ -37,7 +35,20 @@ export default defineConfig({
                 'resources/js/contact/create.js',
 
                 //Auth js
-                'resources/js/auth/auth.js'
+                'resources/js/auth/auth.js',
+
+                //Profile js
+                'resources/js/profile/settings.js',
+
+                //Wishlist js
+                'resources/js/wishlist/wishlist.js',
+
+                //Package js 
+                'resources/js/package/index.js',
+
+                //Flight js
+                'resources/js/flight/search-form.js',
+                'resources/js/flight/index.js',
             ],
             refresh: true,
         }),

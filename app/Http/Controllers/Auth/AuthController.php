@@ -73,21 +73,37 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $isLogin = $this->authRepository->attemptLogin(
+        $result = $this->authRepository->attemptLogin(
             $request->validated('login'),
             $request->validated('password'),
             (bool) $request->boolean('remember')
         );
-        if (!$isLogin) {
+
+        if ($result === 'invalid_credentials') {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid email/phone or password.',
             ], 200);
         }
+
+        if ($result === 'admin_credentials') {
+            return response()->json([
+                'status' => false,
+                'message' => config('roles.messages.admin_credentials_on_customer_login'),
+            ], 200);
+        }
+
+        if ($result === 'forbidden_role') {
+            return response()->json([
+                'status' => false,
+                'message' => config('roles.messages.non_user_role'),
+            ], 200);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Login successful.',
-            'redirect' => route('dashboard'),
+            'redirect' => $request->session()->pull('auth_redirect') ?: route('dashboard'),
         ]);
     }
 

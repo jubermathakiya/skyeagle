@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 use App\Models\Media;
+use App\Repositories\FrontendRepository;
 
 class HomeController extends Controller
 {
+
+    public function __construct(FrontendRepository $frontendRepository)
+    {
+        $this->frontendRepository = $frontendRepository;
+    }
+
     public function index()
     {
-        $homeMedia = Media::with('images')
-        ->where('module', 'Home')
-        ->where('is_active', 1)
-        ->first();
-        return view('index-3',compact('homeMedia'));
+        $homeMedia = $this->frontendRepository->getHomeMedia();
+        return view('pages.home',compact('homeMedia'));
     }
 }

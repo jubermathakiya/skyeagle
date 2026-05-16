@@ -40,13 +40,13 @@
                                         <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
                                             class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
                                         <div>
-                                            <h6 class="fs-16">Jeffrey Wilson</h6>
-                                            <span class="fs-14 text-gray-6">Since 10 May 2025</span>
+                                            <h6 class="fs-16">{{ $user->name }}</h6>
+                                            <span class="fs-14 text-gray-6">Since {{ $user->created_at?->format('d M Y') }}</span>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a href="{{url('profile-settings')}}"
+                                            <a href="{{ route('profile-settings') }}"
                                                 class="p-1 rounded-circle btn btn-light d-flex align-items-center justify-content-center"><i
                                                     class="isax isax-edit-2 fs-14"></i></a>
                                         </div>
@@ -60,7 +60,7 @@
                                     <span class="fs-14 text-gray-3 fw-medium mb-2">Main</span>
                                 </li>
                                 <li>
-                                    <a href="{{url('dashboard')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
                                         <i class="isax isax-grid-55"></i> Dashboard
                                     </a>
                                 </li>
@@ -121,7 +121,7 @@
                                     </div>
                                 </li>
                                 <li class="mb-2">
-                                    <a href="{{url('wishlist')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('wishlist') }}" class="d-flex align-items-center">
                                         <i class="isax isax-heart5"></i> Wishlist
                                     </a>
                                 </li>
@@ -168,7 +168,7 @@
                                     <span class="fs-14 text-gray-3 fw-medium mb-2">Account</span>
                                 </li>
                                 <li>
-                                    <a href="{{url('my-profile')}}" class="d-flex align-items-center active">
+                                    <a href="{{ route('my-profile') }}" class="d-flex align-items-center active">
                                         <i class="isax isax-profile-tick5"></i> My Profile
                                     </a>
                                 </li>
@@ -181,7 +181,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="{{url('profile-settings')}}" class="d-flex align-items-center">
+                                    <a href="{{ route('profile-settings') }}" class="d-flex align-items-center">
                                         <i class="isax isax-setting-25"></i> Settings
                                     </a>
                                 </li>
@@ -202,7 +202,7 @@
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h6>My Profile</h6>
                             <div class="d-flex align-items-center justify-content-center">
-                                <a href="{{url('profile-settings')}}"
+                                <a href="{{ route('profile-settings') }}"
                                     class="p-1 rounded-circle btn btn-light d-flex align-items-center justify-content-center"><i
                                         class="isax isax-edit-2 fs-14"></i></a>
                             </div>
@@ -226,65 +226,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row border-bottom pb-2 mb-3">
-                                <div class="col-md-6">
-                                    <div class="mb-2">
-                                        <h6 class="fs-14">First Name</h6>
-                                        <p>Jeffrey </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-2">
-                                        <h6 class="fs-14">Last Name</h6>
-                                        <p>Wilson</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-2">
-                                        <h6 class="fs-14">Email</h6>
-                                        <p>chrfo2356@example.com</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-2">
-                                        <h6 class="fs-14">Phone</h6>
-                                        <p>+1 12656 26654</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <h6 class="fs-16 mb-3">Address Information</h6>
-                            <div class="row g-2">
-                                <div class="col-md-12">
-                                    <div>
-                                        <h6 class="fs-14">Address</h6>
-                                        <p>4530 Clousson Road, Houston </p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">Country</h6>
-                                        <p>United States Of America</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">State</h6>
-                                        <p>California</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">City</h6>
-                                        <p>San Francisco</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div>
-                                        <h6 class="fs-14">Postal Code</h6>
-                                        <p>94105</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('pages.profile.partials.basic-information', ['user' => $user])
+                            @include('pages.profile.partials.address-information', ['user' => $user])
                         </div>
                     </div>
                 </div>
@@ -300,6 +243,3 @@
     ========================= -->
 
 @endsection
-
-
-

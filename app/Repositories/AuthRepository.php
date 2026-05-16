@@ -64,6 +64,7 @@ class AuthRepository
                 'email' => $temp->email,
                 'phone' => $temp->phone,
                 'password' => $temp->password,
+                'role_id' => (int) config('roles.registration_default', config('roles.ids.user', 2)),
             ]);
             $temp->delete();
             return $user;
@@ -88,17 +89,32 @@ class AuthRepository
         return ['temp' => $temp, 'otp' => $otp, 'expires_at' => $expiresAt];
     }
 
-    public function attemptLogin(string $login, string $password, bool $remember = false)
+    /**
+     * Attempt customer-portal login (only role_id = configured "user" may succeed).
+     *
+     * @return 'success'|'invalid_credentials'|'admin_credentials'|'forbidden_role'
+     */
+    public function attemptLogin(string $login, string $password, bool $remember = false): string
     {
         $user = User::query()
             ->where('email', $login)
             ->orWhere('phone', $login)
             ->first();
         if (! $user || ! Hash::check($password, $user->password)) {
-            return false;
+            return 'invalid_credentials';
         }
+
+        if ($user->hasAdminRole()) {
+            return 'admin_credentials';
+        }
+
+        if (! $user->hasCustomerRole()) {
+            return 'forbidden_role';
+        }
+
         Auth::login($user, $remember);
-        return true;
+
+        return 'success';
     }
 
     public function createForgotOtp(string $email)
@@ -107,6 +123,11 @@ class AuthRepository
         if (! $user) {
             throw ValidationException::withMessages(['email' => 'This email is not registered.']);
         }
+
+        if (! $user->hasCustomerRole()) {
+            throw ValidationException::withMessages(['email' => 'This email is not registered.']);
+        }
+
         PasswordResetOtp::query()->where('user_id', $user->id)->delete();
         $otp = (string) random_int(100000, 999999);
         $expiresAt = now()->addMinutes(5);

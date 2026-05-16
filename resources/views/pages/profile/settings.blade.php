@@ -38,10 +38,10 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class=" d-flex align-items-center justify-content-center">
                                         <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
-                                            class="img-fluid avatar avatar-lg rounded-circle me-1">
+                                            class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
                                         <div>
-                                            <h6 class="fs-16">Jeffrey Wilson</h6>
-                                            <span class="fs-14 text-gray-6">Since 10 May 2025</span>
+                                            <h6 class="fs-16">{{ $user->name }}</h6>
+                                            <span class="fs-14 text-gray-6">Since {{ $user->created_at?->format('d M Y') }}</span>
                                         </div>
                                     </div>
                                     <div>
@@ -197,6 +197,14 @@
 
                 <!-- Profile Settings -->
                 <div class="col-xl-9 col-lg-8">
+                    <form id="profile_settings_form" action="{{ route('profile-settings.update') }}" method="POST"
+                        data-states-url="{{ route('locations.states') }}"
+                        data-cities-url="{{ route('locations.cities') }}"
+                        data-countries-search-url="{{ route('locations.countries.search') }}"
+                        data-initial-state-id="{{ $user->userAddress->state_id ?? '' }}"
+                        data-initial-city-id="{{ $user->userAddress->city_id ?? '' }}">
+                        @csrf
+                        @method('PUT')
                     <div class="card settings mb-0">
                         <div class="card-header">
                             <h6>Settings</h6>
@@ -236,82 +244,41 @@
                                     <div class="col-lg-6">
                                         <div>
                                             <label class="form-label">First Name</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" name="first_name" value="{{ old('first_name', $user->first_name) }}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label class="form-label">Last Name</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" name="last_name" value="{{ old('last_name', $user->last_name) }}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control">
+                                            <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div>
                                             <label class="form-label">Phone</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="form-control">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="settings-content">
-                                <h6 class="fs-16 mb-3">Address Information</h6>
-                                <div class="row gy-2">
-                                    <div class="col-lg-12">
-                                        <div>
-                                            <label class="form-label">Address</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Country</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">State</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>California</option>
-                                                <option>Texas</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">City</label>
-                                            <select class="select">
-                                                <option>Select</option>
-                                                <option>New York</option>
-                                                <option>Tokyo </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div>
-                                            <label class="form-label">Postal Code</label>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @include('pages.profile.partials.address-form-fields', ['user' => $user])
                             <!-- /Settings Content-->
 
                         </div>
                         <div class="card-footer">
                             <div class="d-flex align-items-center justify-content-end">
-                                <a href="#" class="btn btn-light me-2">Cancel</a>
-                                <a href="#" class="btn btn-primary">Save</a>
+                                <a href="{{ route('my-profile') }}" class="btn btn-light me-2">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
                 <!-- /Profile Settings -->
 
@@ -326,5 +293,6 @@
 
 @endsection
 
-
-
+@section('script')
+    @vite(['resources/js/profile/settings.js'])
+@endsection

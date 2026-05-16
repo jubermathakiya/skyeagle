@@ -1,10 +1,16 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FlightController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TouresController;
+use App\Http\Controllers\ToursController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,9 +20,41 @@ Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
+});
+
+Route::middleware(['auth', 'customer'])->group(function () {
+
+    //Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'customer'])->name('dashboard');
+
+    //Profile route
+    Route::get('/my-profile', [ProfileController::class, 'show'])->name('my-profile');
+    Route::get('/profile-settings', [ProfileController::class, 'settings'])->name('profile-settings');
+
+    Route::put('/profile-settings', [ProfileController::class, 'update'])->name('profile-settings.update');
+
+    Route::prefix('locations')->group(function () {
+        Route::get('/countries/search', [LocationController::class, 'searchCountries'])
+            ->name('locations.countries.search');
+        Route::get('/states', [LocationController::class, 'states'])->name('locations.states');
+        Route::get('/cities', [LocationController::class, 'cities'])->name('locations.cities');
+    });
+
+    //Wishlist route
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+});
+ 
 // Tour Routes
-Route::get('tour-details/{slug}', [TouresController::class, 'show'])->name('tour-details');
-Route::get('tours', [TouresController::class, 'index'])->name('tour-list');
+Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
+Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
+
+// Flight Routes
+Route::get('flights/airports/search', [FlightController::class, 'searchAirports'])
+    ->name('flights.airports.search');
+Route::get('flight-grid', [FlightController::class, 'index'])->name('flight-grid');
 
 //auth routes
 Route::post('/auth/register-otp', [AuthController::class, 'register'])->name('auth.register.otp');
@@ -37,6 +75,15 @@ Route::post('/auth/forgot-otp/resend', [AuthController::class, 'resendForgotOtp'
 
 //logout
 Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+// Social login
+Route::get('/auth/{provider}/redirect', [SocialAuthController::class, 'redirect'])
+    ->where('provider', 'google|facebook')
+    ->name('auth.social.redirect');
+
+Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
+    ->where('provider', 'google|facebook')
+    ->name('auth.social.callback');
 
 
 
@@ -112,9 +159,7 @@ Route::get('/agent-cruise-booking', function () {
     return view('agent-cruise-booking');
 })->name('agent-cruise-booking');
 
-Route::get('/agent-dashboard', function () {
-    return view('agent-dashboard');
-})->name('agent-dashboard');
+
 
 Route::get('/agent-earnings', function () {
     return view('agent-earnings');
@@ -296,9 +341,7 @@ Route::get('/customer-tour-booking', function () {
     return view('customer-tour-booking');
 })->name('customer-tour-booking');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+
 
 Route::get('/destination', function () {
     return view('destination');
@@ -351,10 +394,6 @@ Route::get('/flight-booking-confirmation', function () {
 Route::get('/flight-details', function () {
     return view('flight-details');
 })->name('flight-details');
-
-Route::get('/flight-grid', function () {
-    return view('flight-grid');
-})->name('flight-grid');
 
 Route::get('/flight-list', function () {
     return view('flight-list');
@@ -432,9 +471,7 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::get('/my-profile', function () {
-    return view('my-profile');
-})->name('my-profile');
+
 
 Route::get('/notification', function () {
     return view('notification');
@@ -460,9 +497,7 @@ Route::get('/pricing-plan', function () {
     return view('pricing-plan');
 })->name('pricing-plan');
 
-Route::get('/profile-settings', function () {
-    return view('profile-settings');
-})->name('profile-settings');
+
 
 Route::get('/register', function () {
     return view('register');
@@ -523,9 +558,7 @@ Route::get('/wallet', function () {
     return view('wallet');
 })->name('wallet');
 
-Route::get('/wishlist', function () {
-    return view('wishlist');
-})->name('wishlist');
+
 
 // New Pages v1.0.9
 Route::get('/activity-booking-confirmation', function () {

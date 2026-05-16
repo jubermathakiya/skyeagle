@@ -56,18 +56,18 @@
                             <span class="span-or">Or</span>
                         </div>
                         <div class="d-flex align-items-center mb-3">
-                            <a href="#"
+                            <a href="{{ route('auth.social.redirect', ['provider' => 'google', 'redirect' => url()->full()]) }}"
                                 class="btn btn-light flex-fill d-flex align-items-center justify-content-center me-2">
                                 <img src="{{URL::asset('build/img/icons/google-icon.svg')}}" class="me-2" alt="Img">Google
                             </a>
-                            <a href="#"
+                            <a href="{{ route('auth.social.redirect', ['provider' => 'facebook', 'redirect' => url()->full()]) }}"
                                 class="btn btn-light flex-fill d-flex align-items-center justify-content-center">
                                 <img src="{{URL::asset('build/img/icons/fb-icon.svg')}}" class="me-2" alt="Img">Facebook
                             </a>
                         </div>
                         <div class="d-flex justify-content-center">
                             <p class="fs-14">Don't you have an account? <a href="#" class="link-primary fw-medium"
-                                    data-bs-toggle="modal" data-bs-target="#register-modal">Sign up</a></p>
+                                data-bs-toggle="modal" data-bs-target="#register-modal">Sign up</a></p>
                         </div>
                     </form>
                 </div>
@@ -206,11 +206,11 @@
                             <span class="span-or">Or</span>
                         </div>
                         <div class="d-flex align-items-center mb-3">
-                            <a href="#"
+                            <a href="{{ route('auth.social.redirect', ['provider' => 'google', 'redirect' => url()->full()]) }}"
                                 class="btn btn-light flex-fill d-flex align-items-center justify-content-center me-2">
                                 <img src="{{URL::asset('build/img/icons/google-icon.svg')}}" class="me-2" alt="Img">Google
                             </a>
-                            <a href="#"
+                            <a href="{{ route('auth.social.redirect', ['provider' => 'facebook', 'redirect' => url()->full()]) }}"
                                 class="btn btn-light flex-fill d-flex align-items-center justify-content-center">
                                 <img src="{{URL::asset('build/img/icons/fb-icon.svg')}}" class="me-2" alt="Img">Facebook
                             </a>
@@ -23132,6 +23132,3 @@
     </div>
     <!-- /Success -->
 @endif
-@section('script')
-    @vite(['resources/js/auth/auth.js'])
-@endsection
