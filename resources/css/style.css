@@ -13200,6 +13200,15 @@ footer .footer-wrap {
   padding: 20px 20px 4px;
   margin: 20px 0 24px;
 }
+footer .footer-wrap .footer-logo-light img.footer-brand-logo,
+footer .footer-wrap .footer-logo-dark img.footer-brand-logo {
+  display: block;
+  width: auto;
+  max-width: 150px;
+  max-height: 40px;
+  height: auto;
+  object-fit: contain;
+}
 footer .footer-bottom {
   background: #E4EBF1;
   padding-top: 10px;

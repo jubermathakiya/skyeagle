@@ -4553,7 +4553,7 @@
     <!-- /About Section -->
 
     <!-- Experts Section -->
-    <section class="section experts-section">
+    {{-- <section class="section experts-section">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-10 text-center wow fadeInUp" data-wow-delay="0.2s">
@@ -4723,18 +4723,18 @@
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Experts Section -->
 
     <!-- Video Section -->
-    <div class="video-wrap">
+    {{-- <div class="video-wrap">
         <a class="video-btn video-effect" data-fancybox="" href="https://youtu.be/NSAOrGb9orM"><i
                 class="isax isax-play5"></i></a>
-    </div>
+    </div> --}}
     <!-- /Video Section -->
 
     <!-- Client Section -->
-    <section class="section client-section">
+    {{-- <section class="section client-section">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 text-center wow fadeInUp" data-wow-delay="0.2s">
@@ -4768,7 +4768,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Client Section -->
 
     <!-- Testimonial Section -->
@@ -4883,7 +4883,7 @@
     <!-- /Testimonial Section -->
 
     <!-- Update Section -->
-    <section class="update-section">
+    {{-- <section class="update-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -4904,11 +4904,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Update Section -->
 
     <!-- FAQ Section -->
-    <section class="faq-section section">
+    {{-- <section class="faq-section section">
         <div class="container">
             <div class="faq-sec">
                 <div class="row justify-content-center">
@@ -5010,11 +5010,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /FAQ Section -->
 
     <!-- Blog Section -->
-    <section class="section blog-section pt-0">
+    {{-- <section class="section blog-section pt-0">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-10 text-center wow fadeInUp" data-wow-delay="0.2s">
@@ -5116,11 +5116,11 @@
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Blog Section -->
 
     <!-- Support Section -->
-    <section class="support-section bg-primary">
+    {{-- <section class="support-section bg-primary">
         <div class="horizontal-slide d-flex" data-direction="left" data-speed="slow">
             <div class="slide-list d-flex">
                 <div class="support-item">
@@ -5146,7 +5146,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Support Section -->
 
     <!-- ========================

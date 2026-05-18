@@ -134,16 +134,16 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-xl-3 col-xxl-3">
                             <div class="mb-3 text-center text-xl-start">
-                                <a href="{{url('index')}}" class="d-block footer-logo-light">
-                                    <img src="{{URL::asset('build/img/logo-dark.svg')}}" alt="logo">
+                                <a href="{{ route('home') }}" class="d-block footer-logo-light">
+                                    <img src="{{ asset('assets/img/sky_logo.png') }}" class="footer-brand-logo" alt="SkyEagle Trip">
                                 </a>
-                                <a href="{{url('index')}}" class="footer-logo-dark">
-                                    <img src="{{URL::asset('build/img/logo.svg')}}" alt="logo">
-                                </a>
+                                {{-- <a href="{{ route('home') }}" class="d-block footer-logo-dark">
+                                    <img src="{{ asset('assets/img/sky_logo.png') }}" class="footer-brand-logo" alt="SkyEagle Trip">
+                                </a> --}}
                             </div>
-                        </div>
+                        </div> 
                         <div class="col-lg-6 col-xl-4 col-xxl-4">
-                            <div class="d-flex align-items-center justify-content-center flex-wrap">
+                            {{-- <div class="d-flex align-items-center justify-content-center flex-wrap">
                                 <h6 class="fs-14 fw-medium me-2 mb-2">Available on : </h6>
                                 <a href="#" class="d-block mb-3 me-2">
                                     <img src="{{URL::asset('build/img/icons/googleplay.svg')}}" alt="logo">
@@ -151,7 +151,7 @@
                                 <a href="#" class="d-block mb-3">
                                     <img src="{{URL::asset('build/img/icons/appstore.svg')}}" alt="logo">
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-lg-12 col-xl-5 col-xxl-5">
                             <div class="d-sm-flex align-items-center justify-content-center justify-content-xl-end">
@@ -192,7 +192,7 @@
                     <div class="col-md-12">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                             <p class="fs-14">Copyright &copy; 2026. All Rights Reserved, <a href="#"
-                                    class="text-primary fw-medium">DreamsTour</a></p>
+                                    class="text-primary fw-medium">SkyEagleTrip</a></p>
                             <div class="d-flex align-items-center">
                                 <ul class="social-icon">
                                     <li>
