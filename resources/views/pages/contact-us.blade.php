@@ -119,7 +119,7 @@
             </div>
             <div class="map-grid">
                 <iframe class="w-100" height="300"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.6233432511367!2d72.5046255580031!3d23.03759799939849!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e9b445818e13b%3A0xa1ac91b1f0b874c6!2sPV%20Enclave!5e0!3m2!1sen!2sin!4v1779083089938!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                     allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
