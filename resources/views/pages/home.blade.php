@@ -21,13 +21,8 @@
             <div class="hero-content">
                 <div class="row align-items-center">
                     <div class="col-md-12 mx-auto wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="banner-content mx-auto">
-                            <h1 class="text-white display-5 mb-2">Get Closer to the Dream: <span>Your Tour</span>
-                                Essentials Await</h1>
-                            <h6 class="text-light mx-auto">Your ultimate destination for all things help you celebrate &
-                                remember tour experience.</h6>
-                        </div>
-                        <div class="banner-form card mb-0">
+                        
+                        <div class="banner-form card mb-0 mt-5">
                             <div class="card-header">
                                 <ul class="nav">
                                     <li>
