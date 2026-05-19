@@ -4160,7 +4160,7 @@
 
 
     <!-- Client Section -->
-    <section class="section client-section">
+    {{-- <section class="section client-section">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12 text-center wow fadeInUp" data-wow-delay="0.2s">
@@ -4194,7 +4194,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- /Client Section -->
 
 

@@ -47,6 +47,18 @@ footer {
         box-shadow: variables.$box-shadow;
         padding: 20px 20px 4px;
         margin: 20px 0 24px;
+
+        .footer-logo-light,
+        .footer-logo-dark {
+            img.footer-brand-logo {
+                display: block;
+                width: auto;
+                max-width: 150px;
+                max-height: 40px;
+                height: auto;
+                object-fit: contain;
+            }
+        }
     }
     .footer-bottom {
         background: variables.$light;
