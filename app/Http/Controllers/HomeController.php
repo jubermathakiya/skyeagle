@@ -15,6 +15,6 @@ class HomeController extends Controller
     public function index()
     {
         $homeMedia = $this->frontendRepository->getHomeMedia();
-        return view('pages.home',compact('homeMedia'));
+        return view('pages.home.index',compact('homeMedia'));
     }
 }

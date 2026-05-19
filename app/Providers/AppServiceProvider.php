@@ -6,6 +6,7 @@ use App\Contracts\FlightApiContract;
 use App\Repositories\WishlistRepository;
 use App\Services\Flight\DummyFlightApiService;
 use App\Services\Flight\HttpFlightApiService;
+use App\Support\PageTitle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,16 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('wishlistCount', $wishlistCount);
+        });
+
+        View::composer('layout.mainlayout', function ($view) {
+            $data = $view->getData();
+
+            $view->with('documentTitle', PageTitle::resolve(
+                $data['title'] ?? null,
+                $data['page'] ?? null,
+                request()->route()?->getName()
+            ));
         });
     }
 }

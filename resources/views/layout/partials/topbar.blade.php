@@ -187,7 +187,7 @@
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
                 <div class="d-flex align-items-center flex-wrap">
                     <p class="d-flex align-items-center fs-14 mb-0 me-3"><i class="isax isax-call5 me-2"></i><a href="tel:+91 89800 46600" class="text-white">+91 89800 46600</a></p>
-                    <p class="d-flex align-items-center fs-14 mb-0 me-3"><i class="isax isax-call5 me-2"></i><a href="mailto:info@skyeagletrip.com" class="text-white">info@skyeagletrip.com</a></p>
+                    <p class="d-flex align-items-center fs-14 mb-0 me-3"><i class="isax isax-message-text-15 me-2"></i><a href="mailto:info@skyeagletrip.com" class="text-white">info@skyeagletrip.com</a></p>
                     </div>
                     <div class="d-flex align-items-center">
                         <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><a class="text-white" href="{{url('about-us')}}">About Us</a></p>

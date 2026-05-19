@@ -2,8 +2,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{URL::asset('build/img/apple-touch-icon.png')}}">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{URL::asset('build/img/favicon.png')}}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{URL::asset('build/img/favicon.png')}}" type="image/x-icon">
+    <link rel="icon" href="{{URL::asset('assets/img/favicon.icon')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{URL::asset('assets/img/favicon.ico')}}" type="image/x-icon">
 
 @if (!Route::is(['index-rtl']))
 	<!-- Bootstrap CSS -->
