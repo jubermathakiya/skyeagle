@@ -4,9 +4,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FlightController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CityAutocompleteController;
 use App\Http\Controllers\ToursController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
@@ -48,6 +48,8 @@ Route::middleware(['auth', 'customer'])->group(function () {
  
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
+Route::get('cities/autocomplete', [CityAutocompleteController::class, 'searchGeoapifyCities'])
+    ->name('cities.autocomplete');
 Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
 
 //auth routes
