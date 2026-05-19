@@ -1427,7 +1427,7 @@
                                             </form>
                                         </div>
                                         <div class="tab-pane fade" id="Tour">
-                                            <form action="{{url('tour-grid')}}">
+                                            <form action="{{ route('tour-list') }}" method="GET">
                                                 <div
                                                     class="d-flex align-items-center justify-content-between flex-wrap mb-2">
                                                     <div class="fw-medium fs-16 mb-2 text-dark">Search holiday packages
@@ -1440,20 +1440,25 @@
                                                                 aria-expanded="false" role="menu">
                                                                 <label class="form-label fs-14 text-default mb-1">Where
                                                                     would like to go?</label>
-                                                                <input type="text" class="form-control value-input" value="Newyork">
-                                                                <p class="fs-12 mb-0">USA</p>
+                                                                <input type="text" class="form-control value-input" name="destination_city"
+                                                                    id="home-tour-destination" value="" placeholder="Search destination city" autocomplete="off">
+                                                                <p class="fs-12 mb-0" id="home-tour-destination-subtitle">Enter city name to search tours</p>
                                                             </div>
-                                                            <div class="dropdown-menu dropdown-md p-0">
+                                                            <div class="dropdown-menu dropdown-md p-0 overflow-visible">
                                                                 <div class="input-search p-3 border-bottom">
                                                                     <div class="input-group">
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="Search for City, Property name or Location">
+                                                                        <input type="text" class="form-control js-city-suggest-input"
+                                                                            data-city-url="{{ route('cities.autocomplete') }}"
+                                                                            data-sync-to="#home-tour-destination"
+                                                                            data-subtitle-to="#home-tour-destination-subtitle"
+                                                                            placeholder="Search for City, Property name or Location"
+                                                                            autocomplete="off">
                                                                         <span
                                                                             class="input-group-text px-2 border-start-0"><i
                                                                                 class="isax isax-search-normal"></i></span>
                                                                     </div>
                                                                 </div>
-                                                                <ul>
+                                                                <ul class="js-city-static-list">
                                                                     <li class="border-bottom">
                                                                         <a class="dropdown-item" href="#">
                                                                             <div class="fs-16 fw-medium text-dark dropdown-name">USA</div>
@@ -5154,6 +5159,3 @@
     ========================= -->
 
 @endsection
-
-
-

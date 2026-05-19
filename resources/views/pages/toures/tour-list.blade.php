@@ -33,26 +33,32 @@
             <div class="card">
                 <div class="card-body">
                     <div class="banner-form">
-                        <form class="d-lg-flex">
+                        <form class="d-lg-flex" action="{{ route('tour-list') }}" method="GET">
                             <div class="d-flex  form-info">
                                 <div class="form-item dropdown">
                                     <div data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
                                         role="menu">
                                         <label class="form-label fs-14 text-default mb-1">Where would like to
                                             go?</label>
-                                        <input type="text" class="form-control" value="Newyork">
-                                        <p class="fs-12 mb-0">USA</p>
+                                        <input type="text" class="form-control" name="destination_city"
+                                            id="tour-list-destination"
+                                            value="{{ $selectedDestination ?? '' }}" placeholder="Newyork">
+                                        <p class="fs-12 mb-0" id="tour-list-destination-subtitle">{{ $selectedDestination ?: 'USA' }}</p>
                                     </div>
-                                    <div class="dropdown-menu dropdown-md p-0">
+                                    <div class="dropdown-menu dropdown-md p-0 overflow-visible">
                                         <div class="input-search p-3 border-bottom">
                                             <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                    placeholder="Search for City, Property name or Location">
+                                                <input type="text" class="form-control js-city-suggest-input"
+                                                    data-city-url="{{ route('cities.autocomplete') }}"
+                                                    data-sync-to="#tour-list-destination"
+                                                    data-subtitle-to="#tour-list-destination-subtitle"
+                                                    placeholder="Search for City, Property name or Location"
+                                                    autocomplete="off">
                                                 <span class="input-group-text px-2 border-start-0"><i
                                                         class="isax isax-search-normal"></i></span>
                                             </div>
                                         </div>
-                                        <ul>
+                                        <ul class="js-city-static-list">
                                             <li class="border-bottom">
                                                 <a class="dropdown-item" href="#">
                                                     <h6 class="fs-16 fw-medium">USA</h6>

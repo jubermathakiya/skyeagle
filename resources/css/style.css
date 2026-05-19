@@ -34656,4 +34656,32 @@ table.table.dataTable > thead > tr th {
   display: block !important;
 }
 
+.city-autocomplete-dropdown {
+  position: fixed;
+  z-index: 9999;
+  max-height: 240px;
+  overflow-y: auto;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.city-autocomplete-option {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+  color: #111;
+}
+
+.city-autocomplete-option:hover,
+.city-autocomplete-option.is-active {
+  background: #f5f5f5;
+}
+
 /*# sourceMappingURL=style.css.map */
