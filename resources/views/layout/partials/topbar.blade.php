@@ -1,48 +1,18 @@
 
 @if (Auth::check())
     <div class="main-header">
-        <!-- Header Topbar-->
+
         <div class="header-topbar text-center bg-transparent">
             <div class="container">
                 <div class="d-flex align-items-center justify-content-between flex-wrap">
-                    <p class="d-flex align-items-center fw-medium fs-14 mb-2"><i class="isax isax-call5 me-2"></i>Toll
-                        Free : +91 89800 46600</p>
+                <div class="d-flex align-items-center flex-wrap">
+                    <p class="d-flex align-items-center fs-14 mb-0 me-3"><i class="isax isax-call5 me-2"></i><a href="tel:+91 89800 46600" class="text-white">+91 89800 46600</a></p>
+                    <p class="d-flex align-items-center fs-14 mb-0 me-3"><i class="isax isax-message-text-15 me-2"></i><a href="mailto:info@skyeagletrip.com" class="text-white">info@skyeagletrip.com</a></p>
+                    </div>
                     <div class="d-flex align-items-center">
-                        <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><i
-                                class="isax isax-message-text-15 me-2"></i>Email : info@skyeagletrip.com</p>
-                        <div class="dropdown flag-dropdown mb-2 me-3">
-                            <a href="#" class="dropdown-toggle d-inline-flex align-items-center"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{URL::asset('build/img/flags/us-flag.svg')}}" class="me-2" alt="flag">ENG
-                            </a>
-                            <ul class="dropdown-menu p-2 mt-2">
-                                <li>
-                                    <a class="dropdown-item rounded d-flex align-items-center" href="#">
-                                        <img src="{{URL::asset('build/img/flags/us-flag.svg')}}" class="me-2" alt="flag">ENG
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item rounded d-flex align-items-center" href="#">
-                                        <img src="{{URL::asset('build/img/flags/arab-flag.svg')}}" class="me-2" alt="flag">ARA
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item rounded d-flex align-items-center" href="#">
-                                        <img src="{{URL::asset('build/img/flags/france-flag.svg')}}" class="me-2" alt="flag">FRA
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dropdown mb-2 me-3">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                USD
-                            </a>
-                            <ul class="dropdown-menu p-2 mt-2">
-                                <li><a class="dropdown-item rounded" href="#">USD</a></li>
-                                <li><a class="dropdown-item rounded" href="#">YEN</a></li>
-                                <li><a class="dropdown-item rounded" href="#">EURO</a></li>
-                            </ul>
-                        </div>
+                        <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><a class="text-white" href="{{url('about-us')}}">About Us</a></p>
+                        <p class="mb-2 me-3 d-flex align-items-center fw-medium fs-14"><a class="text-white" href="{{url('contact-us')}}">Contact</a></p>
+                        
                         <div class="fav-dropdown mb-2">
                             <a href="{{url('wishlist')}}" class="position-relative">
                                 <i class="isax isax-heart"></i><span
@@ -53,9 +23,7 @@
                 </div>
             </div>
         </div>
-        <!-- /Header Topbar-->
-
-        <!-- Header -->
+        
         <header>
             <div class="container">
                 <div class="offcanvas-info">
@@ -63,11 +31,11 @@
                         <div class="offcanvas-detail">
                             <div class="offcanvas-head">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <a href="{{url('index')}}" class="black-logo-responsive">
-                                        <img src="{{URL::asset('build/img/logo-dark.svg')}}" alt="logo-img">
+                                    <a href="{{ route('home') }}" class="black-logo-responsive">
+                                        <img src="{{ asset('assets/img/sky_logo.png') }}"  width="100"  height="100"  class="logo" alt="Logo">
                                     </a>
-                                    <a href="{{url('index')}}" class="white-logo-responsive">
-                                        <img src="{{URL::asset('build/img/logo.svg')}}" alt="logo-img">
+                                    <a href="{{ route('home') }}" class="white-logo-responsive">
+                                        <img src="{{ asset('assets/img/sky_logo.png') }}"  width="100"  height="100"  class="logo" alt="Logo">
                                     </a>
                                     <div class="offcanvas-close">
                                         <i class="ti ti-x"></i>
@@ -87,6 +55,17 @@
                             </div>
                             <div class="mobile-menu fix mb-3"></div>
                             <div class="offcanvas__contact">
+                                <nav id="mobile-menu">
+                                    <ul class="main-nav">
+                                        <li>
+                                            <a href="{{ route('about-us') }}">About Us</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('contact-us') }}">Contact</a>
+                                        </li>
+                                    </ul>
+                                </nav> 
+
                                 <div class="mt-4">
                                     <a href="{{url('add-hotel')}}" class="btn btn-primary w-100">Add Listing</a>
                                 </div>
@@ -94,39 +73,21 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="offcanvas-overlay"></div>
                 <div class="header-nav">
                     <div class="main-menu-wrapper">
                         <div class="navbar-logo">
-                            <a class="logo-white header-logo" href="{{ route('home')}}">
-                                <img src="{{ asset('assets/img/sky_logo.png') }}" 
-                                    width="100" 
-                                    height="100" 
-                                    class="logo" 
-                                    alt="Logo">
+                             <a class="logo-dark header-logo" href="{{route('home')}}">
+                                <img src="{{ asset('assets/img/sky_logo.png') }}"  width="100"  height="100"  class="logo" alt="Logo">
+                            </a>
+                            <a class="logo-white header-logo" href="{{route('home')}}">
+                                <img src="{{ asset('assets/img/sky_logo.png') }}"  width="100"  height="100"  class="logo" alt="Logo">
                             </a>
                         </div>
-                        <nav id="mobile-menu">
-                            <ul class="main-nav">
-                              
-                                
-                                <li class="{{ Request::is('about-us') ? 'active' : ''; }}">
-                                    <a href="{{url('about-us')}}">About Us</a>
-                                </li>
-                                <li class="{{ Request::is('contact-us') ? 'active' : ''; }}">
-                                    <a href="{{url('contact-us')}}">Contact</a>
-                                </li>
-                            </ul>
-                        </nav>
+                        
                         <div class="header-btn d-flex align-items-center">
-                            <div class="me-3">
-                                <a href="#" id="dark-mode-toggle" class="theme-toggle">
-                                    <i class="isax isax-moon"></i>
-                                </a>
-                                <a href="#" id="light-mode-toggle" class="theme-toggle">
-                                    <i class="isax isax-sun-1"></i>
-                                </a>
-                            </div>
+                            
                             <div class="dropdown profile-dropdown">
                                 <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                                     <span class="avatar avatar-md">
@@ -177,7 +138,7 @@
                 </div>
             </div>
         </header>
-        <!-- /Header -->
+        
     </div>
 @else
     <div class="main-header">
