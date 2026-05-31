@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Jobs\SendWhatsappOtpJob;
 use App\Mail\ForgotPasswordOtpMail;
+use App\Mail\LoginOtpMail;
+use App\Models\LoginOtp;
 use App\Models\PasswordResetOtp;
 use App\Models\User;
 use App\Models\UserTemp;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthRepository
@@ -115,6 +118,211 @@ class AuthRepository
         Auth::login($user, $remember);
 
         return 'success';
+    }
+
+    public function sendLoginOtp(string $login): array
+    {
+        
+        $identifier = $this->parseLoginIdentifier($login);
+        $storedLogin = $identifier['value'];
+        $isRegistration = false;
+
+        $user = $this->findUserByLogin($login);
+
+        if ($user) {
+            if ($user->hasAdminRole()) {
+                throw ValidationException::withMessages(['login' => config('roles.messages.admin_credentials_on_customer_login')]);
+            }
+
+            if (! $user->hasCustomerRole()) {
+                throw ValidationException::withMessages(['login' => config('roles.messages.non_user_role')]);
+            }
+        } else {
+            
+            $user = $this->createUserFromLoginOtp($identifier);
+            dd($user);
+            $isRegistration = true;
+        }
+
+        LoginOtp::query()->where('user_id', $user->id)->delete();
+
+        $otp = (string) random_int(100000, 999999);
+        $expiresAt = now()->addMinutes(5);
+dd('asdf');
+        LoginOtp::create([
+            'user_id' => $user->id,
+            'login' => $storedLogin,
+            'is_registration' => $isRegistration,
+            'otp' => $otp,
+            'otp_expires_at' => $expiresAt,
+            'last_otp_sent_at' => now(),
+        ]);
+
+        $this->dispatchLoginOtp($user, $otp);
+
+        return [
+            'expires_at' => $expiresAt,
+            'display_login' => $this->maskLoginForDisplay($user, $storedLogin),
+            'is_new_user' => $isRegistration,
+            'login' => $storedLogin,
+        ];
+    }
+
+    public function verifyLoginOtpAndAuth(string $login, string $otp, bool $remember = false): string
+    {
+        $identifier = $this->parseLoginIdentifier($login);
+        $storedLogin = $identifier['value'];
+
+        $user = $this->findUserByLogin($login);
+
+        if (! $user) {
+            throw ValidationException::withMessages(['login' => 'No account found.']);
+        }
+
+        $record = LoginOtp::query()
+            ->where('user_id', $user->id)
+            ->where('login', $storedLogin)
+            ->first();
+
+        if (! $record) {
+            throw ValidationException::withMessages(['otp' => 'OTP session not found. Please request a new OTP.']);
+        }
+        if ($record->otp_expires_at->isPast()) {
+            throw ValidationException::withMessages(['otp' => 'OTP expired. Please resend OTP.']);
+        }
+        if ($record->attempt_count >= 5) {
+            throw ValidationException::withMessages(['otp' => 'Too many attempts. Please resend OTP.']);
+        }
+        if ($record->otp !== $otp) {
+            $record->increment('attempt_count');
+            throw ValidationException::withMessages(['otp' => 'Invalid OTP.']);
+        }
+
+        if (! $user->hasCustomerRole()) {
+            return 'forbidden_role';
+        }
+
+        if ($user->hasAdminRole()) {
+            return 'admin_credentials';
+        }
+
+        $isRegistration = (bool) $record->is_registration;
+
+        LoginOtp::query()->where('user_id', $user->id)->delete();
+
+        if ($user->email && $user->email_verified_at === null) {
+            $user->forceFill(['email_verified_at' => now()])->save();
+        }
+
+        Auth::login($user, $remember);
+
+        return $isRegistration ? 'registered' : 'success';
+    }
+
+    public function resendLoginOtp(string $login): array
+    {
+        $record = LoginOtp::query()->where('login', $login)->first();
+        if ($record?->last_otp_sent_at?->gt(now()->subSeconds(30))) {
+            throw ValidationException::withMessages(['login' => 'Please wait 30 seconds before resending OTP.']);
+        }
+
+        return $this->sendLoginOtp($login);
+    }
+
+    protected function parseLoginIdentifier(string $login): array
+    {
+        $login = trim($login);
+
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            return ['type' => 'email', 'value' => strtolower($login)];
+        }
+
+        $digits = preg_replace('/\D+/', '', $login);
+        if (strlen($digits) >= 10 && strlen($digits) <= 15) {
+            return ['type' => 'phone', 'value' => $digits];
+        }
+
+        throw ValidationException::withMessages([
+            'login' => 'Enter a valid email address or phone number',
+        ]);
+    }
+
+    protected function findUserByLogin(string $login): ?User
+    {
+        $identifier = $this->parseLoginIdentifier($login);
+
+        if ($identifier['type'] === 'email') {
+            return User::query()->where('email', $identifier['value'])->first();
+        }
+
+        return User::query()
+            ->where('phone', $identifier['value'])
+            ->orWhere('phone', trim($login))
+            ->first();
+    }
+
+    protected function createUserFromLoginOtp(array $identifier): User
+    {
+        $roleId = (int) config('roles.registration_default', config('roles.ids.user', 2));
+
+        if ($identifier['type'] === 'email') {
+            $localPart = Str::before($identifier['value'], '@');
+
+            return User::create([
+                'first_name' => null,
+                'last_name' => null,
+                'email' => $identifier['value'],
+                'phone' => null,
+                'password' => Hash::make(Str::random(32)),
+                'role_id' => $roleId,
+            ]);
+        }
+
+        return User::create([
+            'first_name' => 'User',
+            'last_name' => null,
+            'email' => null,
+            'phone' => $identifier['value'],
+            'password' => Hash::make(Str::random(32)),
+            'role_id' => $roleId,
+        ]);
+    }
+
+    protected function dispatchLoginOtp(User $user, string $otp): void
+    {
+        $userName = trim($user->first_name.' '.$user->last_name) ?: 'User';
+
+        if ($user->email) {
+            Mail::to($user->email)->queue(
+                new LoginOtpMail(
+                    otp: $otp,
+                    userName: $userName,
+                    expiresIn: '5 minutes'
+                )
+            );
+
+            return;
+        }
+
+        if ($user->phone) {
+            SendWhatsappOtpJob::dispatch($user->phone, $otp);
+        }
+    }
+
+    protected function maskLoginForDisplay(User $user, string $login): string
+    {
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            return $login;
+        }
+
+        $phone = preg_replace('/\D+/', '', $user->phone ?: $login);
+        if (strlen($phone) >= 10) {
+            $last10 = substr($phone, -10);
+
+            return '+91 '.substr($last10, 0, 5).' '.substr($last10, 5);
+        }
+
+        return $login;
     }
 
     public function createForgotOtp(string $email)

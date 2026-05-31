@@ -371,6 +371,143 @@ export function closeAndResetModal(modalId) {
     $(modalId).find('.invalid-feedback').remove();
 }
 
+const LOGIN_MODAL_SELECTOR = '#login-modal';
+const LOGIN_MODAL_TRANSITION_MS = 300;
+
+function setLoginModalAnimating($modal, isAnimating) {
+    if (isAnimating) {
+        $modal.data('login-modal-animating', true);
+    } else {
+        $modal.removeData('login-modal-animating');
+    }
+}
+
+function getLoginModalBackdrop() {
+    return $(`.modal-backdrop[data-jquery-modal="${LOGIN_MODAL_SELECTOR}"]`);
+}
+
+function createLoginModalBackdrop() {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop fade login-modal-backdrop';
+    backdrop.setAttribute('data-jquery-modal', LOGIN_MODAL_SELECTOR);
+    const modalEl = document.querySelector(LOGIN_MODAL_SELECTOR);
+    if (modalEl?.parentNode) {
+        modalEl.parentNode.insertBefore(backdrop, modalEl);
+    } else {
+        document.body.appendChild(backdrop);
+    }
+    return $(backdrop);
+}
+
+export function resetLoginForm() {
+    if (typeof window.resetLoginModalUI === 'function') {
+        window.resetLoginModalUI();
+        return;
+    }
+
+    const $form = $('#auth_login_form');
+    if (!$form.length) {
+        return;
+    }
+
+    $form[0].reset();
+
+    const validator = $form.data('validator');
+    if (validator) {
+        validator.resetForm();
+    }
+
+    $form.find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+    $form.find('.invalid-feedback').remove();
+    $form.find('button[type="submit"]').prop('disabled', false);
+    $('#remembers_me').prop('checked', false);
+    $form.find('.pass-input').attr('type', 'password');
+    $form.find('.toggle-password i').attr('class', 'isax isax-eye-slash');
+}
+
+export function openLoginModal() {
+    const $modal = $(LOGIN_MODAL_SELECTOR);
+    if (!$modal.length) {
+        return;
+    }
+
+    resetLoginForm();
+
+    if ($modal.data('login-modal-animating')) {
+        return;
+    }
+
+    if (typeof bootstrap !== 'undefined') {
+        bootstrap.Modal.getInstance($modal[0])?.hide();
+    }
+
+    if ($modal.hasClass('show')) {
+        return;
+    }
+
+    setLoginModalAnimating($modal, true);
+
+    let $backdrop = getLoginModalBackdrop();
+    if (!$backdrop.length) {
+        $backdrop = createLoginModalBackdrop();
+    } else {
+        $backdrop.removeClass('show');
+    }
+
+    $modal.removeClass('show').css('display', 'block');
+    $modal.attr('aria-modal', 'true').removeAttr('aria-hidden');
+    $('body').addClass('modal-open');
+
+    void $modal[0].offsetHeight;
+
+    requestAnimationFrame(() => {
+        $backdrop.addClass('show');
+        $modal.addClass('show').css('z-index', 1060);
+        setTimeout(() => setLoginModalAnimating($modal, false), LOGIN_MODAL_TRANSITION_MS);
+    });
+}
+
+export function closeLoginModal() {
+    const $modal = $(LOGIN_MODAL_SELECTOR);
+    if (!$modal.length) {
+        return;
+    }
+
+    const $backdrop = getLoginModalBackdrop();
+    const isOpen = $modal.hasClass('show') || $modal.css('display') === 'block';
+
+    if (!isOpen) {
+        resetLoginForm();
+        $backdrop.remove();
+        $('body').removeClass('modal-open').css('padding-right', '');
+        return;
+    }
+
+    setLoginModalAnimating($modal, true);
+
+    if (typeof bootstrap !== 'undefined') {
+        bootstrap.Modal.getInstance($modal[0])?.hide();
+    }
+
+    $modal.removeClass('show');
+    $backdrop.removeClass('show');
+
+    const finishClose = () => {
+        $modal.css({ display: 'none', zIndex: '' });
+        $modal.removeAttr('aria-modal').attr('aria-hidden', 'true');
+        $backdrop.remove();
+
+        if (!$('.modal.show').length) {
+            $('body').removeClass('modal-open').css('padding-right', '');
+        }
+
+        resetLoginForm();
+        setLoginModalAnimating($modal, false);
+    };
+
+    setTimeout(finishClose, LOGIN_MODAL_TRANSITION_MS);
+}
+
 export function confirmDelete(url, table = null) {
     Swal.fire({
         title: 'Are you sure?',

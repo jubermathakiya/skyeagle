@@ -1,6 +1,10 @@
-import { initAjaxFormValidation } from "../common/form-handler.js";
+import { initAjaxFormValidation, openLoginModal, closeLoginModal } from "../common/form-handler.js";
+import { initLoginModal, showLoginSuccess } from "./login-modal.js";
 import { showToastmessage } from '../common/common.js';
 import $ from "jquery";
+
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
 
 let otpTimers = {};
 function startOtpTimer(expiresIso, selector) {
@@ -61,10 +65,7 @@ initAjaxFormValidation("#register_otp_form", {
         const otpModalEl = document.getElementById("register-otp-modal");
         if (otpModalEl) bootstrap.Modal.getOrCreateInstance(otpModalEl).hide();
         if (res.open_login_modal) {
-            setTimeout(() => {
-                const loginModalEl = document.getElementById("login-modal");
-                if (loginModalEl) bootstrap.Modal.getOrCreateInstance(loginModalEl).show();
-            }, 250);
+            setTimeout(() => openLoginModal(), 250);
         }
     }
 });
@@ -109,11 +110,7 @@ if ($("#auth_login_form").length) {
         skipRequiredFor: ["login", "password"],
         onSuccess: function (res) {
             window.showToastmessage?.(res.message || "Login successful.", "success");
-            if (res.redirect) {
-                window.location.href = res.redirect;
-                return;
-            }
-            window.location.reload();
+            showLoginSuccess(res.redirect);
         },
         onError: function (res) {
             let message = res?.message || "Invalid credentials.";
@@ -189,10 +186,7 @@ if ($("#forgot_reset_password_form").length) {
             window.showToastmessage?.(res.message || "Password reset successful.", "success");
             var resetModal = bootstrap.Modal.getInstance(document.getElementById('forgot-reset-modal'));
             resetModal?.hide();
-            setTimeout(() => {
-                var loginModal = new bootstrap.Modal(document.getElementById('login-modal'));
-                loginModal.show();
-            }, 300);
+            setTimeout(() => openLoginModal(), 300);
         },
         onError: function (res) {
             window.showToastmessage?.(res.message || "Unable to reset password.", "error");
@@ -217,12 +211,44 @@ if ($("#change_password_form").length) {
     });
 }
 
-$(function () {
-    if (document.querySelector('meta[name="open-login-modal"]')) {
-        const loginModalEl = document.getElementById("login-modal");
-        if (loginModalEl) {
-            bootstrap.Modal.getOrCreateInstance(loginModalEl).show();
+$(document).on('click', '.login-btn', function (e) {
+    e.preventDefault();
+    const $parentModal = $(this).closest('.modal');
+    if ($parentModal.length && $parentModal.attr('id') !== 'login-modal') {
+        const instance = bootstrap.Modal.getInstance($parentModal[0]);
+        if (instance) {
+            $parentModal.one('hidden.bs.modal', () => openLoginModal());
+            instance.hide();
+            return;
         }
+    }
+    openLoginModal();
+});
+
+$(document).on('click', '#login-modal [data-close-login-modal], #login-modal .login-modal-close-btn', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    closeLoginModal();
+});
+
+$(document).on('click', '.modal-backdrop[data-jquery-modal="#login-modal"]', function () {
+    closeLoginModal();
+});
+
+$(document).on('keydown', function (e) {
+    if (e.key === 'Escape' && $('#login-modal').hasClass('show')) {
+        closeLoginModal();
+    }
+});
+
+$(document).on('click', '#login-modal [data-bs-target="#register-modal"], #login-modal [data-bs-target="#forgot-modal"]', function () {
+    closeLoginModal();
+});
+
+$(function () {
+    initLoginModal();
+    if (document.querySelector('meta[name="open-login-modal"]')) {
+        openLoginModal();
     }
 });
 

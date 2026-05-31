@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { showToastmessage } from "../common/common.js";
+import { openLoginModal } from "../common/form-handler.js";
 
 function updateWishlistCount(count) {
     $(".fav-dropdown .count-icon").text(count);
@@ -53,10 +54,7 @@ $(document).on("click", ".wishlist-toggle", function (e) {
                     "error"
                 );
 
-                const loginModalEl = document.getElementById("login-modal");
-                if (loginModalEl) {
-                    bootstrap.Modal.getOrCreateInstance(loginModalEl).show();
-                }
+                openLoginModal();
                 return;
             }
 

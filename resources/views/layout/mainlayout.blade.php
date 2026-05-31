@@ -79,8 +79,10 @@
 @component('components.modal-popup')
 @endcomponent
 
+@include('components.global-loader')
+
 @include('layout.partials.vendor-scripts')
-@vite(['resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js'])
+@vite(['resources/js/common/global-loader.js', 'resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js'])
 @yield('script')
 </body>
 </html>

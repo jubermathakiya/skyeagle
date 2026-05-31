@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\SendLoginOtpRequest;
+use App\Http\Requests\Auth\VerifyLoginOtpRequest;
 use App\Http\Requests\Auth\RegisterWithOtpRequest;
 use App\Http\Requests\Auth\ResendRegisterOtpRequest;
 use App\Http\Requests\Auth\ResetForgotPasswordRequest;
@@ -70,6 +72,83 @@ class AuthController extends Controller
         ]);
     }
 
+
+    public function sendLoginOtp(SendLoginOtpRequest $request)
+    {
+        try {
+            $result = $this->authRepository->sendLoginOtp($request->validated('login'));
+
+            return response()->json([
+                'status' => true,
+                'message' => ($result['is_new_user'] ?? false)
+                    ? 'OTP sent. Verify to complete your registration.'
+                    : 'OTP sent successfully.',
+                'data' => [
+                    'login' => $result['login'] ?? $request->validated('login'),
+                    'display_login' => $result['display_login'],
+                    'otp_expires_at' => $result['expires_at']->toIso8601String(),
+                    'is_new_user' => (bool) ($result['is_new_user'] ?? false),
+                ],
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            Log::error('Login OTP send failed: '.$e->getMessage());
+
+            return response()->json(['status' => false, 'message' => 'Unable to send OTP.'], 500);
+        }
+    }
+
+    public function verifyLoginOtp(VerifyLoginOtpRequest $request)
+    {
+        $result = $this->authRepository->verifyLoginOtpAndAuth(
+            $request->validated('login'),
+            $request->validated('otp'),
+            (bool) $request->boolean('remember')
+        );
+
+        if ($result === 'invalid_credentials') {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid OTP.',
+            ], 200);
+        }
+
+        if ($result === 'admin_credentials') {
+            return response()->json([
+                'status' => false,
+                'message' => config('roles.messages.admin_credentials_on_customer_login'),
+            ], 200);
+        }
+
+        if ($result === 'forbidden_role') {
+            return response()->json([
+                'status' => false,
+                'message' => config('roles.messages.non_user_role'),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $result === 'registered'
+                ? 'Registration successful. Welcome!'
+                : 'Login successful.',
+            'redirect' => $request->session()->pull('auth_redirect') ?: route('dashboard'),
+        ]);
+    }
+
+    public function resendLoginOtp(SendLoginOtpRequest $request)
+    {
+        $result = $this->authRepository->resendLoginOtp($request->validated('login'));
+
+        return response()->json([
+            'status' => true,
+            'message' => 'OTP resent successfully.',
+            'data' => [
+                'otp_expires_at' => $result['expires_at']->toIso8601String(),
+            ],
+        ]);
+    }
 
     public function login(LoginRequest $request)
     {
