@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Eagle Trip Password Reset OTP</title>
+    <title>Sky Eagle Trip Login OTP</title>
 </head>
 <body style="margin:0; padding:0; background-color:#f4f7fb; font-family: Arial, Helvetica, sans-serif; color:#1f2937;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f7fb; padding:30px 12px;">
@@ -20,7 +20,7 @@
                                     </td>
                                     <td align="right" valign="middle" style="color:#ffffff; font-size:20px; font-weight:700; letter-spacing:0.3px; line-height:1.3;">
                                         Sky Eagle Trip
-                                        <span style="display:block; font-size:12px; font-weight:500; color:#cde6ff; margin-top:4px;">Secure Password Reset</span>
+                                        <span style="display:block; font-size:12px; font-weight:500; color:#cde6ff; margin-top:4px;">Secure Sign In</span>
                                     </td>
                                 </tr>
                             </table>
@@ -33,14 +33,13 @@
                             <p style="margin:0 0 12px 0; font-size:15px;">Hi {{ $userName }},</p>
 
                             <p style="margin:0 0 18px 0; line-height:1.6; font-size:15px; color:#374151;">
-                                We received a request to reset your Sky Eagle Trip account password.
-                                Use the one-time password below to continue.
+                                Use the one-time password below to sign in to your Sky Eagle Trip account.
                             </p>
 
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px 0;">
                                 <tr>
                                     <td align="center" style="background:#eff6ff; border:1px dashed #93c5fd; border-radius:12px; padding:20px;">
-                                        <p style="margin:0; font-size:13px; color:#1e40af; letter-spacing:0.5px; text-transform:uppercase;">Your Password Reset OTP</p>
+                                        <p style="margin:0; font-size:13px; color:#1e40af; letter-spacing:0.5px; text-transform:uppercase;">Your Login OTP</p>
                                         <p style="margin:8px 0 0 0; font-size:34px; font-weight:700; letter-spacing:6px; color:#0b3c74;">
                                             {{ $otp }}
                                         </p>
@@ -54,7 +53,7 @@
 
                             <p style="margin:0; line-height:1.6; font-size:14px; color:#6b7280;">
                                 For your security, do not share this OTP with anyone.
-                                If you did not request a password reset, you can safely ignore this email.
+                                If you did not try to sign in, you can safely ignore this email.
                             </p>
                         </td>
                     </tr>

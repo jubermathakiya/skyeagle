@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\EmailOrTenDigitPhone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SendLoginOtpRequest extends FormRequest
@@ -14,7 +15,7 @@ class SendLoginOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string', 'max:191'],
+            'login' => ['required', 'string', 'max:191', new EmailOrTenDigitPhone()],
         ];
     }
 }

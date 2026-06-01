@@ -27,6 +27,37 @@ function showMessage(message, type = "success") {
     });
 }
 
+function getFieldErrorAnchor($input) {
+    const $iti = $input.closest(".iti");
+
+    if ($iti.length) {
+        return $iti;
+    }
+
+    const $inputIcon = $input.closest(".input-icon");
+
+    if ($input.closest(".input-group").length) {
+        return $input.closest(".input-group");
+    }
+
+    if ($inputIcon.length) {
+        return $inputIcon;
+    }
+
+    if ($input.hasClass("select2-hidden-accessible")) {
+        return $input.next(".select2");
+    }
+
+    return $input;
+}
+
+function placeFieldError($input, message) {
+    const $anchor = getFieldErrorAnchor($input);
+
+    $input.addClass("is-invalid").removeClass("is-valid");
+    $('<div class="invalid-feedback d-block"></div>').text(message).insertAfter($anchor);
+}
+
 export function initAjaxFormValidation(formSelector, rules, messages, extraOptions = {}, arrField = [], rowSelector = "", subrowSelector = "  ") {
     const $form = $(formSelector);
     const setSubmittingState = ($formRef, isSubmitting) => {
@@ -61,17 +92,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
             if ((skipRequiredFor.includes(element.attr("name")) || element.attr("name").includes("[]")) && error.text().includes("required")) {
                 return;
             }
-            error.addClass('invalid-feedback');
-            if (element.attr('name') === 'password') {
-                error.insertAfter(element.closest('.input-group'));
-                return;
-            } 
-            if (element.hasClass("select2-hidden-accessible")) {
-                // Place error after select2 container
-                error.insertAfter(element.next('.select2'));
-                return;
-            }
-            error.insertAfter(element);
+
+            error.addClass("invalid-feedback d-block");
+            error.insertAfter(getFieldErrorAnchor($(element)));
         },
         highlight: function(element, errorClass, validClass) {
             const name = $(element).attr('name');
@@ -81,6 +104,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 if ($el.hasClass("select2-hidden-accessible")) {
                     $el.next('.select2').find('.select2-selection').addClass(errorClass).removeClass(validClass);
                     return;
+                }
+                if ($el.closest('.iti').length) {
+                    $el.closest('.iti').addClass(errorClass).removeClass(validClass);
                 }
                 $(element).addClass(errorClass).removeClass(validClass);
             }
@@ -102,6 +128,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 if ($el.hasClass("select2-hidden-accessible")) {
                     $el.next('.select2').find('.select2-selection').addClass(validClass).removeClass(errorClass);
                     return;
+                }
+                if ($el.closest('.iti').length) {
+                    $el.closest('.iti').addClass(validClass).removeClass(errorClass);
                 }
                 $(element).removeClass(errorClass).addClass(validClass);
             }
@@ -127,7 +156,7 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
             let formData = new FormData(form);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             // Remove old server errors
-            $form.find(".is-invalid").removeClass("is-invalid");
+            $form.find(".is-invalid, .is-valid").removeClass("is-invalid is-valid");
             $form.find(".invalid-feedback").remove();
 
             var editor = [];
@@ -183,24 +212,19 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(field, messages) {
-                            let input = $form.find('[name="' + field + '"]');
-                            input.addClass("is-invalid");
-                            
-                            if (field === "password" && input.closest(".input-group").length) {
-                                input.closest(".input-group")
-                                    .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
-                            } else if (field.includes('.')) {
+                            if (field.includes('.')) {
                                 //for allow only multipale field
                                 let fieldName = field.replace(/\.\d+$/, "[]");
                                 // find the matching input
                                 let input = $(`[name="${fieldName}"]`).eq(field.match(/\d+/)?.[0] || 0);
-                                if(input.hasClass("select2")){
-                                    input.next('.select2-container')
-                                        .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
+                                if (input.hasClass("select2")) {
+                                    placeFieldError(input, messages[0]);
                                 }
-                            } else {
-                                input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
+                                return;
                             }
+
+                            let input = $form.find('[name="' + field + '"]');
+                            placeFieldError(input, messages[0]);
                         });
                     }
                 },

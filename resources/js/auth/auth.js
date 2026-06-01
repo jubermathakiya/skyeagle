@@ -1,10 +1,11 @@
 import { initAjaxFormValidation, openLoginModal, closeLoginModal } from "../common/form-handler.js";
-import { initLoginModal, showLoginSuccess } from "./login-modal.js";
-import { showToastmessage } from '../common/common.js';
+import { initLoginModal, showLoginSuccess, openCompleteNameModal } from "./login-modal.js";
+import { initForgotModal, openForgotModal } from "./forgot-modal.js";
 import $ from "jquery";
 
 window.openLoginModal = openLoginModal;
 window.closeLoginModal = closeLoginModal;
+window.openForgotModal = openForgotModal;
 
 let otpTimers = {};
 function startOtpTimer(expiresIso, selector) {
@@ -110,86 +111,11 @@ if ($("#auth_login_form").length) {
         skipRequiredFor: ["login", "password"],
         onSuccess: function (res) {
             window.showToastmessage?.(res.message || "Login successful.", "success");
-            showLoginSuccess(res.redirect);
+            showLoginSuccess(res.redirect, !!res.needs_name);
         },
         onError: function (res) {
             let message = res?.message || "Invalid credentials.";
             window.showToastmessage?.(message, "error");
-        }
-    });
-}
-
-
-if ($("#forgot_send_otp_form").length) {
-    initAjaxFormValidation("#forgot_send_otp_form", {
-        email: { required: true, email: true },
-    }, {}, {
-        skipRequiredFor: ["email"],
-        onSuccess: function (res) {
-            const email = res?.data?.email || $('#forgot_send_otp_form [name="email"]').val();
-            $("#forgot_otp_email_holder").val(email);
-            var forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgot-modal'));
-            forgotModal?.hide();            
-            setTimeout(() => {
-                var otpModal = new bootstrap.Modal(document.getElementById('forgot-otp-modal'));
-                otpModal.show();
-            }, 300);
-            if (res?.data?.otp_expires_at) {
-                startOtpTimer(res.data.otp_expires_at, "#forgot_otp_countdown");
-            }
-            window.showToastmessage?.(res.message || "OTP sent successfully.", "success");
-        },
-        onError: function (res) {
-            window.showToastmessage?.(res.message || "Unable to send OTP.", "error");
-        }
-    });
-}
-
-if ($("#forgot_verify_otp_form").length) {
-    initAjaxFormValidation("#forgot_verify_otp_form", {
-        otp: { required: true, digits: true, minlength: 6, maxlength: 6 },
-    }, {}, {
-        skipRequiredFor: ["otp"],
-        onSuccess: function (res) {
-            if (!res.status) {
-                window.showToastmessage(res.message || "Invalid OTP", "error");
-                return;
-            }
-            const email = $("#forgot_otp_email_holder").val();
-            $('#forgot_reset_password_form [name="email"]').val(email);
-            var otpModal = bootstrap.Modal.getInstance(document.getElementById('forgot-otp-modal'));
-            otpModal?.hide();
-            setTimeout(() => {
-                var resetModal = new bootstrap.Modal(document.getElementById('forgot-reset-modal'));
-                resetModal.show();
-            }, 300);
-            window.showToastmessage?.(res.message || "OTP verified.", "success");
-        },
-        onError: function (res) {
-            window.showToastmessage?.(res.message || "Invalid OTP.", "error");
-        }
-    });
-}
-
-if ($("#forgot_reset_password_form").length) {
-    initAjaxFormValidation("#forgot_reset_password_form", {
-        email: { required: true, email: true },
-        password: { required: true, minlength: 8 },
-        password_confirmation: { required: true, equalTo: '#forgot_reset_password_form [name="password"]' },
-    }, {}, {
-        skipRequiredFor: ["email","password","password_confirmation"],
-        onSuccess: function (res) {
-            if (!res.status) {
-                window.showToastmessage(res.message || "Failed", "error");
-                return;
-            }
-            window.showToastmessage?.(res.message || "Password reset successful.", "success");
-            var resetModal = bootstrap.Modal.getInstance(document.getElementById('forgot-reset-modal'));
-            resetModal?.hide();
-            setTimeout(() => openLoginModal(), 300);
-        },
-        onError: function (res) {
-            window.showToastmessage?.(res.message || "Unable to reset password.", "error");
         }
     });
 }
@@ -241,35 +167,48 @@ $(document).on('keydown', function (e) {
     }
 });
 
-$(document).on('click', '#login-modal [data-bs-target="#register-modal"], #login-modal [data-bs-target="#forgot-modal"]', function () {
+const AUTH_MODAL_SWITCH_DELAY_MS = 320;
+
+function openBootstrapModal(selector) {
+    const modalEl = document.querySelector(selector);
+    if (!modalEl || typeof bootstrap === "undefined") {
+        return;
+    }
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+function switchFromLoginModalTo(targetSelector) {
     closeLoginModal();
+    setTimeout(() => {
+        if (targetSelector === '#forgot-modal') {
+            openForgotModal();
+            return;
+        }
+        openBootstrapModal(targetSelector);
+    }, AUTH_MODAL_SWITCH_DELAY_MS);
+}
+
+$(document).on('click', '#login-modal .js-auth-modal-switch', function (e) {
+    e.preventDefault();
+    const targetSelector = $(this).data('auth-modal-target');
+    if (!targetSelector) {
+        return;
+    }
+    switchFromLoginModalTo(targetSelector);
+});
+
+$(document).on('click', '#login-modal [data-bs-target="#register-modal"]', function (e) {
+    e.preventDefault();
+    switchFromLoginModalTo('#register-modal');
 });
 
 $(function () {
     initLoginModal();
+    initForgotModal();
     if (document.querySelector('meta[name="open-login-modal"]')) {
         openLoginModal();
     }
-});
-
-$(document).on("click", "#forgot_resend_otp_btn", function (e) {
-    e.preventDefault();
-    const email = $("#forgot_otp_email_holder").val();
-    $.ajax({
-        url: "/auth/forgot-otp/resend",
-        type: "POST",
-        data: {
-            email,
-            _token: $('meta[name="csrf-token"]').attr("content"),
-        },
-        success: function (res) {
-            if (res?.status && res?.data?.otp_expires_at) {
-                startOtpTimer(res.data.otp_expires_at, "#forgot_otp_countdown");
-                window.showToastmessage?.(res.message || "OTP resent successfully.", "success");
-            }
-        },
-        error: function () {
-            window.showToastmessage?.("Unable to resend OTP.", "error");
-        }
-    });
+    if (document.querySelector('meta[name="needs-name-prompt"]')) {
+        openCompleteNameModal("/");
+    }
 });

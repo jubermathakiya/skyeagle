@@ -13,6 +13,8 @@ Route::post('auth/login-otp/send', [AuthController::class, 'sendLoginOtp'])->nam
 Route::post('auth/login-otp/verify', [AuthController::class, 'verifyLoginOtp'])->name('auth.login.otp.verify');
 Route::post('auth/login-otp/resend', [AuthController::class, 'resendLoginOtp'])->name('auth.login.otp.resend');
 
+Route::middleware('auth')->post('auth/complete-name', [AuthController::class, 'completeName'])->name('auth.complete-name');
+
 Route::post('auth/forgot-password/send-otp', [AuthController::class, 'sendForgotOtp'])
     ->name('auth.forgot.sendOtp');
 Route::post('auth/forgot-password/verify-otp', [AuthController::class, 'verifyForgotOtp'])

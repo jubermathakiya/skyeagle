@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\CompleteNameRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SendLoginOtpRequest;
 use App\Http\Requests\Auth\VerifyLoginOtpRequest;
@@ -128,12 +129,36 @@ class AuthController extends Controller
             ], 200);
         }
 
+        return response()->json($this->loginSuccessPayload(
+            $request,
+            $result === 'registered' ? 'Registration successful. Welcome!' : 'Login successful.'
+        ));
+    }
+
+    public function completeName(CompleteNameRequest $request)
+    {
+        $user = $request->user();
+
+        if (! $user->needsNamePrompt()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Profile already completed.',
+                'redirect' => route('home'),
+            ]);
+        }
+
+        $nameParts = $request->nameParts();
+
+        $user->update([
+            'first_name' => $nameParts['first_name'],
+            'last_name' => $nameParts['last_name'],
+            'name_prompt_completed' => true,
+        ]);
+
         return response()->json([
             'status' => true,
-            'message' => $result === 'registered'
-                ? 'Registration successful. Welcome!'
-                : 'Login successful.',
-            'redirect' => $request->session()->pull('auth_redirect') ?: route('dashboard'),
+            'message' => 'Welcome! Your name has been saved.',
+            'redirect' => route('home'),
         ]);
     }
 
@@ -179,11 +204,7 @@ class AuthController extends Controller
             ], 200);
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Login successful.',
-            'redirect' => $request->session()->pull('auth_redirect') ?: route('dashboard'),
-        ]);
+        return response()->json($this->loginSuccessPayload($request, 'Login successful.'));
     }
 
     public function sendForgotOtp(SendForgotOtpRequest $request)
@@ -243,6 +264,18 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('home')->with('success', 'Logout successful.');
+    }
+
+    protected function loginSuccessPayload(Request $request, string $message): array
+    {
+        $user = Auth::user();
+
+        return [
+            'status' => true,
+            'message' => $message,
+            'redirect' => $request->session()->pull('auth_redirect') ?: route('home'),
+            'needs_name' => $user ? $user->needsNamePrompt() : false,
+        ];
     }
 
 }

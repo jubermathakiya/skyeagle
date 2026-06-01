@@ -1,13 +1,17 @@
 
     @include('components.partials.login-modal')
+    @include('components.partials.forgot-modal')
+    @include('components.partials.complete-name-modal')
     
     <style>
-        #login-modal.modal.fade .modal-dialog {
+        #login-modal.modal.fade .modal-dialog,
+        #forgot-modal.modal.fade .modal-dialog {
             transition: transform 0.3s ease-out, opacity 0.3s ease-out;
             transform: translateY(-24px) scale(0.97);
             opacity: 0;
         }
-        #login-modal.modal.fade.show .modal-dialog {
+        #login-modal.modal.fade.show .modal-dialog,
+        #forgot-modal.modal.fade.show .modal-dialog {
             transform: translateY(0) scale(1);
             opacity: 1;
         }
@@ -243,150 +247,4 @@
     </div>
     <!-- /Change Password -->
 
-    <!-- Forgot Password -->
-    <div class="modal fade" id="forgot-modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
-                    <a href="#" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-x fs-20"></i></a>
-                </div>
-                <div class="modal-body p-4 pt-0">
-                    <form id="forgot_send_otp_form"  action="{{ route('auth.forgot.sendOtp') }}" method="POST">
-                        @csrf
-                        <div class="text-center border-bottom mb-3">
-                            <h5 class="mb-1">Forgot Password</h5>
-                            <p>Reset Your DreamsTour Password</p>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Email</label>
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-                                    <i class="isax isax-message"></i>
-                                </span>
-                                <input type="email" name="email"  class="form-control form-control-lg" placeholder="Enter Email">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit"
-                                class="btn btn-xl btn-primary d-flex align-items-center justify-content-center w-100">
-                                Reset Password
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <p class="fs-14">Remember Password ? <a href="#" class="link-primary fw-medium login-btn"
-                                    data-bs-dismiss="modal">Sign In</a></p>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Forgot Password -->
-
-    <!-- Forgot OTP Modal -->
-    <div class="modal fade" id="forgot-otp-modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
-                    <a href="#" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="ti ti-x fs-20"></i>
-                    </a>
-                </div>
-                <div class="modal-body p-4 pt-0">
-                    <form id="forgot_verify_otp_form" method="POST" action="{{ route('auth.forgot.verifyOtp') }}">
-                        @csrf
-                        <div class="text-center border-bottom mb-3">
-                            <h5 class="mb-1">Verify OTP</h5>
-                            <p class="mb-2">Enter 6-digit OTP sent to your email</p>
-                            <p class="mb-0">
-                                Expires in: <span id="forgot_otp_countdown">05:00</span>
-                            </p>
-                        </div>
-                        <input type="hidden" name="email" id="forgot_otp_email_holder">
-                        <div class="mb-3">
-                            <label class="form-label">OTP</label>
-                            <input 
-                                type="text" 
-                                class="form-control form-control-lg" 
-                                name="otp" 
-                                id="forgot_otp_input"
-                                maxlength="6" 
-                                inputmode="numeric" 
-                                autocomplete="one-time-code"
-                                placeholder="Enter 6-digit OTP">
-                        </div>
-                        <div class="mb-2">
-                            <button type="submit" class="btn btn-xl btn-primary w-100">
-                                Verify OTP
-                            </button>
-                        </div>
-                        <div class="text-center">
-                            <a href="#" id="forgot_resend_otp_btn" class="link-primary fw-medium">
-                                Resend OTP
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Forgot Reset Password -->
-    <div class="modal fade" id="forgot-reset-modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header d-flex align-items-center justify-content-end pb-0 border-0">
-                    <a href="#" data-bs-dismiss="modal">
-                        <i class="ti ti-x fs-20"></i>
-                    </a>
-                </div>
-                <div class="modal-body p-4 pt-0">
-                    <form id="forgot_reset_password_form" method="POST" action="{{ route('auth.forgot.reset') }}">
-                        @csrf
-                        <div class="text-center border-bottom mb-3">
-                            <h5 class="mb-1">Reset Password</h5>
-                            <p class="mb-3">Create a new secure password for your account</p>
-                        </div>
-                        <input type="hidden" name="email">
-                        <div class="mb-2">
-                            <label class="form-label">New Password</label>
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-                                    <i class="isax isax-lock"></i>
-                                </span>
-                                <input 
-                                    type="password" 
-                                    name="password" 
-                                    class="form-control form-control-lg pass-input"
-                                    placeholder="Enter New Password">
-                                <span class="input-icon-addon toggle-password">
-                                    <i class="isax isax-eye-slash"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Confirm Password</label>
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-                                    <i class="isax isax-lock"></i>
-                                </span>
-                                <input 
-                                    type="password" 
-                                    name="password_confirmation" 
-                                    class="form-control form-control-lg pass-input"
-                                    placeholder="Confirm New Password">
-                                <span class="input-icon-addon toggle-password">
-                                    <i class="isax isax-eye-slash"></i>
-                                </span>
-                            </div>
-                        </div>                        
-                        <div class="mb-2">
-                            <button type="submit" class="btn btn-xl btn-primary w-100">
-                                Reset Password
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> 
+    <!-- Forgot password flow: see components/partials/forgot-modal.blade.php --> 

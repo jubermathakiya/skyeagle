@@ -1,7 +1,8 @@
 import $ from "jquery";
-import { initAjaxFormValidation } from "../common/form-handler.js";
+import { initAjaxFormValidation, closeLoginModal } from "../common/form-handler.js";
 
 let loginOtpTimerInterval = null;
+let pendingLoginRedirect = "/";
 
 export function showLoginPanel(panel) {
     $("#login-modal [data-login-panel]").addClass("d-none");
@@ -15,12 +16,26 @@ export function setLoginTab(tab) {
     $(`#login-modal [data-login-tab-pane="${tab}"]`).removeClass("d-none");
 }
 
-export function showLoginSuccess(redirect) {
-    if (redirect) {
-        $("#login_success_redirect").val(redirect);
-        $("#login_success_dashboard_btn").attr("href", redirect);
+export function openCompleteNameModal(redirect = "/") {
+    pendingLoginRedirect = redirect || "/";
+    closeLoginModal();
+
+    const modalEl = document.getElementById("complete-name-modal");
+    if (!modalEl || typeof bootstrap === "undefined") {
+        window.location.href = pendingLoginRedirect;
+        return;
     }
-    showLoginPanel("success");
+
+    bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+export function showLoginSuccess(redirect, needsName = false) {
+    if (needsName) {
+        openCompleteNameModal(redirect);
+        return;
+    }
+
+    window.location.href = redirect || "/";
 }
 
 function clearLoginOtpTimer() {
@@ -210,7 +225,7 @@ function initLoginOtpForms() {
                         return;
                     }
                     window.showToastmessage?.(res.message || "Login successful.", "success");
-                    showLoginSuccess(res.redirect);
+                    showLoginSuccess(res.redirect, !!res.needs_name);
                 },
                 onError(res) {
                     window.showToastmessage?.(res?.message || "Invalid OTP.", "error");
@@ -224,6 +239,39 @@ function initLoginOtpForms() {
     }
 }
 
+function initCompleteNameForm() {
+    if (!$("#auth_complete_name_form").length) {
+        return;
+    }
+
+    initAjaxFormValidation(
+        "#auth_complete_name_form",
+        {
+            full_name: { required: true, maxlength: 161 },
+        },
+        {},
+        {
+            skipRequiredFor: ["full_name"],
+            onSuccess(res) {
+                if (!res?.status) {
+                    window.showToastmessage?.(res?.message || "Unable to save your name.", "error");
+                    return;
+                }
+
+                document.querySelector('meta[name="needs-name-prompt"]')?.remove();
+                window.showToastmessage?.(res.message || "Welcome!", "success");
+
+                const modalEl = document.getElementById("complete-name-modal");
+                if (modalEl && typeof bootstrap !== "undefined") {
+                    bootstrap.Modal.getInstance(modalEl)?.hide();
+                }
+
+                window.location.href = res.redirect || pendingLoginRedirect || "/";
+            },
+        }
+    );
+}
+
 export function initLoginModal() {
     if (!$("#login-modal").length) {
         return;
@@ -233,6 +281,7 @@ export function initLoginModal() {
     bindLoginModalUi();
     initLoginOtpDigitInputs();
     initLoginOtpForms();
+    initCompleteNameForm();
 
     $(document).on("click", "#login_resend_otp_btn", function (e) {
         e.preventDefault();

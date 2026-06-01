@@ -122,10 +122,8 @@ class AuthRepository
 
     public function sendLoginOtp(string $login): array
     {
-        
         $identifier = $this->parseLoginIdentifier($login);
         $storedLogin = $identifier['value'];
-        $isRegistration = false;
 
         $user = $this->findUserByLogin($login);
 
@@ -137,33 +135,39 @@ class AuthRepository
             if (! $user->hasCustomerRole()) {
                 throw ValidationException::withMessages(['login' => config('roles.messages.non_user_role')]);
             }
-        } else {
-            
-            $user = $this->createUserFromLoginOtp($identifier);
-            dd($user);
-            $isRegistration = true;
+
+            LoginOtp::query()->where('user_id', $user->id)->delete();
+
+            $otp = (string) random_int(100000, 999999);
+            $expiresAt = now()->addMinutes(5);
+
+            LoginOtp::create([
+                'user_id' => $user->id,
+                'login' => $storedLogin,
+                'is_registration' => false,
+                'otp' => $otp,
+                'otp_expires_at' => $expiresAt,
+                'last_otp_sent_at' => now(),
+            ]);
+
+            $this->dispatchLoginOtp($user, $otp);
+
+            return [
+                'expires_at' => $expiresAt,
+                'display_login' => $this->maskLoginForDisplay($user, $storedLogin),
+                'is_new_user' => false,
+                'login' => $storedLogin,
+            ];
         }
 
-        LoginOtp::query()->where('user_id', $user->id)->delete();
+        $temp = $this->createOrUpdateLoginOtpTemp($identifier);
 
-        $otp = (string) random_int(100000, 999999);
-        $expiresAt = now()->addMinutes(5);
-dd('asdf');
-        LoginOtp::create([
-            'user_id' => $user->id,
-            'login' => $storedLogin,
-            'is_registration' => $isRegistration,
-            'otp' => $otp,
-            'otp_expires_at' => $expiresAt,
-            'last_otp_sent_at' => now(),
-        ]);
-
-        $this->dispatchLoginOtp($user, $otp);
+        $this->dispatchLoginOtpToTemp($temp);
 
         return [
-            'expires_at' => $expiresAt,
-            'display_login' => $this->maskLoginForDisplay($user, $storedLogin),
-            'is_new_user' => $isRegistration,
+            'expires_at' => $temp->otp_expires_at,
+            'display_login' => $this->maskLoginForDisplayFromIdentifier($identifier),
+            'is_new_user' => true,
             'login' => $storedLogin,
         ];
     }
@@ -175,10 +179,59 @@ dd('asdf');
 
         $user = $this->findUserByLogin($login);
 
-        if (! $user) {
-            throw ValidationException::withMessages(['login' => 'No account found.']);
+        if ($user) {
+            return $this->verifyExistingUserLoginOtp($user, $storedLogin, $otp, $remember);
         }
 
+        $temp = $this->findLoginOtpTempByIdentifier($identifier);
+
+        if (! $temp) {
+            throw ValidationException::withMessages(['otp' => 'OTP session not found. Please request a new OTP.']);
+        }
+
+        if ($temp->otp_expires_at->isPast()) {
+            throw ValidationException::withMessages(['otp' => 'OTP expired. Please resend OTP.']);
+        }
+
+        if ($temp->attempt_count >= 5) {
+            throw ValidationException::withMessages(['otp' => 'Too many attempts. Please resend OTP.']);
+        }
+
+        if ($temp->otp !== $otp) {
+            $temp->increment('attempt_count');
+            throw ValidationException::withMessages(['otp' => 'Invalid OTP.']);
+        }
+
+        $user = DB::transaction(fn () => $this->createUserFromLoginTemp($temp));
+
+        Auth::login($user, $remember);
+
+        return 'registered';
+    }
+
+    public function resendLoginOtp(string $login): array
+    {
+        $identifier = $this->parseLoginIdentifier($login);
+        $storedLogin = $identifier['value'];
+        $user = $this->findUserByLogin($login);
+
+        if ($user) {
+            $record = LoginOtp::query()->where('login', $storedLogin)->first();
+            if ($record?->last_otp_sent_at?->gt(now()->subSeconds(30))) {
+                throw ValidationException::withMessages(['login' => 'Please wait 30 seconds before resending OTP.']);
+            }
+        } else {
+            $temp = $this->findLoginOtpTempByIdentifier($identifier);
+            if ($temp?->last_otp_sent_at?->gt(now()->subSeconds(30))) {
+                throw ValidationException::withMessages(['login' => 'Please wait 30 seconds before resending OTP.']);
+            }
+        }
+
+        return $this->sendLoginOtp($login);
+    }
+
+    protected function verifyExistingUserLoginOtp(User $user, string $storedLogin, string $otp, bool $remember): string
+    {
         $record = LoginOtp::query()
             ->where('user_id', $user->id)
             ->where('login', $storedLogin)
@@ -206,8 +259,6 @@ dd('asdf');
             return 'admin_credentials';
         }
 
-        $isRegistration = (bool) $record->is_registration;
-
         LoginOtp::query()->where('user_id', $user->id)->delete();
 
         if ($user->email && $user->email_verified_at === null) {
@@ -216,17 +267,96 @@ dd('asdf');
 
         Auth::login($user, $remember);
 
-        return $isRegistration ? 'registered' : 'success';
+        return 'success';
     }
 
-    public function resendLoginOtp(string $login): array
+    protected function createOrUpdateLoginOtpTemp(array $identifier): UserTemp
     {
-        $record = LoginOtp::query()->where('login', $login)->first();
-        if ($record?->last_otp_sent_at?->gt(now()->subSeconds(30))) {
-            throw ValidationException::withMessages(['login' => 'Please wait 30 seconds before resending OTP.']);
+        $otp = (string) random_int(100000, 999999);
+        $expiresAt = now()->addMinutes(5);
+
+        if ($identifier['type'] === 'email') {
+            UserTemp::query()->where('email', $identifier['value'])->delete();
+        } else {
+            UserTemp::query()->where('phone', $identifier['value'])->delete();
         }
 
-        return $this->sendLoginOtp($login);
+        return UserTemp::create([
+            'first_name' => null,
+            'last_name' => null,
+            'email' => $identifier['type'] === 'email' ? $identifier['value'] : null,
+            'phone' => $identifier['type'] === 'phone' ? $identifier['value'] : null,
+            'password' => Hash::make(Str::random(32)),
+            'otp' => $otp,
+            'otp_expires_at' => $expiresAt,
+            'attempt_count' => 0,
+            'last_otp_sent_at' => now(),
+        ]);
+    }
+
+    protected function findLoginOtpTempByIdentifier(array $identifier): ?UserTemp
+    {
+        if ($identifier['type'] === 'email') {
+            return UserTemp::query()->where('email', $identifier['value'])->first();
+        }
+
+        return UserTemp::query()->where('phone', $identifier['value'])->first();
+    }
+
+    protected function createUserFromLoginTemp(UserTemp $temp): User
+    {
+        $roleId = (int) config('roles.registration_default', config('roles.ids.user', 2));
+
+        $user = User::create([
+            'first_name' => $temp->first_name,
+            'last_name' => $temp->last_name,
+            'email' => $temp->email,
+            'phone' => $temp->phone,
+            'password' => $temp->password,
+            'role_id' => $roleId,
+            'email_verified_at' => $temp->email ? now() : null,
+        ]);
+
+        $temp->delete();
+
+        return $user;
+    }
+
+    protected function dispatchLoginOtpToTemp(UserTemp $temp): void
+    {
+        $userName = trim(($temp->first_name ?? '').' '.($temp->last_name ?? '')) ?: 'User';
+
+        if ($temp->email) {
+            Mail::to($temp->email)->queue(
+                new LoginOtpMail(
+                    otp: $temp->otp,
+                    userName: $userName,
+                    expiresIn: '5 minutes'
+                )
+            );
+
+            return;
+        }
+
+        if ($temp->phone) {
+            SendWhatsappOtpJob::dispatch($temp->phone, $temp->otp);
+        }
+    }
+
+    protected function maskLoginForDisplayFromIdentifier(array $identifier): string
+    {
+        if ($identifier['type'] === 'email') {
+            return $identifier['value'];
+        }
+
+        $phone = $identifier['value'];
+        if (strlen($phone) >= 10) {
+            $last10 = substr($phone, -10);
+
+            return '+91 '.substr($last10, 0, 5).' '.substr($last10, 5);
+        }
+
+        return $phone;
     }
 
     protected function parseLoginIdentifier(string $login): array
@@ -261,38 +391,12 @@ dd('asdf');
             ->first();
     }
 
-    protected function createUserFromLoginOtp(array $identifier): User
-    {
-        $roleId = (int) config('roles.registration_default', config('roles.ids.user', 2));
-
-        if ($identifier['type'] === 'email') {
-            $localPart = Str::before($identifier['value'], '@');
-
-            return User::create([
-                'first_name' => null,
-                'last_name' => null,
-                'email' => $identifier['value'],
-                'phone' => null,
-                'password' => Hash::make(Str::random(32)),
-                'role_id' => $roleId,
-            ]);
-        }
-
-        return User::create([
-            'first_name' => 'User',
-            'last_name' => null,
-            'email' => null,
-            'phone' => $identifier['value'],
-            'password' => Hash::make(Str::random(32)),
-            'role_id' => $roleId,
-        ]);
-    }
-
     protected function dispatchLoginOtp(User $user, string $otp): void
     {
         $userName = trim($user->first_name.' '.$user->last_name) ?: 'User';
 
         if ($user->email) {
+            
             Mail::to($user->email)->queue(
                 new LoginOtpMail(
                     otp: $otp,

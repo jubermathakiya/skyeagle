@@ -30,7 +30,7 @@ class LoginOtpMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.forgot-password-otp',
+            view: 'emails.auth.login-otp',
         );
     }
 }

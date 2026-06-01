@@ -24,7 +24,6 @@
                             </button>
 
                             <input type="hidden" id="login_otp_login_holder" value="">
-                            <input type="hidden" id="login_success_redirect" value="{{ route('dashboard') }}">
 
                             {{-- Credentials (tabs: OTP / Password) --}}
                             <div class="login-modal-panel" data-login-panel="credentials">
@@ -84,10 +83,10 @@
                                                 <input class="form-check-input mt-0" type="checkbox" value="1" id="remembers_me">
                                                 <label class="form-check-label ms-2 text-gray-9 fs-14" for="remembers_me">Remember Me</label>
                                             </div>
-                                            <a href="#" class="link-primary fw-medium fs-14" data-bs-toggle="modal" data-bs-target="#forgot-modal">Forgot Password?</a>
+                                            <a href="#" class="link-primary fw-medium fs-14 js-auth-modal-switch" data-auth-modal-target="#forgot-modal">Forgot Password?</a>
                                         </div>
                                         <div class="mb-3">
-                                            <button type="submit" class="btn btn-xl btn-primary w-100 text-uppercase fw-semibold">Continue</button>
+                                            <button type="submit" class="btn btn-xl btn-primary w-100 text-uppercase fw-semibold">Login</button>
                                         </div>
                                     </form>
                                 </div>
@@ -117,8 +116,7 @@
                                 <h5 class="fw-semibold mb-1">Enter OTP</h5>
                                 <p class="fs-14 text-gray-6 mb-4">
                                     We have sent a 6-digit OTP to
-                                    <span class="fw-semibold text-dark" id="login_otp_display_target">—</span>
-                                    <button type="button" class="btn btn-link link-primary p-0 ms-1 align-baseline" data-login-back="credentials">Edit</button>
+                                    <span class="fw-semibold text-dark" id="login_otp_display_target">—</span>   
                                 </p>
                                 <form id="auth_login_otp_verify_form" action="{{ route('auth.login.otp.verify') }}" method="POST" novalidate>
                                     @csrf
@@ -133,16 +131,6 @@
                                     <button type="button" class="btn btn-link link-primary p-0 mb-3 d-none" id="login_resend_otp_btn">Resend OTP</button>
                                     <button type="submit" class="btn btn-xl btn-primary w-100 text-uppercase fw-semibold">Verify &amp; Login</button>
                                 </form>
-                            </div>
-
-                            {{-- Success --}}
-                            <div class="login-modal-panel d-none text-center login-modal-success-panel" data-login-panel="success">
-                                <div class="login-modal-success-illustration mb-3">
-                                    <img src="{{ URL::asset('build/img/tours/tours-02.jpg') }}" alt="" class="img-fluid rounded-3">
-                                </div>
-                                <h5 class="fw-semibold mb-2">Welcome Back! 👋</h5>
-                                <p class="text-gray-6 fs-14 mb-4">You have successfully logged in.</p>
-                                <a href="{{ route('dashboard') }}" id="login_success_dashboard_btn" class="btn btn-xl btn-primary w-100 text-uppercase fw-semibold">Go to Dashboard</a>
                             </div>
                         </div>
                     </div>
@@ -252,8 +240,8 @@
             background: transparent;
         }
         #login-modal .login-modal-tabs .nav-link.active {
-            color: var(--bs-primary, #0d6efd);
-            border-bottom: 2px solid var(--bs-primary, #0d6efd);
+            color: var(--bs-primary, #0A67F2);
+            border-bottom: 2px solid var(--bs-primary, #0A67F2);
             background: transparent;
         }
         #login-modal .login-otp-digit {
@@ -271,11 +259,6 @@
         }
         #login-modal .login-modal-back-btn:hover {
             color: #111;
-        }
-        #login-modal .login-modal-success-illustration img {
-            max-height: 180px;
-            width: 100%;
-            object-fit: cover;
         }
         #login-modal .login-modal-social-btn {
             width: 48px;
@@ -305,5 +288,26 @@
         #login-modal.modal.fade.show .modal-dialog {
             transform: translateY(0) scale(1);
             opacity: 1;
+        }
+        #login-modal .input-icon .form-control.is-invalid,
+        #login-modal .input-icon .form-control.is-valid.is-invalid {
+            border-color: var(--bs-form-invalid-border-color, #dc3545);
+            background-image: none;
+            box-shadow: none;
+        }
+        #login-modal .input-icon .form-control.is-invalid:not(:last-child),
+        #login-modal .input-icon .form-control.is-valid.is-invalid:not(:last-child) {
+            padding-right: 2.5rem;
+        }
+        #login-modal .input-icon .form-control.is-invalid:last-child,
+        #login-modal .input-icon .form-control.is-valid.is-invalid:last-child {
+            padding-right: 1rem;
+        }
+        #login-modal .input-icon .form-control.is-valid {
+            background-image: none;
+        }
+        #login-modal .input-icon .invalid-feedback {
+            display: block;
+            margin-top: 0.25rem;
         }
     </style>
