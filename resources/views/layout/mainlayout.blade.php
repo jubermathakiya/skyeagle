@@ -82,7 +82,7 @@
 @include('components.global-loader')
 
 @include('layout.partials.vendor-scripts')
-@vite(['resources/js/common/global-loader.js', 'resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js'])
+@vite(['resources/js/common/global-loader.js', 'resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js', 'resources/js/newsletter/subscribe.js'])
 @yield('script')
 </body>
 </html>
