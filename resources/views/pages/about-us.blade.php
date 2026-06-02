@@ -262,7 +262,7 @@
                 <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
                         <p class="mb-4">I recently had the pleasure of booking my Dubai - Abudhabi trip through 
-                            Sky Eagle trip, and I must say, it was an exceptional experience from start to finish!
+                            <strong> Sky Eagle trip </strong>, and I must say, it was an exceptional experience from start to finish!
                             From the moment I inquired about the trip, their team was professional, responsive, 
                             and attentive to my preferences. The itinerary was perfectly planned, balancing 
                             sightseeing, adventure, and relaxation.Every detail, from airport transfers to hotel bookings, 
@@ -286,7 +286,7 @@
                 <!-- Testimonial Item-->
                 <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
-                        <p class="mb-4">Awesome experience! Even though this was our first tour with Sky Eagle Trip, it definitely won’t be the last. Every small detail was taken care of perfectly, and the entire trip was well-managed and enjoyable. We had an amazing time throughout the journey. Special thanks to Megha Ma’am for her proper guidance and continuous support. Highly recommended!</p>
+                        <p class="mb-4">Awesome experience! Even though this was our first tour with <strong>Sky Eagle Trip</strong>, it definitely won’t be the last. Every small detail was taken care of perfectly, and the entire trip was well-managed and enjoyable. We had an amazing time throughout the journey. Special thanks to Megha Ma’am for her proper guidance and continuous support. Highly recommended!</p>
                         <div class="border-top pt-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-md  flex-shrink-0">

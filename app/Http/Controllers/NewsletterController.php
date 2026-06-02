@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\NewsletterSubscriber;
 use App\Repositories\FrontendRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
