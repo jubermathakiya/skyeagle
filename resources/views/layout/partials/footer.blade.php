@@ -11,12 +11,18 @@
                                 experience. </p>
                             <h5>Subscribe to Our Newsletter</h5>
                             <div class="footer-input">
-                                <div class="input-group align-items-center justify-content-center">
-                                    <span class="input-group-text px-1"><i
-                                            class="isax isax-message-favorite5"></i></span>
-                                    <input type="email" class="form-control" placeholder="Enter Email Address">
-                                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                                </div>
+                                <form id="newsletter_subscribe_form" action="{{ route('newsletter.subscribe') }}"
+                                    method="POST">
+                                    @csrf
+                                    <div class="input-group align-items-center justify-content-center">
+                                        <span class="input-group-text px-1"><i
+                                                class="isax isax-message-favorite5"></i></span>
+                                        <input type="email" name="email" id="newsletter_email"
+                                            class="form-control" placeholder="Enter Email Address"
+                                            autocomplete="email" required>
+                                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

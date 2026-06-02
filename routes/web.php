@@ -9,6 +9,7 @@ use App\Http\Controllers\ToursController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -18,6 +19,7 @@ Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-u
 Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
+Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
