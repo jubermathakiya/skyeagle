@@ -1,5 +1,3 @@
-
-
     <footer class="footer-five">
         <div class="container">
             <div class="footer-top">
@@ -9,7 +7,7 @@
                             <span class="d-block mb-2 footer-logo-light"><img src="{{asset('assets/img/sky_logo.png')}}"
                                     width="100" height="100" alt="Logo"></span>
                             <span class="mb-2 footer-logo-dark"><img src="{{asset('assets/img/sky_logo.png')}}" width="100" height="100" alt="Logo"></span>
-                            <p>At Deams Tour, we are committed to delivering a seamless and unforgettable cruise
+                            <p>At <strong>Sky Eagle Trip Tour</strong>, we are committed to delivering a seamless and unforgettable cruise
                                 experience. </p>
                             <h5>Subscribe to Our Newsletter</h5>
                             <div class="footer-input">
@@ -81,7 +79,7 @@
                                 </div>
                                 <div class="customer-info-content">
                                     <span>Customer Support</span>
-                                    <h6>+1 56589 54598</h6>
+                                    <h6>+91 89800 46600</h6>
                                 </div>
                             </div>
                             <div class="customer-info">
@@ -90,7 +88,7 @@
                                 </div>
                                 <div class="customer-info-content">
                                     <span>Drop Us an Email</span>
-                                    <h6>info@example.com</h6>
+                                    <h6>info@skyeagletrip.com</h6>
                                 </div>
                             </div>
                         </div>
@@ -105,23 +103,37 @@
                     <div class="col-md-12">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                             <p class="fs-14">Copyright &copy; {{date('Y')}}. All Rights Reserved, <a href="#"
-                                    class="text-primary fw-medium">{{env('APP_NAME')}}</a></p>
+                                    class="text-primary fw-medium"> {{ config('app.name') }}</a></p>
                             <div class="d-flex align-items-center">
                                 <ul class="social-icon">
                                     <li>
-                                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                        <a href="https://www.facebook.com/skyeagletrip.world/" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-facebook"></i>
+                                        </a>
                                     </li>
+
                                     <li>
-                                        <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                        <a href="https://x.com/sky_trip_eagle" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-x-twitter"></i>
+                                        </a>
                                     </li>
+
                                     <li>
-                                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                        <a href="https://www.instagram.com/skyeagletrip/" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-instagram"></i>
+                                        </a>
                                     </li>
+
                                     <li>
-                                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                                        <a href="https://www.linkedin.com/company/skyeagletrip/" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-linkedin"></i>
+                                        </a>
                                     </li>
+
                                     <li>
-                                        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+                                        <a href="https://in.pinterest.com/sky_eagle_trip/" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-pinterest"></i>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -131,5 +143,4 @@
             </div>
         </div>
         <!-- /Footer Bottom -->
-
     </footer>
