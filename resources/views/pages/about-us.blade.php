@@ -199,7 +199,162 @@
     <!-- /Our Team -->
 
     <!-- user Section -->
+    <style>
+        .user-section .testimonial-slider.owl-carousel .owl-stage { display: flex; align-items: stretch; }
+        .user-section .testimonial-slider.owl-carousel .owl-item { display: flex; align-items: stretch; height: auto; }
+        .user-section .testimonial-card {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 320px;
+            max-height: 320px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .user-section .testimonial-card .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-height: 0;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        .user-section .testimonial-card__quote {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .user-section .testimonial-card__text {
+            color: #4e5561;
+            line-height: 1.6;
+            margin-bottom: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+        }
+        .user-section .testimonial-card__text.is-expanded {
+            display: block;
+            -webkit-line-clamp: unset;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .user-section .testimonial-card__toggle {
+            flex-shrink: 0;
+            margin-top: 0.5rem;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #0a67f2;
+            align-self: flex-start;
+        }
+        .user-section .testimonial-card__toggle:hover,
+        .user-section .testimonial-card__toggle:focus { color: #0a67f2; text-decoration: underline; }
+        .user-section .testimonial-card__footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        .user-section .testimonial-card__footer .avatar img {
+            width: 48px;
+            height: 35px;
+            object-fit: cover;
+        }
+        .user-section .testimonial-card__footer p { margin-bottom: 0; font-size: 14px; color: #4e5561; }
+    </style>
     <section class="section user-section pt-0">
+        <style>
+            .user-section .testimonial-slider.owl-carousel .owl-stage {
+                display: flex;
+                align-items: stretch;
+            }
+            .user-section .testimonial-slider.owl-carousel .owl-item {
+                display: flex;
+                height: auto;
+            }
+            .user-section .testimonial-card {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+                min-height: 300px;
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+            }
+            .user-section .testimonial-card .card-body {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                height: 100%;
+                padding: 1.5rem;
+            }
+            .user-section .testimonial-card__quote {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+                margin-bottom: 0;
+                overflow: hidden;
+            }
+            .user-section .testimonial-card.is-expanded .testimonial-card__quote {
+                overflow-y: auto;
+            }
+            .user-section .testimonial-card__text {
+                color: #4e5561;
+                line-height: 1.6;
+                margin-bottom: 0;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4;
+                overflow: hidden;
+                word-break: break-word;
+            }
+            .user-section .testimonial-card__text.is-expanded {
+                display: block;
+                -webkit-line-clamp: unset;
+                overflow: visible;
+            }
+            .user-section .testimonial-card__toggle {
+                margin-top: 0.5rem;
+                padding: 0;
+                font-size: 14px;
+                font-weight: 600;
+                text-decoration: none;
+                color: #0a67f2;
+                align-self: flex-start;
+            }
+            .user-section .testimonial-card__toggle:hover,
+            .user-section .testimonial-card__toggle:focus {
+                color: #0a67f2;
+                text-decoration: underline;
+            }
+            .user-section .testimonial-card__footer {
+                flex-shrink: 0;
+                margin-top: auto;
+                padding-top: 1rem !important;
+            }
+            .user-section .testimonial-card__footer .avatar img {
+                width: 48px;
+                height: 35px;
+                object-fit: cover;
+            }
+            .user-section .testimonial-card__footer p {
+                margin-bottom: 0;
+                font-size: 14px;
+                color: #4e5561;
+            }
+            @media (max-width: 767.98px) {
+                .user-section .testimonial-card {
+                    min-height: 280px;
+                }
+            }
+        </style>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-10 text-center wow fadeInUp" data-wow-delay="0.2s">
@@ -213,91 +368,104 @@
             </div>
             <div class="owl-carousel testimonial-slider">
                 <!-- Testimonial Item-->
-                <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
+                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
-                        <p class="mb-4">I booked my honeymoon package for Bali through <strong> Sky Eagle Trip</strong> with Nirmesh Bhai, and the experience was awesome. Our trip was from 26th January to 1st February, and throughout the tour the team supported me at every step. The cab service was very good, the hotels were comfortable, and all the locations included in the itinerary were excellent. Everything was well-managed, making our honeymoon stress-free and memorable. Highly recommended!</p>
-                        <div class="border-top pt-4 d-flex align-items-center justify-content-between">
+                        <div class="testimonial-card__quote">
+                            <p class="testimonial-card__text">I booked my honeymoon package for Bali through <strong>Sky Eagle Trip</strong> with Nirmesh Bhai, and the experience was awesome. Our trip was from 26th January to 1st February, and throughout the tour the team supported me at every step. The cab service was very good, the hotels were comfortable, and all the locations included in the itinerary were excellent. Everything was well-managed, making our honeymoon stress-free and memorable. Highly recommended!</p>
+                            <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
+                                <span class="testimonial-card__toggle-more">Read more</span>
+                                <span class="testimonial-card__toggle-less d-none">Read less</span>
+                            </button>
+                        </div>
+                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                <a href="#" class="avatar avatar-md  flex-shrink-0">
-                                    <img src="{{URL::asset('build/img/users/user-01.jpg')}}" class="rounded-circle" alt="img">
-                                </a>
+                                <span class="avatar avatar-md flex-shrink-0">
+                                    <img src="{{ URL::asset('build/img/users/user-01.jpg') }}" class="rounded-circle" alt="Nikhil Sonera">
+                                </span>
                                 <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium"><a href="#">Nikhil Sonera</a></h6>
-                                    <p>Bali, indonesia</p>
+                                    <h6 class="fs-16 fw-medium mb-0">Nikhil Sonera</h6>
+                                    <p>Bali, Indonesia</p>
                                 </div>
                             </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">5.0</span>
+                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
                         </div>
                     </div>
                 </div>
                 <!-- /Testimonial Item-->
 
                 <!-- Testimonial Item-->
-                <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
+                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
-                        <p class="mb-4">Our recent trip to Goa was fantastic, largely thanks to the amazing
-                            work of <strong>sky eagle tours</strong>. We especially appreciated the excellent
-                            hotel recommendations which made our small trip comfortable. 
-                            The seamless coordination of all our activities exceeded our expectations. 
-                            Thank you for creating such a memorable experience; we will be recommending your services 
-                            to our friends and family.
-                        </p>
-                        <div class="border-top pt-4 d-flex align-items-center justify-content-between">
+                        <div class="testimonial-card__quote">
+                            <p class="testimonial-card__text">Our recent trip to Goa was fantastic, largely thanks to the amazing work of <strong>Sky Eagle Trip</strong>. We especially appreciated the excellent hotel recommendations which made our small trip comfortable. The seamless coordination of all our activities exceeded our expectations. Thank you for creating such a memorable experience; we will be recommending your services to our friends and family.</p>
+                            <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
+                                <span class="testimonial-card__toggle-more">Read more</span>
+                                <span class="testimonial-card__toggle-less d-none">Read less</span>
+                            </button>
+                        </div>
+                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                <a href="#" class="avatar avatar-md  flex-shrink-0">
-                                    <img src="{{URL::asset('build/img/users/user-02.jpg')}}" class="rounded-circle" alt="img">
-                                </a>
+                                <span class="avatar avatar-md flex-shrink-0">
+                                    <img src="{{ URL::asset('build/img/users/user-02.jpg') }}" class="rounded-circle" alt="Ami Patel">
+                                </span>
                                 <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium"><a href="#">Ami Patel</a></h6>
+                                    <h6 class="fs-16 fw-medium mb-0">Ami Patel</h6>
                                     <p>Goa, India</p>
                                 </div>
                             </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">5.0</span>
+                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
                         </div>
                     </div>
                 </div>
                 <!-- /Testimonial Item-->
 
                 <!-- Testimonial Item-->
-                <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
+                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
-                        <p class="mb-4">I recently had the pleasure of booking my Dubai - Abudhabi trip through 
-                            <strong> Sky Eagle trip </strong>, and I must say, it was an exceptional experience from start to finish!
-                            From the moment I inquired about the trip, their team was professional, responsive, 
-                            and attentive to my preferences. The itinerary was perfectly planned, balancing 
-                            sightseeing, adventure, and relaxation.Every detail, from airport transfers to hotel bookings, 
-                            was seamless. I truly appreciate the effort put into making this trip hassle-free and enjoyable.
-                            Thank you, Sky Eagle Trip, for an unforgettable Dubai - Abudhabi experience! 
-                            I will definitely recommend your services to friends and family.</p>
-                        <div class="border-top pt-4 d-flex align-items-center justify-content-between">
+                        <div class="testimonial-card__quote">
+                            <p class="testimonial-card__text">I recently had the pleasure of booking my Dubai - Abu Dhabi trip through <strong>Sky Eagle Trip</strong>, and I must say, it was an exceptional experience from start to finish! From the moment I inquired about the trip, their team was professional, responsive, and attentive to my preferences. The itinerary was perfectly planned, balancing sightseeing, adventure, and relaxation. Every detail, from airport transfers to hotel bookings, was seamless. Thank you, Sky Eagle Trip, for an unforgettable experience! I will definitely recommend your services to friends and family.</p>
+                            <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
+                                <span class="testimonial-card__toggle-more">Read more</span>
+                                <span class="testimonial-card__toggle-less d-none">Read less</span>
+                            </button>
+                        </div>
+                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                <a href="#" class="avatar avatar-md  flex-shrink-0">
-                                    <img src="{{URL::asset('build/img/users/user-03.jpg')}}" class="rounded-circle" alt="img">
-                                </a>
+                                <span class="avatar avatar-md flex-shrink-0">
+                                    <img src="{{ URL::asset('build/img/users/user-03.jpg') }}" class="rounded-circle" alt="Soju Joseph">
+                                </span>
                                 <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium"><a href="#">Soju Joseph</a></h6>
+                                    <h6 class="fs-16 fw-medium mb-0">Soju Joseph</h6>
                                     <p>Dubai, Abu Dhabi</p>
                                 </div>
                             </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">5.0</span>
+                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
                         </div>
                     </div>
                 </div>
+                <!-- /Testimonial Item-->
+
                 <!-- Testimonial Item-->
-                <div class="card border-white wow fadeInUp" data-wow-delay="0.2s">
+                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
                     <div class="card-body">
-                        <p class="mb-4">Awesome experience! Even though this was our first tour with <strong>Sky Eagle Trip</strong>, it definitely won’t be the last. Every small detail was taken care of perfectly, and the entire trip was well-managed and enjoyable. We had an amazing time throughout the journey. Special thanks to Megha Ma’am for her proper guidance and continuous support. Highly recommended!</p>
-                        <div class="border-top pt-4 d-flex align-items-center justify-content-between">
+                        <div class="testimonial-card__quote">
+                            <p class="testimonial-card__text">Awesome experience! Even though this was our first tour with <strong>Sky Eagle Trip</strong>, it definitely won’t be the last. Every small detail was taken care of perfectly, and the entire trip was well-managed and enjoyable. We had an amazing time throughout the journey. Special thanks to Megha Ma’am for her proper guidance and continuous support. Highly recommended!</p>
+                            <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
+                                <span class="testimonial-card__toggle-more">Read more</span>
+                                <span class="testimonial-card__toggle-less d-none">Read less</span>
+                            </button>
+                        </div>
+                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md  flex-shrink-0">
-                                    <img src="{{URL::asset('build/img/users/user-01.jpg')}}" class="rounded-circle" alt="img">
+                                <span class="avatar avatar-md flex-shrink-0">
+                                    <img src="{{ URL::asset('build/img/users/user-01.jpg') }}" class="rounded-circle" alt="Mayank Gajera">
                                 </span>
                                 <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium">Mayank Gajera</h6>
+                                    <h6 class="fs-16 fw-medium mb-0">Mayank Gajera</h6>
                                     <p>Langkawi, Malaysia</p>
                                 </div>
                             </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">5.0</span>
+                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
                         </div>
                     </div>
                 </div>
@@ -314,4 +482,20 @@
         End Page Content
     ========================= -->
 
+@endsection
+
+@section('script')
+    @vite(['resources/js/about-us/testimonials.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var run = function () {
+                if (typeof window.initAboutTestimonials === 'function') {
+                    window.initAboutTestimonials();
+                }
+            };
+            run();
+            setTimeout(run, 300);
+            setTimeout(run, 1000);
+        });
+    </script>
 @endsection

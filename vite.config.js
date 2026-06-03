@@ -37,6 +37,9 @@ export default defineConfig({
                 //Contact js
                 'resources/js/contact/create.js',
 
+                //About us js
+                'resources/js/about-us/testimonials.js',
+
                 //Auth js
                 'resources/js/auth/auth.js',
 

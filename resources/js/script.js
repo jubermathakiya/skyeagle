@@ -233,6 +233,20 @@ Template Name: DreamsTour - Bootstrap Template
           items: 3,
         },
       },
+      onInitialized: function () {
+        setTimeout(function () {
+          if (typeof window.initAboutTestimonials === "function") {
+            window.initAboutTestimonials();
+          }
+        }, 50);
+      },
+      onTranslated: function () {
+        setTimeout(function () {
+          if (typeof window.initAboutTestimonials === "function") {
+            window.initAboutTestimonials();
+          }
+        }, 50);
+      },
     });
   }
   
