@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Category;
 use App\Models\Toures;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class ToureRepository extends BaseRepository
 {
@@ -42,7 +43,11 @@ class ToureRepository extends BaseRepository
             $packagesQuery->where('booking_type', $selectedType);
         }
         if ($selectedDestination !== '') {
-            $packagesQuery->where('destination_city', $selectedDestination);
+            $like = '%' . addcslashes($selectedDestination, '%_\\') . '%';
+            $packagesQuery->where(function ($query) use ($like) {
+                $query->where('destination_city', 'like', $like)
+                    ->orWhere('source_city', 'like', $like);
+            });
         }
         if (!empty($selectedCategoryIds)) {
             $packagesQuery->whereIn('categories_id', $selectedCategoryIds);
@@ -64,6 +69,41 @@ class ToureRepository extends BaseRepository
             'selectedCategoryIds' => $selectedCategoryIds,
             'tourTypeSearch' => $tourTypeSearch,
         ];
+    }
+
+    public function searchTourCities(string $term, int $limit = 20): Collection
+    {
+        $term = trim($term);
+        $like = $term !== '' ? '%' . addcslashes($term, '%_\\') . '%' : null;
+
+        $destinationQuery = Toures::query()
+            ->where('status', 1)
+            ->whereNotNull('destination_city')
+            ->where('destination_city', '!=', '');
+
+        $sourceQuery = Toures::query()
+            ->where('status', 1)
+            ->whereNotNull('source_city')
+            ->where('source_city', '!=', '');
+
+        if ($like !== null) {
+            $destinationQuery->where('destination_city', 'like', $like);
+            $sourceQuery->where('source_city', 'like', $like);
+        }
+
+        return $destinationQuery
+            ->distinct()
+            ->pluck('destination_city')
+            ->merge(
+                $sourceQuery
+                    ->distinct()
+                    ->pluck('source_city')
+            )
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values()
+            ->take($limit);
     }
 
     public function getTourDetails(string $slug)

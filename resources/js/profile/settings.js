@@ -1,6 +1,24 @@
 import { initAjaxFormValidation } from '../common/form-handler.js';
 import { showToastmessage } from '../common/common.js';
 
+function normalizeProfilePhone(value) {
+    const digits = String(value || '').replace(/\D/g, '');
+
+    return digits.length > 10 ? digits.slice(-10) : digits;
+}
+
+function initProfilePhoneInput($) {
+    const $phone = $('#profile_phone');
+
+    if (!$phone.length) {
+        return;
+    }
+
+    $phone.on('input.profilePhone', function () {
+        this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    });
+}
+
 function destroySelect2($el) {
     if ($el.hasClass('select2-hidden-accessible')) {
         $el.select2('destroy');
@@ -151,6 +169,7 @@ function updateSidebarProfile(data) {
 
 window.jQuery(function ($) {
     initProfileAddressPickers($);
+    initProfilePhoneInput($);
 
     initAjaxFormValidation(
         '#profile_settings_form',
@@ -158,7 +177,7 @@ window.jQuery(function ($) {
             first_name: { required: true },
             last_name: { required: true },
             email: { required: true, email: true },
-            phone: { required: true, digits: true, minlength: 10, maxlength: 15 },
+            phone: { required: true, digits: true, minlength: 10, maxlength: 10 },
             address_line1: { required: true, maxlength: 255 },
             address_line2: { maxlength: 255 },
             country_id: { required: true, digits: true },
@@ -166,21 +185,34 @@ window.jQuery(function ($) {
             city_id: { required: true, digits: true },
             postal_code: { maxlength: 32 },
         },
-        {},
+        {
+            phone: {
+                minlength: 'Enter a valid 10-digit mobile number.',
+                maxlength: 'Enter a valid 10-digit mobile number.',
+                digits: 'Enter a valid 10-digit mobile number.',
+            },
+        },
         {
             skipRequiredFor: [
                 'first_name',
                 'last_name',
                 'email',
-                'phone',
                 'address_line1',
                 'country_id',
                 'state_id',
                 'city_id',
             ],
+            beforeSubmit: function () {
+                const $phone = $('#profile_phone');
+                $phone.val(normalizeProfilePhone($phone.val()));
+            },
             onSuccess: function (res) {
                 showToastmessage(res.message || 'Profile updated successfully.', 'success');
                 updateSidebarProfile(res.data);
+
+                if (res.data?.phone) {
+                    $('#profile_phone').val(normalizeProfilePhone(res.data.phone));
+                }
             },
             onError: function (res) {
                 showToastmessage(res.message || 'Something went wrong!', 'error');

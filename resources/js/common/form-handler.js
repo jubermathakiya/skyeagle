@@ -1,4 +1,5 @@
 import { showToastmessage } from '../common/common.js';
+import { setFormSubmitButtonsLoading } from './submit-button-loader.js';
 import Swal from "sweetalert2";
 import $ from "jquery";
 import "jquery-validation";
@@ -27,24 +28,45 @@ function showMessage(message, type = "success") {
     });
 }
 
+function getFieldErrorAnchor($input) {
+    const $iti = $input.closest(".iti");
+
+    if ($iti.length) {
+        return $iti;
+    }
+
+    const $inputIcon = $input.closest(".input-icon");
+
+    if ($input.closest(".input-group").length) {
+        return $input.closest(".input-group");
+    }
+
+    if ($inputIcon.length) {
+        return $inputIcon;
+    }
+
+    if ($input.hasClass("select2-hidden-accessible")) {
+        return $input.next(".select2");
+    }
+
+    return $input;
+}
+
+function placeFieldError($input, message) {
+    const $anchor = getFieldErrorAnchor($input);
+
+    $input.addClass("is-invalid").removeClass("is-valid");
+    $('<div class="invalid-feedback d-block"></div>').text(message).insertAfter($anchor);
+}
+
 export function initAjaxFormValidation(formSelector, rules, messages, extraOptions = {}, arrField = [], rowSelector = "", subrowSelector = "  ") {
     const $form = $(formSelector);
+    if (!$form.length) {
+        return;
+    }
+
     const setSubmittingState = ($formRef, isSubmitting) => {
-        const $submitBtn = $formRef.find('button[type="submit"]');
-        const $saveBtn = $formRef.find('.btn-save');
-        const $loadingBtn = $formRef.find('.btn-loading');
-
-        $submitBtn.prop("disabled", isSubmitting);
-
-        if ($saveBtn.length || $loadingBtn.length) {
-            if (isSubmitting) {
-                $saveBtn.hide();
-                $loadingBtn.show();
-            } else {
-                $saveBtn.show().prop("disabled", false);
-                $loadingBtn.hide();
-            }
-        }
+        setFormSubmitButtonsLoading($formRef, isSubmitting);
     };
 
     // Initialize validation and capture the validator instance
@@ -61,17 +83,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
             if ((skipRequiredFor.includes(element.attr("name")) || element.attr("name").includes("[]")) && error.text().includes("required")) {
                 return;
             }
-            error.addClass('invalid-feedback');
-            if (element.attr('name') === 'password') {
-                error.insertAfter(element.closest('.input-group'));
-                return;
-            } 
-            if (element.hasClass("select2-hidden-accessible")) {
-                // Place error after select2 container
-                error.insertAfter(element.next('.select2'));
-                return;
-            }
-            error.insertAfter(element);
+
+            error.addClass("invalid-feedback d-block");
+            error.insertAfter(getFieldErrorAnchor($(element)));
         },
         highlight: function(element, errorClass, validClass) {
             const name = $(element).attr('name');
@@ -81,6 +95,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 if ($el.hasClass("select2-hidden-accessible")) {
                     $el.next('.select2').find('.select2-selection').addClass(errorClass).removeClass(validClass);
                     return;
+                }
+                if ($el.closest('.iti').length) {
+                    $el.closest('.iti').addClass(errorClass).removeClass(validClass);
                 }
                 $(element).addClass(errorClass).removeClass(validClass);
             }
@@ -102,6 +119,9 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 if ($el.hasClass("select2-hidden-accessible")) {
                     $el.next('.select2').find('.select2-selection').addClass(validClass).removeClass(errorClass);
                     return;
+                }
+                if ($el.closest('.iti').length) {
+                    $el.closest('.iti').addClass(validClass).removeClass(errorClass);
                 }
                 $(element).removeClass(errorClass).addClass(validClass);
             }
@@ -127,7 +147,7 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
             let formData = new FormData(form);
             formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
             // Remove old server errors
-            $form.find(".is-invalid").removeClass("is-invalid");
+            $form.find(".is-invalid, .is-valid").removeClass("is-invalid is-valid");
             $form.find(".invalid-feedback").remove();
 
             var editor = [];
@@ -150,6 +170,11 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 url: $form.attr("action"),
                 type: $form.attr("method"),
                 data: formData,
+                dataType: "json",
+                headers: {
+                    Accept: "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
                 processData: false,
                 contentType: false,
                 beforeSend: function() {
@@ -181,27 +206,30 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 },
                 error: function(xhr) {
                     if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
+                        let errors = xhr.responseJSON?.errors || {};
                         $.each(errors, function(field, messages) {
-                            let input = $form.find('[name="' + field + '"]');
-                            input.addClass("is-invalid");
-                            
-                            if (field === "password" && input.closest(".input-group").length) {
-                                input.closest(".input-group")
-                                    .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
-                            } else if (field.includes('.')) {
+                            if (field.includes('.')) {
                                 //for allow only multipale field
                                 let fieldName = field.replace(/\.\d+$/, "[]");
                                 // find the matching input
                                 let input = $(`[name="${fieldName}"]`).eq(field.match(/\d+/)?.[0] || 0);
-                                if(input.hasClass("select2")){
-                                    input.next('.select2-container')
-                                        .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
+                                if (input.hasClass("select2")) {
+                                    placeFieldError(input, messages[0]);
                                 }
-                            } else {
-                                input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
+                                return;
                             }
+
+                            let input = $form.find('[name="' + field + '"]');
+                            placeFieldError(input, messages[0]);
                         });
+                        return;
+                    }
+
+                    const payload = xhr.responseJSON || {};
+                    if (extraOptions.onError) {
+                        extraOptions.onError(payload);
+                    } else {
+                        showMessage(payload.message || "Something went wrong.", "error");
                     }
                 },
                 complete: function() {
@@ -211,6 +239,8 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     }
                 }
             });
+
+            return false;
         }
     });
 
@@ -371,6 +401,143 @@ export function closeAndResetModal(modalId) {
     $(modalId).find('.invalid-feedback').remove();
 }
 
+const LOGIN_MODAL_SELECTOR = '#login-modal';
+const LOGIN_MODAL_TRANSITION_MS = 300;
+
+function setLoginModalAnimating($modal, isAnimating) {
+    if (isAnimating) {
+        $modal.data('login-modal-animating', true);
+    } else {
+        $modal.removeData('login-modal-animating');
+    }
+}
+
+function getLoginModalBackdrop() {
+    return $(`.modal-backdrop[data-jquery-modal="${LOGIN_MODAL_SELECTOR}"]`);
+}
+
+function createLoginModalBackdrop() {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop fade login-modal-backdrop';
+    backdrop.setAttribute('data-jquery-modal', LOGIN_MODAL_SELECTOR);
+    const modalEl = document.querySelector(LOGIN_MODAL_SELECTOR);
+    if (modalEl?.parentNode) {
+        modalEl.parentNode.insertBefore(backdrop, modalEl);
+    } else {
+        document.body.appendChild(backdrop);
+    }
+    return $(backdrop);
+}
+
+export function resetLoginForm() {
+    if (typeof window.resetLoginModalUI === 'function') {
+        window.resetLoginModalUI();
+        return;
+    }
+
+    const $form = $('#auth_login_form');
+    if (!$form.length) {
+        return;
+    }
+
+    $form[0].reset();
+
+    const validator = $form.data('validator');
+    if (validator) {
+        validator.resetForm();
+    }
+
+    $form.find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
+    $form.find('.invalid-feedback').remove();
+    setFormSubmitButtonsLoading($form, false);
+    $('#remembers_me').prop('checked', false);
+    $form.find('.pass-input').attr('type', 'password');
+    $form.find('.toggle-password i').attr('class', 'isax isax-eye-slash');
+}
+
+export function openLoginModal() {
+    const $modal = $(LOGIN_MODAL_SELECTOR);
+    if (!$modal.length) {
+        return;
+    }
+
+    resetLoginForm();
+
+    if ($modal.data('login-modal-animating')) {
+        return;
+    }
+
+    if (typeof bootstrap !== 'undefined') {
+        bootstrap.Modal.getInstance($modal[0])?.hide();
+    }
+
+    if ($modal.hasClass('show')) {
+        return;
+    }
+
+    setLoginModalAnimating($modal, true);
+
+    let $backdrop = getLoginModalBackdrop();
+    if (!$backdrop.length) {
+        $backdrop = createLoginModalBackdrop();
+    } else {
+        $backdrop.removeClass('show');
+    }
+
+    $modal.removeClass('show').css('display', 'block');
+    $modal.attr('aria-modal', 'true').removeAttr('aria-hidden');
+    $('body').addClass('modal-open');
+
+    void $modal[0].offsetHeight;
+
+    requestAnimationFrame(() => {
+        $backdrop.addClass('show');
+        $modal.addClass('show').css('z-index', 1060);
+        setTimeout(() => setLoginModalAnimating($modal, false), LOGIN_MODAL_TRANSITION_MS);
+    });
+}
+
+export function closeLoginModal() {
+    const $modal = $(LOGIN_MODAL_SELECTOR);
+    if (!$modal.length) {
+        return;
+    }
+
+    const $backdrop = getLoginModalBackdrop();
+    const isOpen = $modal.hasClass('show') || $modal.css('display') === 'block';
+
+    if (!isOpen) {
+        resetLoginForm();
+        $backdrop.remove();
+        $('body').removeClass('modal-open').css('padding-right', '');
+        return;
+    }
+
+    setLoginModalAnimating($modal, true);
+
+    if (typeof bootstrap !== 'undefined') {
+        bootstrap.Modal.getInstance($modal[0])?.hide();
+    }
+
+    $modal.removeClass('show');
+    $backdrop.removeClass('show');
+
+    const finishClose = () => {
+        $modal.css({ display: 'none', zIndex: '' });
+        $modal.removeAttr('aria-modal').attr('aria-hidden', 'true');
+        $backdrop.remove();
+
+        if (!$('.modal.show').length) {
+            $('body').removeClass('modal-open').css('padding-right', '');
+        }
+
+        resetLoginForm();
+        setLoginModalAnimating($modal, false);
+    };
+
+    setTimeout(finishClose, LOGIN_MODAL_TRANSITION_MS);
+}
+
 export function confirmDelete(url, table = null) {
     Swal.fire({
         title: 'Are you sure?',
@@ -430,6 +597,7 @@ export function submitAjaxForm($form, extraOptions = {}) {
             : false,
 
         beforeSend: function () {
+            setFormSubmitButtonsLoading($form, true);
 
             if (extraOptions.beforeSend) {
                 extraOptions.beforeSend($form);
@@ -451,6 +619,7 @@ export function submitAjaxForm($form, extraOptions = {}) {
         },
 
         complete: function () {
+            setFormSubmitButtonsLoading($form, false);
 
             if (extraOptions.onComplete) {
                 extraOptions.onComplete($form);

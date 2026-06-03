@@ -71,7 +71,7 @@
     <link rel="stylesheet" href="{{URL::asset('build/plugins/quill/quill.snow.css')}}">
 @endif
 
-@if (Route::is(['agent-account-settings', 'agent-plans-settings', 'agent-plans', 'agent-security-settings', 'security-settings']))
+@if (Route::is(['agent-account-settings', 'agent-plans-settings', 'agent-plans', 'agent-security-settings', 'profile-settings', 'security-settings']))
     <!-- Mobile CSS-->
     <link rel="stylesheet" href="{{URL::asset('build/plugins/intltelinput/css/intlTelInput.css')}}">
 @endif

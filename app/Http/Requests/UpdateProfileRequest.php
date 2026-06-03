@@ -12,6 +12,17 @@ class UpdateProfileRequest extends FormRequest
         return $this->user() !== null;
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('phone')) {
+            $digits = preg_replace('/\D+/', '', (string) $this->input('phone'));
+
+            $this->merge([
+                'phone' => strlen($digits) > 10 ? substr($digits, -10) : $digits,
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         $countriesTable = config('geo.countries_table', 'countries');
@@ -29,7 +40,7 @@ class UpdateProfileRequest extends FormRequest
                 'max:191',
                 Rule::unique('users', 'email')->ignore($this->user()->id),
             ],
-            'phone' => ['required', 'string', 'max:20'],
+            'phone' => ['required', 'string', 'digits:10'],
 
             'address_line1' => ['required', 'string', 'max:255'],
             'address_line2' => ['nullable', 'string', 'max:255'],

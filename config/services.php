@@ -52,4 +52,9 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URL'),
     ],
 
+    'geoapify' => [
+        'api_key' => env('GEOAPIFY_API_KEY'),
+        'verify_ssl' => env('GEOAPIFY_VERIFY_SSL', true),
+    ],
+
 ];

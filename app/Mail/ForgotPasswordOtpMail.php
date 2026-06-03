@@ -32,7 +32,7 @@ class ForgotPasswordOtpMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'SkyEagle | Forgot Password OTP',
+            subject: 'Your Sky Eagle Trip password reset OTP',
         );
     }
 
@@ -42,7 +42,7 @@ class ForgotPasswordOtpMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.auth.forgot-otp',
+            view: 'emails.auth.forgot-otp',
         );
     }
 

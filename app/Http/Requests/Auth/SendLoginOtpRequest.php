@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Requests\Auth;
+
+use App\Rules\EmailOrTenDigitPhone;
+use Illuminate\Foundation\Http\FormRequest;
+
+class SendLoginOtpRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'login' => ['required', 'string', 'max:191', new EmailOrTenDigitPhone()],
+        ];
+    }
+}

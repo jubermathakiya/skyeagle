@@ -29,6 +29,7 @@ class User extends Authenticatable
         'provider',
         'provider_id',
         'avatar',
+        'name_prompt_completed',
     ];
 
     /**
@@ -52,7 +53,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role_id' => 'integer',
+            'name_prompt_completed' => 'boolean',
         ];
+    }
+
+    public function needsNamePrompt(): bool
+    {
+        if ($this->name_prompt_completed) {
+            return false;
+        }
+
+        $first = trim((string) $this->first_name);
+
+        if ($first === '') {
+            return true;
+        }
+
+        return strcasecmp($first, 'User') === 0;
     }
 
     public function hasAdminRole(): bool

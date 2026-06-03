@@ -27,6 +27,9 @@ export default defineConfig({
                 
                 //custom js
                 'resources/js/common/form-handler.js',
+                'resources/js/common/global-loader.js',
+                'resources/js/common/city-autocomplete.js',
+                'resources/js/tour/tour-destination-search.js',
 
                 //Enquiry js
                 'resources/js/enquiry/create.js',

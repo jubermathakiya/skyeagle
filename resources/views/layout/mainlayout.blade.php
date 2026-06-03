@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-@if(!Route::is(['index-rtl']))
 <html lang="en">
-@endif
-@if(Route::is(['index-rtl']))
-<html lang="en" dir="rtl">
-@endif
 <head>
 
     <!-- Meta Tags -->
@@ -24,6 +19,11 @@
     @if (session('open_login_modal'))
         <meta name="open-login-modal" content="1">
     @endif
+    @auth
+        @if (auth()->user()->needsNamePrompt())
+            <meta name="needs-name-prompt" content="1">
+        @endif
+    @endauth
 
 @include('layout.partials.head-css')
 </head>
@@ -79,8 +79,10 @@
 @component('components.modal-popup')
 @endcomponent
 
+@include('components.global-loader')
+
 @include('layout.partials.vendor-scripts')
-@vite(['resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js'])
+@vite(['resources/js/common/global-loader.js', 'resources/js/auth/auth.js', 'resources/js/wishlist/wishlist.js', 'resources/js/newsletter/subscribe.js'])
 @yield('script')
 </body>
 </html>

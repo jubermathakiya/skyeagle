@@ -2,6 +2,16 @@
 @extends('layout.mainlayout')
 @section('content')
 
+    <style>
+        .profile-phone-field .input-group-text {
+            gap: 6px;
+            background-color: var(--bs-tertiary-bg, #f8f9fa);
+        }
+        .profile-phone-field .input-group-text .iti__flag {
+            transform: scale(1.15);
+        }
+    </style>
+
     <!-- ========================
         Start Page Content
     ========================= -->
@@ -260,9 +270,23 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div>
+                                        <div class="profile-phone-field">
                                             <label class="form-label">Phone</label>
-                                            <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="form-control">
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <span class="iti__flag iti__in" aria-hidden="true"></span>
+                                                    <span>+91</span>
+                                                </span>
+                                                <input type="tel"
+                                                    id="profile_phone"
+                                                    name="phone"
+                                                    value="{{ old('phone', $user->phone) }}"
+                                                    class="form-control"
+                                                    maxlength="10"
+                                                    inputmode="numeric"
+                                                    placeholder="10-digit mobile number"
+                                                    autocomplete="tel">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
