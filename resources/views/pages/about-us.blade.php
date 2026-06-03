@@ -1,5 +1,6 @@
 <?php $page="about-us";?>
 @extends('layout.mainlayout')
+@section('title', 'About Us')
 @section('content')
 
     <!-- ========================
@@ -14,8 +15,7 @@
                     <h2 class="breadcrumb-title mb-2">About Us</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{url('index')}}"><i class="isax isax-home5"></i></a></li>
-                            <li class="breadcrumb-item">Pages</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="isax isax-home5"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">About Us</li>
                         </ol>
                     </nav>

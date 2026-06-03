@@ -34,8 +34,16 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|digits_between:10,15',
+            'message' => 'required|string|max:5000',
+        ]);
+
         try {
             $this->contactRepository->storeContacts($request);
+
             return response()->json([
                 'status'   => true,
                 'message' => 'Contact submitted successfully.',

@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { initAjaxFormValidation, openLoginModal } from "../common/form-handler.js";
+import { setFormSubmitButtonsLoading } from "../common/submit-button-loader.js";
 
 const FORGOT_MODAL_SELECTOR = "#forgot-modal";
 const FORGOT_MODAL_TRANSITION_MS = 300;
@@ -47,7 +48,7 @@ function resetFormValidation($form) {
     }
     $form.find(".is-invalid, .is-valid").removeClass("is-invalid is-valid");
     $form.find(".invalid-feedback").remove();
-    $form.find('button[type="submit"]').prop("disabled", false);
+    setFormSubmitButtonsLoading($form, false);
 }
 
 export function resetForgotModalUI() {

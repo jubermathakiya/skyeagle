@@ -1,5 +1,6 @@
 <?php $page="contact-us";?>
 @extends('layout.mainlayout')
+@section('title', 'Contact Us')
 @section('content')
 
     <!-- ========================
@@ -14,8 +15,7 @@
                     <h2 class="breadcrumb-title mb-2">Contact Us</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{url('index')}}"><i class="isax isax-home5"></i></a></li>
-                            <li class="breadcrumb-item">Pages</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="isax isax-home5"></i></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
                         </ol>
                     </nav>
@@ -38,9 +38,6 @@
                         </div>
                         <div class="mb-4">
                             <h6 class="mb-2">Our team is ready to help. Your satisfaction is our priority</h6>
-                            <p>Got a question, need advice, or looking for help? Our knowledgeable team is here to
-                                assist you every step of the way. We’re just a message or call away, ready to provide
-                                the guidance you need.</p>
                         </div>
                         <div class="border-bottom mb-4">
                             <div class="d-flex align-items-center mb-4">
@@ -82,7 +79,7 @@
                                 <p class="text-gray-6 mb-1">How we can help you? Please write down your query</p>
                             </div>
                             <form id="contact_form" action="{{ route('contact.store') }}" method="POST">
-                            @csrf
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">

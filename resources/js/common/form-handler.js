@@ -1,4 +1,5 @@
 import { showToastmessage } from '../common/common.js';
+import { setFormSubmitButtonsLoading } from './submit-button-loader.js';
 import Swal from "sweetalert2";
 import $ from "jquery";
 import "jquery-validation";
@@ -60,22 +61,12 @@ function placeFieldError($input, message) {
 
 export function initAjaxFormValidation(formSelector, rules, messages, extraOptions = {}, arrField = [], rowSelector = "", subrowSelector = "  ") {
     const $form = $(formSelector);
+    if (!$form.length) {
+        return;
+    }
+
     const setSubmittingState = ($formRef, isSubmitting) => {
-        const $submitBtn = $formRef.find('button[type="submit"]');
-        const $saveBtn = $formRef.find('.btn-save');
-        const $loadingBtn = $formRef.find('.btn-loading');
-
-        $submitBtn.prop("disabled", isSubmitting);
-
-        if ($saveBtn.length || $loadingBtn.length) {
-            if (isSubmitting) {
-                $saveBtn.hide();
-                $loadingBtn.show();
-            } else {
-                $saveBtn.show().prop("disabled", false);
-                $loadingBtn.hide();
-            }
-        }
+        setFormSubmitButtonsLoading($formRef, isSubmitting);
     };
 
     // Initialize validation and capture the validator instance
@@ -179,6 +170,11 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 url: $form.attr("action"),
                 type: $form.attr("method"),
                 data: formData,
+                dataType: "json",
+                headers: {
+                    Accept: "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
                 processData: false,
                 contentType: false,
                 beforeSend: function() {
@@ -210,7 +206,7 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 },
                 error: function(xhr) {
                     if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
+                        let errors = xhr.responseJSON?.errors || {};
                         $.each(errors, function(field, messages) {
                             if (field.includes('.')) {
                                 //for allow only multipale field
@@ -226,6 +222,14 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                             let input = $form.find('[name="' + field + '"]');
                             placeFieldError(input, messages[0]);
                         });
+                        return;
+                    }
+
+                    const payload = xhr.responseJSON || {};
+                    if (extraOptions.onError) {
+                        extraOptions.onError(payload);
+                    } else {
+                        showMessage(payload.message || "Something went wrong.", "error");
                     }
                 },
                 complete: function() {
@@ -235,6 +239,8 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     }
                 }
             });
+
+            return false;
         }
     });
 
@@ -443,7 +449,7 @@ export function resetLoginForm() {
 
     $form.find('.is-invalid, .is-valid').removeClass('is-invalid is-valid');
     $form.find('.invalid-feedback').remove();
-    $form.find('button[type="submit"]').prop('disabled', false);
+    setFormSubmitButtonsLoading($form, false);
     $('#remembers_me').prop('checked', false);
     $form.find('.pass-input').attr('type', 'password');
     $form.find('.toggle-password i').attr('class', 'isax isax-eye-slash');
@@ -591,6 +597,7 @@ export function submitAjaxForm($form, extraOptions = {}) {
             : false,
 
         beforeSend: function () {
+            setFormSubmitButtonsLoading($form, true);
 
             if (extraOptions.beforeSend) {
                 extraOptions.beforeSend($form);
@@ -612,6 +619,7 @@ export function submitAjaxForm($form, extraOptions = {}) {
         },
 
         complete: function () {
+            setFormSubmitButtonsLoading($form, false);
 
             if (extraOptions.onComplete) {
                 extraOptions.onComplete($form);

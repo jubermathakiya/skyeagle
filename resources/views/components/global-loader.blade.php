@@ -45,4 +45,27 @@
     .global-loader-message:not([hidden]) {
         display: block;
     }
+    button.is-submit-loading,
+    input.is-submit-loading[type="submit"] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        pointer-events: none;
+    }
+    .btn-submit-spinner {
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid currentColor;
+        border-color: currentColor transparent currentColor transparent;
+        border-radius: 50%;
+        display: inline-block;
+        flex-shrink: 0;
+        animation: btn-submit-spinner-rotation 0.75s linear infinite;
+        opacity: 0.85;
+    }
+    @keyframes btn-submit-spinner-rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>

@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { initAjaxFormValidation, closeLoginModal } from "../common/form-handler.js";
+import { setFormSubmitButtonsLoading } from "../common/submit-button-loader.js";
 
 let loginOtpTimerInterval = null;
 let pendingLoginRedirect = "/";
@@ -96,7 +97,7 @@ function resetFormValidation($form) {
     }
     $form.find(".is-invalid, .is-valid").removeClass("is-invalid is-valid");
     $form.find(".invalid-feedback").remove();
-    $form.find('button[type="submit"]').prop("disabled", false);
+    setFormSubmitButtonsLoading($form, false);
 }
 
 export function resetLoginModalUI() {
