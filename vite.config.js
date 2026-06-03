@@ -51,6 +51,9 @@ export default defineConfig({
 
                 //Package js 
                 'resources/js/package/index.js',
+
+                //Newsletter js
+                'resources/js/newsletter/subscribe.js',
             ],
             refresh: true,
         }),
