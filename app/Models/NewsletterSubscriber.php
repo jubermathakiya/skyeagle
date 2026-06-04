@@ -8,6 +8,6 @@ class NewsletterSubscriber extends Model
 {
     protected $table = "newsletter_subscribers";
 
-    protected $fillable = ["email"];
+    protected $fillable = ["email","subscribed_at", "unsubscribed_at"];
 }
 
