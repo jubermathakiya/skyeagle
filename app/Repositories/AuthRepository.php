@@ -282,8 +282,6 @@ class AuthRepository
         }
 
         return UserTemp::create([
-            'first_name' => null,
-            'last_name' => null,
             'email' => $identifier['type'] === 'email' ? $identifier['value'] : null,
             'phone' => $identifier['type'] === 'phone' ? $identifier['value'] : null,
             'password' => Hash::make(Str::random(32)),

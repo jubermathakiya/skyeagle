@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('user_temps', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 80);
+            $table->string('first_name', 80)->nullable();
             $table->string('last_name', 80)->nullable();
-            $table->string('email', 191)->index();
-            $table->string('phone', 20)->index();
+            $table->string('email', 191)->nullable()->index();
+            $table->string('phone', 20)->nullable()->index();
             $table->string('password');
             $table->string('otp', 6);
             $table->timestamp('otp_expires_at');
