@@ -741,12 +741,12 @@
                                     <div class="d-flex align-items-center border-bottom pb-3 mb-3">
                                         <span class="avatar avatar-sm me-2 rounded-circle flex-shrink-0 bg-primary"><i
                                                 class="isax isax-call-outgoing5"></i></span>
-                                        <p>Call Us : +1 12545 45548</p>
+                                        <p>Call Us : {{ config('constants.company_phone') }}</p>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <span class="avatar avatar-sm me-2 rounded-circle flex-shrink-0 bg-primary"><i
                                                 class="isax isax-message-search5"></i></span>
-                                        <p>Email : info@skyeagletrip.com</p>
+                                        <p>Email : {{ config('constants.company_email') }}</p>
                                     </div>
                                 </div>
                             </div>

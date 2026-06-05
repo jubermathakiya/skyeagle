@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="customer-info-content">
                                     <span>Customer Support</span>
-                                    <h6>+91 89800 46600</h6>
+                                    <h6>{{ config('constants.company_phone') }}</h6>
                                 </div>
                             </div>
                             <div class="customer-info">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="customer-info-content">
                                     <span>Drop Us an Email</span>
-                                    <h6>info@skyeagletrip.com</h6>
+                                    <h6>{{ config('constants.company_email') }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                     <div class="col-md-12">
                         <div class="d-flex align-items-center justify-content-between flex-wrap">
                             <p class="fs-14">Copyright &copy; {{date('Y')}}. All Rights Reserved, <a href="#"
-                                    class="text-primary fw-medium"> {{ config('app.name') }}</a></p>
+                                    class="text-primary fw-medium"> {{ config('constants.app_name') }}</a></p>
                             <div class="d-flex align-items-center">
                                 <ul class="social-icon">
                                     <li>

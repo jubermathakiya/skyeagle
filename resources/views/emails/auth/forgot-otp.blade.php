@@ -67,7 +67,7 @@
                                 <strong>Sky Eagle Trip Team</strong>
                             </p>
                             <p style="margin:0 0 8px 0; font-size:12px; color:#9ca3af;">
-                                Toll Free: +91 89800 46600 &nbsp;|&nbsp; info@skyeagletrip.com
+                                Toll Free: {{ config('constants.company_phone') }} &nbsp;|&nbsp; {{ config('constants.company_email') }}
                             </p>
                             <p style="margin:0; font-size:12px; color:#9ca3af;">
                                 This is an automated email. Please do not reply directly.

@@ -45,7 +45,7 @@
                                         class="isax isax-sms5 fs-24"></i></span>
                                 <div>
                                     <p class="fs-14 mb-0">Email Address</p>
-                                    <h6 class="text-gray-6">info@skyeagletrip.com</h6>
+                                    <h6 class="text-gray-6">{{ config('constants.company_email') }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                         class="isax isax-call-calling5 fs-24"></i></span>
                                 <div>
                                     <p class="fs-14 mb-0">Phone Number</p>
-                                    <h6 class="text-gray-6">+91 89800 46600</h6>
+                                    <h6 class="text-gray-6">{{ config('constants.company_phone') }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                         class="isax isax-map-15 fs-24"></i></span>
                                 <div>
                                     <p class="fs-14 mb-0">Our Location</p>
-                                    <h6 class="text-gray-6">401, PV Enclave, Before In The Lane Of ICICI Bank, Sindhu Bhavan Marg, near Bodakdev, Ahmedabad, Gujarat 380059</h6>
+                                    <h6 class="text-gray-6">{{ config('constants.company_address') }}</h6>
                                 </div>
                             </div>
                         </div>
