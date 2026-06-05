@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html>
 
@@ -24,13 +25,18 @@
                     </tr>
 
                     <!-- Banner -->
+                    @if(!empty($bannerImage))
                     <tr>
-                        <td>
-                            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200"
-                                width="100%"
-                                style="display:block;height:280px;object-fit:cover;">
+                        <td align="center">
+                            <img
+                                src="{{ $bannerImage }}"
+                                alt="Newsletter Banner"
+                                width="650"
+                                style="display:block;width:100%;max-width:650px;height:auto;border:0;"
+                            >
                         </td>
                     </tr>
+                    @endif
 
                     <!-- Content -->
                     <tr>

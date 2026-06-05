@@ -10,4 +10,5 @@ return [
 
     'currency_symbol' => '₹',
     'backend_url' => env('BACKEND_URL'),
+    'email_media_url' => env('EMAIL_MEDIA_URL'),
 ];

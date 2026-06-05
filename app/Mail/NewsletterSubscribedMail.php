@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,12 +13,14 @@ class NewsletterSubscribedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public string $email;
+     public ?string $bannerImage;
     /**
      * Create a new message instance.
      */
-    public function __construct(string $email)
+    public function __construct(string $email, ?string $bannerImage = null)
     {
         $this->email = $email;
+        $this->bannerImage = $bannerImage;
     }
 
     /**
@@ -41,6 +42,7 @@ class NewsletterSubscribedMail extends Mailable implements ShouldQueue
             view: 'emails.newsletter.subscribed',
             with: [
                 'email' => $this->email,
+                'bannerImage' => $this->bannerImage,
             ]
         );
     }
