@@ -32,6 +32,7 @@ function syncReadMoreToggle(card) {
 
     if (!showToggle) {
         textEl.classList.remove(EXPANDED_CLASS);
+        card.classList.remove(EXPANDED_CLASS);
         toggleBtn.setAttribute('aria-expanded', 'false');
         moreLabel?.classList.remove('d-none');
         lessLabel?.classList.add('d-none');
@@ -48,17 +49,20 @@ function bindReadMoreClicks() {
     $(document).off('click.aboutTestimonials', '.user-section .testimonial-card__toggle');
     $(document).on('click.aboutTestimonials', '.user-section .testimonial-card__toggle', function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         const card = this.closest('.testimonial-card');
         const textEl = card?.querySelector('.testimonial-card__text');
         const moreLabel = card?.querySelector('.testimonial-card__toggle-more');
         const lessLabel = card?.querySelector('.testimonial-card__toggle-less');
 
-        if (!textEl) {
+        if (!textEl || !card) {
             return;
         }
 
-        const isExpanded = textEl.classList.toggle(EXPANDED_CLASS);
+        const isExpanded = !textEl.classList.contains(EXPANDED_CLASS);
+        textEl.classList.toggle(EXPANDED_CLASS, isExpanded);
+        card.classList.toggle(EXPANDED_CLASS, isExpanded);
         this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
         moreLabel?.classList.toggle('d-none', isExpanded);
         lessLabel?.classList.toggle('d-none', !isExpanded);
