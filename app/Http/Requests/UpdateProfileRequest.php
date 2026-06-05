@@ -60,6 +60,9 @@ class UpdateProfileRequest extends FormRequest
                     fn ($q) => $q->where($cityStateCol, (int) $this->input('state_id'))
                 ),
             ],
+
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'remove_profile_image' => ['nullable', 'boolean'],
         ];
     }
 }

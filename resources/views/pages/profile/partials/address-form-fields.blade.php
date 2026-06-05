@@ -4,7 +4,7 @@
     <div class="row gy-2">
         <div class="col-lg-12">
             <div>
-                <label class="form-label">Address</label>
+                <label class="form-label">Address <span class="text-danger">*</span></label>
                 <input type="text" name="address_line1" value="{{ old('address_line1', $addr?->address_line1 ?? '') }}"
                     class="form-control" autocomplete="street-address">
             </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="col-lg-6">
             <div>
-                <label class="form-label">Country</label>
+                <label class="form-label">Country <span class="text-danger">*</span></label>
                 <select name="country_id" id="profile_country_id" class="form-control">
                     <option value="">Select</option>
                     @if ($addr?->country_id)
@@ -29,7 +29,7 @@
         </div>
         <div class="col-lg-6">
             <div>
-                <label class="form-label">State</label>
+                <label class="form-label">State <span class="text-danger">*</span></label>
                 <select name="state_id" id="profile_state_id" class="select">
                     <option value="">Select</option>
                     @if ($addr?->state_id)
@@ -40,7 +40,7 @@
         </div>
         <div class="col-lg-6">
             <div>
-                <label class="form-label">City</label>
+                <label class="form-label">City <span class="text-danger">*</span></label>
                 <select name="city_id" id="profile_city_id" class="select">
                     <option value="">Select</option>
                     @if ($addr?->city_id)

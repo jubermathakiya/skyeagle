@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { initAjaxFormValidation, closeLoginModal } from "../common/form-handler.js";
+import { initAjaxFormValidation, closeLoginModal, updateCsrfToken } from "../common/form-handler.js";
 import { setFormSubmitButtonsLoading } from "../common/submit-button-loader.js";
 
 let loginOtpTimerInterval = null;
@@ -30,12 +30,30 @@ export function openCompleteNameModal(redirect = "/") {
     bootstrap.Modal.getOrCreateInstance(modalEl).show();
 }
 
-export function showLoginSuccess(redirect, needsName = false) {
+export function updateHeaderUserGreeting(firstName) {
+    const name = String(firstName || "").trim();
+    if (!name) {
+        return;
+    }
+
+    let $greeting = $("#header-user-greeting");
+    if (!$greeting.length) {
+        $greeting = $('<p class="mb-0 me-3 fw-semibold fs-14 text-gray-900 d-none d-md-block" id="header-user-greeting"></p>');
+        $(".header-btn .profile-dropdown").first().before($greeting);
+    }
+
+    $greeting.text(`Hey ${name}`);
+}
+
+export function showLoginSuccess(redirect, needsName = false, csrfToken = null, firstName = "") {
+    updateCsrfToken(csrfToken);
+
     if (needsName) {
         openCompleteNameModal(redirect);
         return;
     }
 
+    updateHeaderUserGreeting(firstName);
     window.location.href = redirect || "/";
 }
 
@@ -226,7 +244,7 @@ function initLoginOtpForms() {
                         return;
                     }
                     window.showToastmessage?.(res.message || "Login successful.", "success");
-                    showLoginSuccess(res.redirect, !!res.needs_name);
+                    showLoginSuccess(res.redirect, !!res.needs_name, res.csrf_token, res.first_name);
                 },
                 onError(res) {
                     window.showToastmessage?.(res?.message || "Invalid OTP.", "error");
@@ -259,6 +277,8 @@ function initCompleteNameForm() {
                     return;
                 }
 
+                updateCsrfToken(res.csrf_token);
+                updateHeaderUserGreeting(res.first_name);
                 document.querySelector('meta[name="needs-name-prompt"]')?.remove();
                 window.showToastmessage?.(res.message || "Welcome!", "success");
 
@@ -268,6 +288,9 @@ function initCompleteNameForm() {
                 }
 
                 window.location.href = res.redirect || pendingLoginRedirect || "/";
+            },
+            onError(res) {
+                window.showToastmessage?.(res?.message || "Unable to save your name.", "error");
             },
         }
     );

@@ -37,7 +37,7 @@
                             <div class="profile-content rounded-pill">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class=" d-flex align-items-center justify-content-center">
-                                        <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
+                                        <img src="{{ $user->profile_photo_url }}" alt="image"
                                             class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
                                         <div>
                                             <h6 class="fs-16">{{ $user->name }}</h6>
@@ -211,7 +211,7 @@
                             <h6 class="fs-16 mb-3">Basic Information</h6>
                             <div class="d-flex align-items-center mb-3">
                                 <span class="avatar avatar-xl flex-shrink-0 me-3 ">
-                                    <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="Img" class="img-fluid rounded">
+                                    <img src="{{ $user->profile_photo_url }}" alt="Img" class="img-fluid rounded">
                                 </span>
                                 <div class="profile-upload">
                                     <div class="mb-2">

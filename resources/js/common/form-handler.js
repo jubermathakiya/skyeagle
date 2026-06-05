@@ -11,6 +11,28 @@ if (!window.jQuery) {
     window.jQuery = $;
 }
 
+export function updateCsrfToken(token) {
+    if (!token) {
+        return;
+    }
+
+    $('meta[name="csrf-token"]').attr('content', token);
+    $('input[name="_token"]').val(token);
+}
+
+function appendCsrfToken(formData) {
+    const token = $('meta[name="csrf-token"]').attr('content');
+
+    if (!token) {
+        return formData;
+    }
+
+    formData.delete('_token');
+    formData.append('_token', token);
+
+    return formData;
+}
+
 function showMessage(message, type = "success") {
     if (typeof window.showToastmessage === "function") {
         window.showToastmessage(message, type);
@@ -112,6 +134,11 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                 return;
             }
         },
+        invalidHandler: function () {
+            if (typeof extraOptions.onInvalid === 'function') {
+                extraOptions.onInvalid.apply(this, arguments);
+            }
+        },
         unhighlight: function(element, errorClass, validClass) {
             const name = $(element).attr('name');
             const $el = $(element);
@@ -144,8 +171,7 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     return;
                 }
             }
-            let formData = new FormData(form);
-            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+            let formData = appendCsrfToken(new FormData(form));
             // Remove old server errors
             $form.find(".is-invalid, .is-valid").removeClass("is-invalid is-valid");
             $form.find(".invalid-feedback").remove();
@@ -205,6 +231,12 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     }
                 },
                 error: function(xhr) {
+                    if (xhr.status === 419) {
+                        const payload = xhr.responseJSON || {};
+                        showMessage(payload.message || "Session expired. Please refresh the page and try again.", "error");
+                        return;
+                    }
+
                     if (xhr.status === 422) {
                         let errors = xhr.responseJSON?.errors || {};
                         $.each(errors, function(field, messages) {
@@ -213,7 +245,7 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                                 let fieldName = field.replace(/\.\d+$/, "[]");
                                 // find the matching input
                                 let input = $(`[name="${fieldName}"]`).eq(field.match(/\d+/)?.[0] || 0);
-                                if (input.hasClass("select2")) {
+                                if (input.hasClass("select2-hidden-accessible")) {
                                     placeFieldError(input, messages[0]);
                                 }
                                 return;
@@ -222,6 +254,12 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                             let input = $form.find('[name="' + field + '"]');
                             placeFieldError(input, messages[0]);
                         });
+
+                        if (typeof extraOptions.onValidationError === 'function') {
+                            extraOptions.onValidationError(errors, xhr.responseJSON);
+                        } else if (Object.keys(errors).length) {
+                            showMessage(xhr.responseJSON?.message || 'Please correct the highlighted fields.', 'error');
+                        }
                         return;
                     }
 
@@ -583,8 +621,7 @@ export function submitAjaxForm($form, extraOptions = {}) {
     if ($form.attr("method").toUpperCase() === "GET") {
         formData = $form.serialize();
     } else {
-        formData = new FormData($form[0]);
-        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+        formData = appendCsrfToken(new FormData($form[0]));
     }
 
     $.ajax({

@@ -159,6 +159,8 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'Welcome! Your name has been saved.',
             'redirect' => route('home'),
+            'first_name' => trim((string) $user->first_name),
+            'csrf_token' => csrf_token(),
         ]);
     }
 
@@ -275,6 +277,8 @@ class AuthController extends Controller
             'message' => $message,
             'redirect' => $request->session()->pull('auth_redirect') ?: route('home'),
             'needs_name' => $user ? $user->needsNamePrompt() : false,
+            'first_name' => $user ? trim((string) $user->first_name) : '',
+            'csrf_token' => csrf_token(),
         ];
     }
 

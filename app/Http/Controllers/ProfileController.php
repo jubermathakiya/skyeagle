@@ -37,7 +37,9 @@ class ProfileController extends Controller
         try {
             $user = $this->profileRepository->updateProfile(
                 $request->user(),
-                $request->validated()
+                $request->validated(),
+                $request->file('profile_image'),
+                $request->boolean('remove_profile_image')
             );
 
             $addr = $user->userAddress;
@@ -53,9 +55,13 @@ class ProfileController extends Controller
                     'name' => $user->name,
                     'address_line1' => $addr?->address_line1,
                     'postal_code' => $addr?->postal_code,
+                    'country_id' => $addr?->country_id,
+                    'state_id' => $addr?->state_id,
+                    'city_id' => $addr?->city_id,
                     'country' => $addr?->country?->display_name,
                     'state' => $addr?->state?->display_name,
                     'city' => $addr?->city?->display_name,
+                    'profile_photo_url' => $user->profile_photo_url,
                 ],
             ]);
         } catch (\Exception $e) {

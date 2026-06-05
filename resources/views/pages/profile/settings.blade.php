@@ -10,6 +10,15 @@
         .profile-phone-field .input-group-text .iti__flag {
             transform: scale(1.15);
         }
+        #profile_photo_preview {
+            width: 120px !important;
+            height: 120px !important;
+            min-width: 120px;
+            min-height: 120px;
+            object-fit: cover;
+            display: block;
+            background-color: #e9ecef;
+        }
     </style>
 
     <!-- ========================
@@ -47,8 +56,8 @@
                             <div class="profile-content rounded-pill">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class=" d-flex align-items-center justify-content-center">
-                                        <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
-                                            class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
+                                        <img src="{{ $user->profile_photo_url }}" alt="image"
+                                            class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1 js-profile-photo-preview">
                                         <div>
                                             <h6 class="fs-16">{{ $user->name }}</h6>
                                             <span class="fs-14 text-gray-6">Since {{ $user->created_at?->format('d M Y') }}</span>
@@ -211,8 +220,10 @@
                         data-states-url="{{ route('locations.states') }}"
                         data-cities-url="{{ route('locations.cities') }}"
                         data-countries-search-url="{{ route('locations.countries.search') }}"
-                        data-initial-state-id="{{ $user->userAddress->state_id ?? '' }}"
-                        data-initial-city-id="{{ $user->userAddress->city_id ?? '' }}">
+                        data-initial-country-id="{{ $user->userAddress?->country_id ?? '' }}"
+                        data-initial-state-id="{{ $user->userAddress?->state_id ?? '' }}"
+                        data-initial-city-id="{{ $user->userAddress?->city_id ?? '' }}"
+                        data-default-photo="{{ asset('build/img/users/user-01.jpg') }}">
                         @csrf
                         @method('PUT')
                     <div class="card settings mb-0">
@@ -236,17 +247,20 @@
                                 <div class="row gy-2">
                                     <div class="col-lg-12">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{URL::asset('build/img/users/user-01.jpg')}}" alt="image"
-                                                class="img-fluid avatar avatar-xxl br-10 flex-shrink-0 me-3">
+                                            <img src="{{ $user->profile_photo_url }}" alt="Profile photo"
+                                                id="profile_photo_preview"
+                                                class="img-fluid avatar avatar-xxl br-10 flex-shrink-0 me-3 js-profile-photo-preview">
                                             <div>
-                                                <p class="fs-14 text-gray-6 fw-normal mb-2">Recommended dimensions are
-                                                    typically 400 x 400 pixels.</p>
+                                                <p class="fs-14 text-gray-6 fw-normal mb-2">Image will be cropped to
+                                                    300 x 300 pixels. You can adjust the crop after upload.</p>
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-2">
-                                                        <label class="upload-btn" for="fileUpload">Upload</label>
-                                                        <input type="file" id="fileUpload" style="display: none;">
+                                                        <label class="upload-btn" for="profile_image_picker">Upload</label>
+                                                        <input type="file" id="profile_image_picker" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;">
+                                                        <input type="file" name="profile_image" id="profile_image_input" class="d-none">
+                                                        <input type="hidden" name="remove_profile_image" id="remove_profile_image" value="0">
                                                     </div>
-                                                    <a href="#" class="btn btn-light btn-md">Remove</a>
+                                                    <button type="button" class="btn btn-light btn-md" id="profile_image_remove_btn">Remove</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -314,6 +328,28 @@
     <!-- ========================
         End Page Content
     ========================= -->
+
+    <!-- Profile Photo Crop Modal -->
+    <div class="modal fade" id="profile_crop_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Crop profile photo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="profile-crop-stage">
+                        <canvas id="profile_crop_canvas" aria-label="Crop profile photo"></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="profile_crop_apply_btn">Crop &amp; Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Profile Photo Crop Modal -->
 
 @endsection
 

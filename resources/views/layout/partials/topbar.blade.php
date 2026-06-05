@@ -87,11 +87,18 @@
                         </div>
                         
                         <div class="header-btn d-flex align-items-center">
-                            
+                            @php($greetingName = trim(auth()->user()->first_name ?? ''))
+                            @if ($greetingName !== '')
+                                <p class="mb-0 me-3 fw-semibold fs-14 text-gray-900 d-none d-md-block" id="header-user-greeting">
+                                    Hey {{ $greetingName }}
+                                </p>
+                            @endif
+
                             <div class="dropdown profile-dropdown">
                                 <a href="#" class="d-flex align-items-center" data-bs-toggle="dropdown">
                                     <span class="avatar avatar-md">
-                                        <img src="{{URL::asset('build/img/users/user-05.jpg')}}" alt="Img"
+                                        <img src="{{ auth()->user()->profile_photo_url }}"
+                                            alt="{{ $greetingName !== '' ? $greetingName : 'Profile' }}"
                                             class="img-fluid rounded-circle border border-white border-4">
                                     </span>
                                 </a>

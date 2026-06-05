@@ -111,7 +111,7 @@ if ($("#auth_login_form").length) {
         skipRequiredFor: ["login", "password"],
         onSuccess: function (res) {
             window.showToastmessage?.(res.message || "Login successful.", "success");
-            showLoginSuccess(res.redirect, !!res.needs_name);
+            showLoginSuccess(res.redirect, !!res.needs_name, res.csrf_token, res.first_name);
         },
         onError: function (res) {
             let message = res?.message || "Invalid credentials.";

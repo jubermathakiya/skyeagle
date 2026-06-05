@@ -29,6 +29,7 @@ class User extends Authenticatable
         'provider',
         'provider_id',
         'avatar',
+        'profile_image',
         'name_prompt_completed',
     ];
 
@@ -80,6 +81,19 @@ class User extends Authenticatable
     public function hasCustomerRole(): bool
     {
         return (int) ($this->role_id ?? 0) === (int) config('roles.ids.user', 2);
+    }
+
+    public function getProfilePhotoUrlAttribute(): string
+    {
+        if (! empty($this->profile_image)) {
+            return asset('storage/' . ltrim($this->profile_image, '/'));
+        }
+
+        if (! empty($this->avatar)) {
+            return $this->avatar;
+        }
+
+        return asset('build/img/users/user-01.jpg');
     }
 
     protected function name(): Attribute
