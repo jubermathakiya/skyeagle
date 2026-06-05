@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Mail\NewsletterSubscribedMail;
 use App\Models\Media;
 use App\Models\NewsletterSubscriber;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendRepository
 {
@@ -25,8 +27,13 @@ class FrontendRepository
 
     public function subscribeNewsletter(string $email): NewsletterSubscriber
     {
-        return NewsletterSubscriber::create([
+        $subscriber = NewsletterSubscriber::create([
             'email' => $email,
+            'subscribed_at' => now(),
         ]);
+        Mail::to($email)->queue(
+        new NewsletterSubscribedMail($email)
+        );
+        return $subscriber;
     }
 }
