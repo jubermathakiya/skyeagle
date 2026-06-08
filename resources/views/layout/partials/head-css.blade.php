@@ -100,4 +100,36 @@
         .banner-form .dropdown-menu.show .banner-dropdown-actions {
             display: none !important;
         }
+        .hero-section .banner-form-offset {
+            margin-top: 5rem;
+        }
+        @media (min-width: 992px) {
+            .hero-section .hero-content {
+                padding-top: 160px;
+                padding-bottom: 40px;
+            }
+        }
+        .city-autocomplete-dropdown {
+            background: #fff;
+            border: 1px solid #e4ebf1;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        .city-autocomplete-option {
+            display: block;
+            width: 100%;
+            padding: 10px 14px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            color: #111827;
+        }
+        .city-autocomplete-option:hover,
+        .city-autocomplete-option.is-active {
+            background: #f5f8fa;
+        }
     </style>

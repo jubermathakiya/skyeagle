@@ -28,7 +28,9 @@
                                     >
                                         <i class="isax isax-heart5"></i>
                                     </button>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i class="isax isax-ranking me-1"></i>Trending</span>
+                                    @if(!empty($package->is_trending))
+                                        <span class="badge bg-info d-inline-flex align-items-center"><i class="isax isax-ranking me-1"></i>Trending</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="place-content">

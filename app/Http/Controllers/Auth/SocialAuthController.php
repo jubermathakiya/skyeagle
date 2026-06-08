@@ -24,7 +24,10 @@ class SocialAuthController extends Controller
         $this->ensureProviderAllowed($provider);
         $redirectTo = $request->query('redirect') ?: url()->previous();
         $request->session()->put('social_redirect', $this->sanitizeRedirect($redirectTo));
-        return Socialite::driver($provider)->redirect();
+
+        return Socialite::driver($provider)
+            ->redirectUrl(route('auth.social.callback', ['provider' => $provider]))
+            ->redirect();
     }
 
     
@@ -33,13 +36,14 @@ class SocialAuthController extends Controller
         $this->ensureProviderAllowed($provider);
         try {
             /** @var AbstractProvider $socialiteDriver */
-            $socialiteDriver = Socialite::driver($provider);
-            if (app()->environment('local')) { 
-                $socialiteDriver->setHttpClient( 
-                    new Client([ 
-                        'verify' => false, 
-                    ]) 
-                ); 
+            $socialiteDriver = Socialite::driver($provider)
+                ->redirectUrl(route('auth.social.callback', ['provider' => $provider]));
+            if (app()->environment('local')) {
+                $socialiteDriver->setHttpClient(
+                    new Client([
+                        'verify' => false,
+                    ])
+                );
             }
             try {
                 $socialUser = $socialiteDriver->user();

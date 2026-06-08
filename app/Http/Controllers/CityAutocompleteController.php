@@ -41,7 +41,7 @@ class CityAutocompleteController extends Controller
                 $response = $this->geoapifyHttp()->get('https://api.geoapify.com/v1/geocode/autocomplete', [
                 'text' => $term,
                 'apiKey' => $apiKey,
-                'limit' => 8,
+                'limit' => 12,
                 'type' => 'city',
                 'lang' => 'en',
             ]);
@@ -114,7 +114,7 @@ class CityAutocompleteController extends Controller
     {
         $client = Http::connectTimeout(5)->timeout(8);
 
-        if (!config('services.geoapify.verify_ssl', true)) {
+        if (app()->environment('local') || ! config('services.geoapify.verify_ssl', true)) {
             $client = $client->withoutVerifying();
         }
 
