@@ -3393,11 +3393,10 @@
 
                 <!-- Tour List -->
                 <div class="tab-pane fade" id="Tour-list">
-                    <div id="trending-tours-wrapper">
-                        @include('pages.toures.partials.trending-tours', [
-                            'packages' => $trendingTours,
-                            'wishlistPackageIds' => $wishlistPackageIds,
-                        ])
+                    <div id="trending-tours-wrapper" data-url="{{ route('tours.trending') }}">
+                        <div class="text-center py-4">
+                            <p class="fs-14 mb-0">Loading trending tours...</p>
+                        </div>
                     </div>
                 </div>
                 <!-- /Tour List -->

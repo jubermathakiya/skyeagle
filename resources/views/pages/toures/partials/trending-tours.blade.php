@@ -23,15 +23,15 @@
                         @endforelse
                     </div>
                     <div class="fav-item">
-                        <button
-                            type="button"
+                        <a
+                            href="#"
                             class="fav-icon wishlist-toggle {{ $isWishlisted ? 'selected' : '' }}"
                             data-package-id="{{ $package->id }}"
                             data-toggle-url="{{ route('wishlist.toggle') }}"
                             aria-label="Toggle wishlist"
                         >
                             <i class="isax isax-heart5"></i>
-                        </button>
+                        </a>
                         <span class="badge bg-info d-inline-flex align-items-center"><i class="isax isax-ranking me-1"></i>Trending</span>
                     </div>
                 </div>

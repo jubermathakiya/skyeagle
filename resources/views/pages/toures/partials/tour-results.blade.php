@@ -19,15 +19,15 @@
                                     @php
                                         $isWishlisted = isset($wishlistPackageIds) && $wishlistPackageIds->contains($package->id);
                                     @endphp
-                                    <button
-                                        type="button"
+                                    <a
+                                        href="#"
                                         class="fav-icon wishlist-toggle {{ $isWishlisted ? 'selected' : '' }}"
                                         data-package-id="{{ $package->id }}"
                                         data-toggle-url="{{ route('wishlist.toggle') }}"
                                         aria-label="Toggle wishlist"
                                     >
                                         <i class="isax isax-heart5"></i>
-                                    </button>
+                                    </a>
                                     @if(!empty($package->is_trending))
                                         <span class="badge bg-info d-inline-flex align-items-center"><i class="isax isax-ranking me-1"></i>Trending</span>
                                     @endif
