@@ -33,12 +33,17 @@ class ToureRepository extends BaseRepository
             })
             ->orderBy('name')
             ->get();
+        $isTrending = $request->boolean('is_trending');
+        $imageLimit = $isTrending ? 3 : 4;
         $packagesQuery = Toures::with([
-            'images' => function ($query) {
-                $query->limit(4);
+            'images' => function ($query) use ($imageLimit) {
+                $query->limit($imageLimit);
             },
             'category',
         ])->where('status', 1);
+        if ($isTrending) {
+            $packagesQuery->where('is_trending', 1);
+        }
         if (in_array($selectedType, $allowedTypes, true)) {
             $packagesQuery->where('booking_type', $selectedType);
         }
@@ -57,9 +62,10 @@ class ToureRepository extends BaseRepository
                 $query->where('name', 'like', '%' . $tourTypeSearch . '%');
             });
         }
+        $perPage = $isTrending ? 8 : 5;
         $packages = $packagesQuery
             ->latest()
-            ->paginate(5)
+            ->paginate($perPage)
             ->withQueryString();
         return [
             'packages' => $packages,
@@ -68,7 +74,23 @@ class ToureRepository extends BaseRepository
             'selectedDestination' => $selectedDestination,
             'selectedCategoryIds' => $selectedCategoryIds,
             'tourTypeSearch' => $tourTypeSearch,
+            'isTrending' => $isTrending,
         ];
+    }
+
+    public function getTrendingTours(int $limit = 8)
+    {
+        return Toures::with([
+            'images' => function ($query) {
+                $query->limit(3);
+            },
+            'category',
+        ])
+            ->where('status', 1)
+            ->where('is_trending', 1)
+            ->latest()
+            ->limit($limit)
+            ->get();
     }
 
     public function searchTourCities(string $term, int $limit = 20): Collection

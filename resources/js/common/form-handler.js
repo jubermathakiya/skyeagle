@@ -628,6 +628,11 @@ export function submitAjaxForm($form, extraOptions = {}) {
         url: $form.attr("action"),
         type: $form.attr("method"),
         data: formData,
+        dataType: "json",
+        headers: {
+            Accept: "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+        },
         processData: $form.attr("method").toUpperCase() === "GET",
         contentType: $form.attr("method").toUpperCase() === "GET"
             ? 'application/x-www-form-urlencoded; charset=UTF-8'

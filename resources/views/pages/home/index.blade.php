@@ -25,7 +25,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-12 mx-auto wow fadeInUp" data-wow-delay="0.3s">
                         
-                        <div class="banner-form card mb-0 mt-5">
+                        <div class="banner-form card mb-0 banner-form-offset">
                             <div class="card-header">
                                 <ul class="nav">
                                     <li>
@@ -1032,7 +1032,7 @@
                                                                 <input type="text" class="form-control value-input" value="Newyork">
                                                                 <p class="fs-12 mb-0">Ken International Airport</p>
                                                             </div>
-                                                            <div class="dropdown-menu dropdown-md p-0">
+                                                            {{-- <div class="dropdown-menu dropdown-md p-0">
                                                                 <div class="input-search p-3 border-bottom">
                                                                     <div class="input-group">
                                                                         <input type="text" class="form-control value-input"
@@ -1075,7 +1075,7 @@
                                                                         </a>
                                                                     </li>
                                                                 </ul>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                         <div class="form-item change-drop booking-dropdown dropdown to-location ps-2 ps-sm-3">
                                                             <div data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -1438,62 +1438,15 @@
                                                 </div>
                                                 <div class="d-lg-flex">
                                                     <div class="d-flex  form-info">
-                                                        <div class="form-item booking-dropdown dropdown">
-                                                            <div data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                                                aria-expanded="false" role="menu">
-                                                                <label class="form-label fs-14 text-default mb-1">Where
-                                                                    would like to go?</label>
-                                                                <input type="text" class="form-control value-input" name="destination_city"
-                                                                    id="home-tour-destination" value="" placeholder="Search destination city" autocomplete="off">
-                                                                <p class="fs-12 mb-0" id="home-tour-destination-subtitle">Enter city name to search tours</p>
-                                                            </div>
-                                                            <div class="dropdown-menu dropdown-md p-0 overflow-visible">
-                                                                <div class="input-search p-3 border-bottom">
-                                                                    <div class="input-group">
-                                                                        <input type="text" class="form-control js-city-suggest-input"
-                                                                            data-city-url="{{ route('cities.autocomplete') }}"
-                                                                            data-sync-to="#home-tour-destination"
-                                                                            data-subtitle-to="#home-tour-destination-subtitle"
-                                                                            placeholder="Search for City, Property name or Location"
-                                                                            autocomplete="off">
-                                                                        <span
-                                                                            class="input-group-text px-2 border-start-0"><i
-                                                                                class="isax isax-search-normal"></i></span>
-                                                                    </div>
-                                                                </div>
-                                                                <ul class="js-city-static-list">
-                                                                    <li class="border-bottom">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <div class="fs-16 fw-medium text-dark dropdown-name">USA</div>
-                                                                            <p>200 Places</p>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="border-bottom">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <div class="fs-16 fw-medium text-dark dropdown-name">Japan</div>
-                                                                            <p>300 Places</p>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="border-bottom">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <div class="fs-16 fw-medium text-dark dropdown-name">Singapore</div>
-                                                                            <p>80 Places</p>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li class="border-bottom">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <div class="fs-16 fw-medium text-dark dropdown-name">Russia</div>
-                                                                            <p>500 Places</p>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <div class="fs-16 fw-medium text-dark dropdown-name">Germany</div>
-                                                                            <p>150 Places</p>
-                                                                        </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
+                                                        <div class="form-item">
+                                                            <label class="form-label fs-14 text-default mb-1">Where
+                                                                would like to go?</label>
+                                                            <input type="text" class="form-control value-input js-city-suggest-input" name="destination_city"
+                                                                id="home-tour-destination" value="" placeholder="Search destination city" autocomplete="off"
+                                                                data-city-url="{{ route('cities.autocomplete') }}"
+                                                                data-sync-to="#home-tour-destination"
+                                                                data-subtitle-to="#home-tour-destination-subtitle">
+                                                            <p class="fs-12 mb-0" id="home-tour-destination-subtitle">Enter city name to search tours</p>
                                                         </div>
                                                         <div class="form-item">
                                                             <label
@@ -1681,7 +1634,7 @@
                                                                         value="Newyork">
                                                                     <p class="fs-12 mb-0">USA</p>
                                                                 </div>
-                                                                <div class="dropdown-menu dropdown-md p-0">
+                                                                {{-- <div class="dropdown-menu dropdown-md p-0">
                                                                     <div class="input-search p-3 border-bottom">
                                                                         <div class="input-group">
                                                                             <input type="text" class="form-control"
@@ -1723,7 +1676,7 @@
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                             <div class="form-item change-drop booking-dropdown dropdown ps-2 ps-sm-3">
                                                                 <div data-bs-toggle="dropdown"
@@ -1740,7 +1693,7 @@
                                                                             class="fa-solid fa-arrow-right-arrow-left"></i>
                                                                     </span>
                                                                 </div>
-                                                                <div class="dropdown-menu dropdown-md p-0">
+                                                                {{-- <div class="dropdown-menu dropdown-md p-0">
                                                                     <div class="input-search p-3 border-bottom">
                                                                         <div class="input-group">
                                                                             <input type="text" class="form-control"
@@ -1782,7 +1735,7 @@
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                             <div class="form-item">
                                                                 <label
@@ -3440,387 +3393,12 @@
 
                 <!-- Tour List -->
                 <div class="tab-pane fade" id="Tour-list">
-                    <div class="owl-carousel place-slider nav-center">
-
-                        <!-- Place Item-->
-                        <div class="place-item mb-4 flex-fill">
-                            <div class="place-img">
-                                <div class="img-slider image-slide owl-carousel nav-center">
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-07.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-08.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-09.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fav-item">
-                                    <a href="#" class="fav-icon selected">
-                                        <i class="isax isax-heart5"></i>
-                                    </a>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i
-                                            class="isax isax-ranking me-1"></i>Trending</span>
-                                </div>
-                            </div>
-                            <div class="place-content">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                        <p class="fs-14 text-gray-9">Ecotourism</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="d-flex align-items-center flex-wrap">
-                                        <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">5.0</span>
-                                        <p class="fs-14">(105 Reviews)</p>
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">Rainbow Mountain Valley</a>
-                                </h5>
-                                <p class="d-flex align-items-center mb-3"><i class="isax isax-location5 me-2"></i>Ciutat
-                                    Vella, Barcelona</p>
-                                <div class="mb-3">
-                                    <h6 class="d-flex align-items-center text-gray-6 fs-14 fw-normal">Starts From <span
-                                            class="ms-1 fs-18 fw-semibold text-primary">$500</span><span
-                                            class="ms-1 fs-18 fw-semibold text-gray-3 text-decoration-line-through">$789</span>
-                                    </h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top pt-3">
-                                    <div class="d-flex flex-wrap align-items-center me-2">
-                                        <span class="me-1"><i class="isax isax-calendar-tick text-gray-6"></i></span>
-                                        <p class="fs-14 text-gray-9">4 Day,3 Night</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="ms-2 d-flex align-items-center">
-                                        <p class="fs-14 text-gray-9 mb-0 text-truncate d-flex align-items-center">
-                                            <i class="isax isax-profile-2user me-1"></i>14 Guests
-                                        </p>
-                                        <a href="#" class="avatar avatar-sm ms-3">
-                                            <img src="{{URL::asset('build/img/users/user-08.jpg')}}" class="rounded-circle" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Place Item-->
-
-                        <!-- Place Item-->
-                        <div class="place-item mb-4 flex-fill">
-                            <div class="place-img">
-                                <div class="img-slider image-slide owl-carousel nav-center">
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-08.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-09.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-10.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fav-item">
-                                    <a href="#" class="fav-icon">
-                                        <i class="isax isax-heart5"></i>
-                                    </a>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i
-                                            class="isax isax-ranking me-1"></i>Trending</span>
-                                </div>
-                            </div>
-                            <div class="place-content">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                        <p class="fs-14 text-gray-9 text-truncate">Adventure Tour</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="d-flex align-items-center flex-wrap">
-                                        <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">4.7</span>
-                                        <p class="fs-14">(110 Reviews)</p>
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">Mystic Falls</a></h5>
-                                <p class="d-flex align-items-center mb-3"><i class="isax isax-location5 me-2"></i>Oxford
-                                    Street, London</p>
-                                <div class="mb-3">
-                                    <h6 class="d-flex align-items-center text-gray-6 fs-14 fw-normal">Starts From <span
-                                            class="ms-1 fs-18 fw-semibold text-primary">$600</span><span
-                                            class="ms-1 fs-18 fw-semibold text-gray-3 text-decoration-line-through">$700</span>
-                                    </h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top pt-3">
-                                    <div class="d-flex flex-wrap align-items-center me-2">
-                                        <span class="me-1"><i class="isax isax-calendar-tick text-gray-6"></i></span>
-                                        <p class="fs-14 text-gray-9">3 Day, 2 Night</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="ms-2 d-flex align-items-center">
-                                        <p class="fs-14 text-gray-9 mb-0 text-truncate d-flex align-items-center">
-                                            <i class="isax isax-profile-2user me-1"></i>12 Guests
-                                        </p>
-                                        <a href="#" class="avatar avatar-sm ms-3">
-                                            <img src="{{URL::asset('build/img/users/user-09.jpg')}}" class="rounded-circle" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Place Item-->
-
-                        <!-- Place Item-->
-                        <div class="place-item mb-4 flex-fill">
-                            <div class="place-img">
-                                <div class="img-slider image-slide owl-carousel nav-center">
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-09.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-10.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-11.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fav-item">
-                                    <a href="#" class="fav-icon">
-                                        <i class="isax isax-heart5"></i>
-                                    </a>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i
-                                            class="isax isax-ranking me-1"></i>Trending</span>
-                                </div>
-                            </div>
-                            <div class="place-content">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                        <p class="fs-14 text-gray-9 text-truncate">Summer Trip</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="d-flex align-items-center flex-wrap">
-                                        <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">4.7</span>
-                                        <p class="fs-14">(180 Reviews)</p>
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">Crystal Lake</a></h5>
-                                <p class="d-flex align-items-center mb-3"><i
-                                        class="isax isax-location5 me-2"></i>Princes Street, Edinburgh</p>
-                                <div class="mb-3">
-                                    <h6 class="d-flex align-items-center text-gray-6 fs-14 fw-normal">Starts From <span
-                                            class="ms-1 fs-18 fw-semibold text-primary">$300</span><span
-                                            class="ms-1 fs-18 fw-semibold text-gray-3 text-decoration-line-through">$500</span>
-                                    </h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top pt-3">
-                                    <div class="d-flex flex-wrap align-items-center me-2">
-                                        <span class="me-1"><i class="isax isax-calendar-tick text-gray-6"></i></span>
-                                        <p class="fs-14 text-gray-9">5 Day, 4 Night</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="ms-2 d-flex align-items-center">
-                                        <p class="fs-14 text-gray-9 mb-0 text-truncate d-flex align-items-center">
-                                            <i class="isax isax-profile-2user me-1"></i>16 Guests
-                                        </p>
-                                        <a href="#" class="avatar avatar-sm ms-3">
-                                            <img src="{{URL::asset('build/img/users/user-10.jpg')}}" class="rounded-circle" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Place Item-->
-
-                        <!-- Place Item-->
-                        <div class="place-item mb-4 flex-fill">
-                            <div class="place-img">
-                                <div class="img-slider image-slide owl-carousel nav-center">
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-10.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-11.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-12.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fav-item">
-                                    <a href="#" class="fav-icon">
-                                        <i class="isax isax-heart5"></i>
-                                    </a>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i
-                                            class="isax isax-ranking me-1"></i>Trending</span>
-                                </div>
-                            </div>
-                            <div class="place-content">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                        <p class="fs-14 text-gray-9 text-truncate">Adventure Tour</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="d-flex align-items-center flex-wrap">
-                                        <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">4.9</span>
-                                        <p class="fs-14">(300 Reviews)</p>
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">Majestic Peaks</a></h5>
-                                <p class="d-flex align-items-center mb-3"><i
-                                        class="isax isax-location5 me-2"></i>Deansgate, Manchester</p>
-                                <div class="mb-3">
-                                    <h6 class="d-flex align-items-center text-gray-6 fs-14 fw-normal">Starts From <span
-                                            class="ms-1 fs-18 fw-semibold text-primary">$400</span><span
-                                            class="ms-1 fs-18 fw-semibold text-gray-3 text-decoration-line-through">$480</span>
-                                    </h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top pt-3">
-                                    <div class="d-flex flex-wrap align-items-center me-2">
-                                        <span class="me-1"><i class="isax isax-calendar-tick text-gray-6"></i></span>
-                                        <p class="fs-14 text-gray-9">3 Day, 2 Night</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="ms-2 d-flex align-items-center">
-                                        <p class="fs-14 text-gray-9 mb-0 text-truncate d-flex align-items-center">
-                                            <i class="isax isax-profile-2user me-1"></i>10 Guests
-                                        </p>
-                                        <a href="#" class="avatar avatar-sm ms-3">
-                                            <img src="{{URL::asset('build/img/users/user-11.jpg')}}" class="rounded-circle" alt="img">
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Place Item-->
-
-                        <!-- Place Item-->
-                        <div class="place-item mb-4 flex-fill">
-                            <div class="place-img">
-                                <div class="img-slider image-slide owl-carousel nav-center">
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-11.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-12.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                    <div class="slide-images">
-                                        <a href="{{url('tour-details')}}">
-                                            <img src="{{URL::asset('build/img/tours/tours-13.jpg')}}" class="img-fluid" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="fav-item">
-                                    <a href="#" class="fav-icon">
-                                        <i class="isax isax-heart5"></i>
-                                    </a>
-                                    <span class="badge bg-info d-inline-flex align-items-center"><i
-                                            class="isax isax-ranking me-1"></i>Trending</span>
-                                </div>
-                            </div>
-                            <div class="place-content">
-                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                    <div class="d-flex flex-wrap align-items-center">
-                                        <span class="me-1"><i class="ti ti-receipt text-primary"></i></span>
-                                        <p class="fs-14 text-gray-9 text-truncate">Group Tours</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="d-flex align-items-center flex-wrap">
-                                        <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">4.3</span>
-                                        <p class="fs-14">(250 Reviews)</p>
-                                    </div>
-                                </div>
-                                <h5 class="mb-1 text-truncate"><a href="{{url('tour-details')}}">Enchanted Forest</a></h5>
-                                <p class="d-flex align-items-center mb-3"><i class="isax isax-location5 me-2"></i>Kingâ€™s
-                                    Road, Chelsea</p>
-                                <div class="mb-3">
-                                    <h6 class="d-flex align-items-center text-gray-6 fs-14 fw-normal">Starts From <span
-                                            class="ms-1 fs-18 fw-semibold text-primary">$550</span><span
-                                            class="ms-1 fs-18 fw-semibold text-gray-3 text-decoration-line-through">$600</span>
-                                    </h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top pt-3">
-                                    <div class="d-flex flex-wrap align-items-center me-2">
-                                        <span class="me-1"><i class="isax isax-calendar-tick text-gray-6"></i></span>
-                                        <p class="fs-14 text-gray-9">2 Day, 1 Night</p>
-                                    </div>
-                                    <span class="d-inline-block border vertical-splits">
-                                        <span
-                                            class="bg-light text-light d-flex align-items-center justify-content-center"></span>
-                                    </span>
-                                    <div class="ms-2 d-flex align-items-center">
-                                        <p class="fs-14 text-gray-9 mb-0 text-truncate d-flex align-items-center">
-                                            <i class="isax isax-profile-2user me-1"></i>17 Guests
-                                        </p>
-                                        <a href="#" class="avatar avatar-sm ms-3">
-                                            <img src="{{URL::asset('build/img/users/user-12.jpg')}}" class="rounded-circle" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /Place Item-->
-
+                    <div id="trending-tours-wrapper">
+                        @include('pages.toures.partials.trending-tours', [
+                            'packages' => $trendingTours,
+                            'wishlistPackageIds' => $wishlistPackageIds,
+                        ])
                     </div>
-
                 </div>
                 <!-- /Tour List -->
 
@@ -4089,7 +3667,7 @@
 
             </div>
             <div class="text-center view-all wow fadeInUp">
-                <a href="{{url('hotel-grid')}}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
+                <a href="{{ route('tour-list', ['is_trending' => 1]) }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>
@@ -4201,4 +3779,8 @@
         </div>
     </section> --}}
     <!-- /Client Section -->
+@endsection
+
+@section('script')
+    @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/trending-tours.js'])
 @endsection

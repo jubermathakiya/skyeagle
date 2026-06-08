@@ -51,5 +51,6 @@ Route::middleware(['auth', 'customer'])->group(function () {
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
 Route::get('cities/autocomplete', [CityAutocompleteController::class, 'searchGeoapifyCities'])
     ->name('cities.autocomplete');
+Route::get('tours/trending', [ToursController::class, 'trending'])->name('tours.trending');
 Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
 

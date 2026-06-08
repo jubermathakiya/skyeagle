@@ -52,6 +52,10 @@ export default defineConfig({
                 //Package js 
                 'resources/js/package/index.js',
 
+                //Tour js
+                'resources/js/tour/city-suggestions.js',
+                'resources/js/tour/trending-tours.js',
+
                 //Newsletter js
                 'resources/js/newsletter/subscribe.js',
             ],

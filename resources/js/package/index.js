@@ -3,8 +3,22 @@ import { submitAjaxForm } from '../common/form-handler.js';
 (function ($) {
 
     var $form = $('#tour-filter-form');
+    var $bannerForm = $('#tour-banner-search-form');
     var $resultsCount = $('#tour-results-count');
     var searchTimer = null;
+
+    function setDestinationFilter(city) {
+        $form.find('input[name="destination_city"]').remove();
+        if (city) {
+            $form.append(
+                $('<input>', {
+                    type: 'hidden',
+                    name: 'destination_city',
+                    value: city,
+                })
+            );
+        }
+    }
 
     function updateResults(response, url) {
         if (!response || typeof response.html === 'undefined') {
@@ -50,6 +64,15 @@ import { submitAjaxForm } from '../common/form-handler.js';
         e.preventDefault();
         applyFilters();
     });
+
+    if ($bannerForm.length) {
+        $bannerForm.on('submit', function (e) {
+            e.preventDefault();
+            var city = ($('#tour-list-destination').val() || '').trim();
+            setDestinationFilter(city);
+            applyFilters();
+        });
+    }
     $(document).on(
         'click',
         '#tour-results-wrapper .pagination a',

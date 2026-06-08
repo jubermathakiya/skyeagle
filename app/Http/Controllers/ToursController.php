@@ -19,6 +19,22 @@ class ToursController extends Controller
         $this->touresRepository = $touresRepository;
         $this->wishlistRepository = $wishlistRepository;
     }
+    public function trending(Request $request)
+    {
+        $packages = $this->touresRepository->getTrendingTours(8);
+        $wishlistPackageIds = Auth::check()
+            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())
+            : collect();
+
+        return response()->json([
+            'html' => view(
+                'pages.toures.partials.trending-tours',
+                compact('packages', 'wishlistPackageIds')
+            )->render(),
+            'total' => $packages->count(),
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
