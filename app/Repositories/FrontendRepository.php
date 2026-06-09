@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Mail\NewsletterSubscribedMail;
+use App\Models\CustomerReview;
 use App\Models\Media;
 use App\Models\NewsletterSubscriber;
 
@@ -17,6 +18,17 @@ class FrontendRepository
         ->where('module', 'Home')
         ->where('is_active', 1)
         ->first();
+    }
+
+    public function getCustomerReviews()
+    {
+        return CustomerReview::query()
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get()
+            ->sortBy('sort_order')
+            ->values();
     }
 
     public function alreadySubscribed(string $email): bool
