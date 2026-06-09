@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Mail\NewsletterSubscribedMail;
 use App\Models\Media;
 use App\Models\NewsletterSubscriber;
+
 use Illuminate\Support\Facades\Mail;
 
 class FrontendRepository
@@ -31,8 +32,24 @@ class FrontendRepository
             'email' => $email,
             'subscribed_at' => now(),
         ]);
+        $media = Media::with([
+            'images' => function ($query) {
+                $query->where('is_active', 1)
+                    ->orderBy('sort_order', 'asc');
+            }
+        ])
+        ->where('module', 'Newsletter Subscribe')
+        ->where('is_active', 1)
+        ->latest('id')
+        ->first();
+        
+        $bannerImage = null;
+        if ($media && $media->images->isNotEmpty()) {
+            $filePath = $media->images->first()->file_path;
+            $bannerImage = config('constants.email_media_url'). '/storage/'. ltrim($filePath, '/');
+        }
         Mail::to($email)->queue(
-        new NewsletterSubscribedMail($email)
+            new NewsletterSubscribedMail($email, $bannerImage)
         );
         return $subscriber;
     }
