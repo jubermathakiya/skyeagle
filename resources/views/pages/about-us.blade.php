@@ -1,4 +1,4 @@
-<?php $page="about-us";?>
+﻿<?php $page="about-us";?>
 @extends('layout.mainlayout')
 @section('title', 'About Us')
 @section('content')
@@ -58,7 +58,7 @@
                             for leisure travellers, families, corporates, and Group Tours across the country.
                             With deep expertise in international &amp; domestic destinations and a passion for
                             world-class service, we're your one-stop solution for all things travel.
-                        ​</p>                      
+                        ‹</p>                      
                     </div>
                     <div class="about-mission">
                         <h6 class="text-primary fs-14 fw-medium mb-3">Our Mission</h6>
@@ -212,109 +212,7 @@
                 </div>
             </div>
             <div class="owl-carousel testimonial-slider">
-                <!-- Testimonial Item-->
-                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="card-body">
-                        <div class="testimonial-card__quote">
-                            <p class="testimonial-card__text">I booked my honeymoon package for Bali through <strong>Sky Eagle Trip</strong> with Nirmesh Bhai, and the experience was awesome. Our trip was from 26th January to 1st February, and throughout the tour the team supported me at every step. The cab service was very good, the hotels were comfortable, and all the locations included in the itinerary were excellent. Everything was well-managed, making our honeymoon stress-free and memorable. Highly recommended!</p>
-                        </div>
-                        <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
-                            <span class="testimonial-card__toggle-more">Read more</span>
-                            <span class="testimonial-card__toggle-less d-none">Read less</span>
-                        </button>
-                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md flex-shrink-0">
-                                    <img src="{{ URL::asset('build/img/users/user-01.jpg') }}" class="rounded-circle" alt="Nikhil Sonera">
-                                </span>
-                                <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium mb-0">Nikhil Sonera</h6>
-                                    <p>Bali, Indonesia</p>
-                                </div>
-                            </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Testimonial Item-->
-
-                <!-- Testimonial Item-->
-                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="card-body">
-                        <div class="testimonial-card__quote">
-                            <p class="testimonial-card__text">Our recent trip to Goa was fantastic, largely thanks to the amazing work of <strong>Sky Eagle Trip</strong>. We especially appreciated the excellent hotel recommendations which made our small trip comfortable. The seamless coordination of all our activities exceeded our expectations. Thank you for creating such a memorable experience; we will be recommending your services to our friends and family.</p>
-                        </div>
-                        <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
-                            <span class="testimonial-card__toggle-more">Read more</span>
-                            <span class="testimonial-card__toggle-less d-none">Read less</span>
-                        </button>
-                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md flex-shrink-0">
-                                    <img src="{{ URL::asset('build/img/users/user-02.jpg') }}" class="rounded-circle" alt="Ami Patel">
-                                </span>
-                                <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium mb-0">Ami Patel</h6>
-                                    <p>Goa, India</p>
-                                </div>
-                            </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Testimonial Item-->
-
-                <!-- Testimonial Item-->
-                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="card-body">
-                        <div class="testimonial-card__quote">
-                            <p class="testimonial-card__text">I recently had the pleasure of booking my Dubai - Abu Dhabi trip through <strong>Sky Eagle Trip</strong>, and I must say, it was an exceptional experience from start to finish! From the moment I inquired about the trip, their team was professional, responsive, and attentive to my preferences. The itinerary was perfectly planned, balancing sightseeing, adventure, and relaxation. Every detail, from airport transfers to hotel bookings, was seamless. Thank you, Sky Eagle Trip, for an unforgettable experience! I will definitely recommend your services to friends and family.</p>
-                        </div>
-                        <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
-                            <span class="testimonial-card__toggle-more">Read more</span>
-                            <span class="testimonial-card__toggle-less d-none">Read less</span>
-                        </button>
-                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md flex-shrink-0">
-                                    <img src="{{ URL::asset('build/img/users/user-03.jpg') }}" class="rounded-circle" alt="Soju Joseph">
-                                </span>
-                                <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium mb-0">Soju Joseph</h6>
-                                    <p>Dubai, Abu Dhabi</p>
-                                </div>
-                            </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Testimonial Item-->
-
-                <!-- Testimonial Item-->
-                <div class="card border-white testimonial-card wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="card-body">
-                        <div class="testimonial-card__quote">
-                            <p class="testimonial-card__text">Awesome experience! Even though this was our first tour with <strong>Sky Eagle Trip</strong>, it definitely won’t be the last. Every small detail was taken care of perfectly, and the entire trip was well-managed and enjoyable. We had an amazing time throughout the journey. Special thanks to Megha Ma’am for her proper guidance and continuous support. Highly recommended!</p>
-                        </div>
-                        <button type="button" class="testimonial-card__toggle btn btn-link d-none" aria-expanded="false">
-                            <span class="testimonial-card__toggle-more">Read more</span>
-                            <span class="testimonial-card__toggle-less d-none">Read less</span>
-                        </button>
-                        <div class="testimonial-card__footer border-top pt-4 d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <span class="avatar avatar-md flex-shrink-0">
-                                    <img src="{{ URL::asset('build/img/users/user-01.jpg') }}" class="rounded-circle" alt="Mayank Gajera">
-                                </span>
-                                <div class="ms-2">
-                                    <h6 class="fs-16 fw-medium mb-0">Mayank Gajera</h6>
-                                    <p>Langkawi, Malaysia</p>
-                                </div>
-                            </div>
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">5.0</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Testimonial Item-->
+                @include('pages.about-us.partials.customer-reviews', ['customerReviews' => $customerReviews])
             </div>
         </div>
         <div class="testimonial-bg">
