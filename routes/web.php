@@ -44,8 +44,9 @@ Route::middleware(['auth', 'customer'])->group(function () {
 
     //Wishlist route
     Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
-    Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });
+
+Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
  
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');

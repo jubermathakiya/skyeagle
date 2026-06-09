@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Repositories\ToureRepository;
 use App\Repositories\WishlistRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ToursController extends Controller
 {
@@ -22,9 +21,7 @@ class ToursController extends Controller
     public function trending(Request $request)
     {
         $packages = $this->touresRepository->getTrendingTours(8);
-        $wishlistPackageIds = Auth::check()
-            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())
-            : collect();
+        $wishlistPackageIds = $this->wishlistRepository->getPackageIdsForAuthenticatedUser();
 
         return response()->json([
             'html' => view(
@@ -41,9 +38,7 @@ class ToursController extends Controller
     public function index(Request $request)
     {
         $data = $this->touresRepository->getTours($request);
-        $wishlistPackageIds = Auth::check()
-            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())
-            : collect();
+        $wishlistPackageIds = $this->wishlistRepository->getPackageIdsForAuthenticatedUser();
 
         if ($request->ajax()) {
             return response()->json([
@@ -88,9 +83,7 @@ class ToursController extends Controller
     public function show(string $slug)
     {
         $packageDetails = $this->touresRepository->getTourDetails($slug);
-        $isWishlisted = Auth::check()
-            ? $this->wishlistRepository->getPackageIdsForUser(Auth::id())->contains($packageDetails->id)
-            : false;
+        $isWishlisted = $this->wishlistRepository->isPackageWishlistedForAuthenticatedUser($packageDetails->id);
 
         return view(
             'pages.toures.tour-details',

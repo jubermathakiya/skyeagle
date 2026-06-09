@@ -48,12 +48,7 @@ $(document).on("click", ".wishlist-toggle", function (e) {
         error: function (xhr) {
             const res = xhr.responseJSON;
 
-            if (res?.open_login_modal) {
-                showToastmessage?.(
-                    res?.message || "Please sign in to save items to your wishlist.",
-                    "error"
-                );
-
+            if (res?.open_login_modal || xhr.status === 401) {
                 openLoginModal();
                 return;
             }

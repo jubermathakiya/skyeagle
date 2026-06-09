@@ -3,7 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Wishlist;
-
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class WishlistRepository extends BaseRepository
 {
@@ -24,6 +25,24 @@ class WishlistRepository extends BaseRepository
         return $this->model->newQuery()
             ->where('user_id', $userId)
             ->pluck('package_id');
+    }
+
+    public function getPackageIdsForAuthenticatedUser(): Collection
+    {
+        if (!Auth::check()) {
+            return collect();
+        }
+
+        return $this->getPackageIdsForUser(Auth::id());
+    }
+
+    public function isPackageWishlistedForAuthenticatedUser(int $packageId): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return $this->getPackageIdsForUser(Auth::id())->contains($packageId);
     }
 
     public function getPackagesForUser(int $userId)

@@ -19,15 +19,15 @@
                         @endforelse
                     </div>
                     <div class="fav-item">
-                        <button
-                            type="button"
+                        <a
+                            href="#"
                             class="fav-icon wishlist-toggle selected"
                             data-package-id="{{ $package->id }}"
                             data-toggle-url="{{ route('wishlist.toggle') }}"
                             aria-label="Remove from wishlist"
                         >
                             <i class="isax isax-heart5"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 <div class="place-content">
