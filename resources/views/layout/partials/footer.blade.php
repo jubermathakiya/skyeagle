@@ -6,9 +6,8 @@
                         <div class="footer-about">
                             
                             <span class="mb-2 footer-logo-dark"><img src="{{asset('assets/img/sky_logo.png')}}" width="100" height="100" alt="Logo"></span>
-                            <p>At <strong>Sky Eagle Trip Tour</strong>, we are committed to delivering a seamless and unforgettable cruise
-                                experience. </p>
-                            <h5>Subscribe to Our Newsletter</h5>
+                            <p>The world is full of incredible places. We help you discover them with seamless planning, trusted expertise, and unforgettable experiences.</p>
+                            <h5>Unlock Exclusive Travel Offers</h5>
                             <div class="footer-input mt-3">
                                 <form id="newsletter_subscribe_form" action="{{ route('newsletter.subscribe') }}"
                                     method="POST">
