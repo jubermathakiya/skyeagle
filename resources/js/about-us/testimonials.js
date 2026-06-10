@@ -2,6 +2,11 @@ import $ from 'jquery';
 
 const READ_MORE_MIN_CHARS = 200;
 const EXPANDED_CLASS = 'is-expanded';
+const SLIDER_SELECTOR = '.user-section .testimonial-slider';
+
+function getPageJQuery() {
+    return window.jQuery || $;
+}
 
 function shouldShowReadMore(textEl) {
     if (!textEl) {
@@ -45,6 +50,10 @@ export function initAboutTestimonials() {
 
 window.initAboutTestimonials = initAboutTestimonials;
 
+function showSliderNav($slider) {
+    $slider.find('.owl-nav').removeClass('disabled').css('display', 'block');
+}
+
 function bindReadMoreClicks() {
     $(document).off('click.aboutTestimonials', '.user-section .testimonial-card__toggle');
     $(document).on('click.aboutTestimonials', '.user-section .testimonial-card__toggle', function (e) {
@@ -70,7 +79,9 @@ function bindReadMoreClicks() {
 }
 
 function hookOwlCarousel() {
-    const $slider = $('.user-section .testimonial-slider');
+    const $page = getPageJQuery();
+    const $slider = $page(SLIDER_SELECTOR);
+
     if (!$slider.length) {
         return;
     }
@@ -78,17 +89,32 @@ function hookOwlCarousel() {
     $slider.on(
         'initialized.owl.carousel refreshed.owl.carousel translated.owl.carousel resized.owl.carousel',
         function () {
+            showSliderNav($page(this));
             initAboutTestimonials();
         }
     );
 
     if ($slider.hasClass('owl-loaded')) {
+        showSliderNav($slider);
         initAboutTestimonials();
     }
 }
 
+function refreshTestimonialSlider() {
+    const $page = getPageJQuery();
+    const $slider = $page(SLIDER_SELECTOR);
+
+    if (!$slider.length || !$slider.hasClass('owl-loaded')) {
+        return;
+    }
+
+    showSliderNav($slider);
+    $slider.trigger('refresh.owl.carousel');
+    initAboutTestimonials();
+}
+
 $(function () {
-    if (!$('.user-section .testimonial-slider').length) {
+    if (!$(SLIDER_SELECTOR).length) {
         return;
     }
 
@@ -98,5 +124,11 @@ $(function () {
     initAboutTestimonials();
     setTimeout(initAboutTestimonials, 100);
     setTimeout(initAboutTestimonials, 600);
-    $(window).on('load', initAboutTestimonials);
+    setTimeout(refreshTestimonialSlider, 300);
+    setTimeout(refreshTestimonialSlider, 1000);
+
+    $(window).on('load', function () {
+        refreshTestimonialSlider();
+        initAboutTestimonials();
+    });
 });

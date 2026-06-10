@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\FrontendRepository;
+
 class FrontController extends Controller
 {
+    public function __construct(
+        protected FrontendRepository $frontendRepository,
+    ) {
+    }
+
     public function contactUs()
     {
         return view('pages.contact-us');
@@ -11,6 +18,8 @@ class FrontController extends Controller
 
     public function aboutUs()
     {
-        return view('pages.about-us');
+        $customerReviews = $this->frontendRepository->getCustomerReviews();
+
+        return view('pages.about-us', compact('customerReviews'));
     }
 }
