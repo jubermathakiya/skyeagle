@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+const pageJQuery = window.jQuery || $;
+
 (function ($) {
     'use strict';
 
@@ -52,14 +54,16 @@ import $ from 'jquery';
     function bindTravelerCounters($dropdown) {
         $dropdown
             .find('.quantity-right-plus, .quantity-left-minus')
-            .off('click')
-            .on('click', function (e) {
+            .off('click.tourTravelers')
+            .on('click.tourTravelers', function (e) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
 
-                var $input = $(this)
-                    .closest('.custom-increment')
-                    .find('.input-number');
+                var $input = $(this).closest('.input-group').find('.input-number').first();
+                if (!$input.length) {
+                    return;
+                }
+
                 var min = 0;
                 var count = normalizeCountInput($input, min);
 
@@ -70,9 +74,12 @@ import $ from 'jquery';
                 }
             });
 
-        $dropdown.find('.input-number').on('keydown paste drop', function (e) {
-            e.preventDefault();
-        });
+        $dropdown
+            .find('.input-number')
+            .off('keydown.tourTravelers paste.tourTravelers drop.tourTravelers')
+            .on('keydown.tourTravelers paste.tourTravelers drop.tourTravelers', function (e) {
+                e.preventDefault();
+            });
     }
 
     function setAppliedCounts($dropdown, counts) {
@@ -336,4 +343,4 @@ import $ from 'jquery';
             initTourSearchForm($(this));
         });
     });
-})($);
+})(pageJQuery);

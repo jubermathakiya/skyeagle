@@ -34,6 +34,19 @@
         var isSelecting = false;
         var lastTerm = '';
         var xhr = null;
+        var $field = $input.closest('.js-destination-field');
+        var $loader = $field.find('.destination-field-loader');
+
+        function setLoading(isLoading) {
+            if (!$field.length) {
+                return;
+            }
+            $field.toggleClass('is-loading', isLoading);
+            if ($loader.length) {
+                $loader.toggleClass('d-none', !isLoading);
+            }
+            $input.attr('aria-busy', isLoading ? 'true' : 'false');
+        }
 
         function syncValue(value) {
             var city = (value || '').trim();
@@ -83,6 +96,7 @@
             if (xhr && xhr.abort) {
                 xhr.abort();
             }
+            setLoading(false);
             $input.val(item.value);
             syncValue(item.value);
             $input.trigger('input');
@@ -129,6 +143,8 @@
                 xhr.abort();
             }
 
+            setLoading(true);
+
             xhr = $.ajax({
                 url: searchUrl,
                 method: 'GET',
@@ -158,6 +174,11 @@
                     if (currentId === requestId) {
                         hideDropdown();
                     }
+                })
+                .always(function () {
+                    if (currentId === requestId) {
+                        setLoading(false);
+                    }
                 });
         }
 
@@ -171,6 +192,10 @@
             clearTimeout(debounceTimer);
             if (term.length < 2) {
                 requestId++;
+                if (xhr && xhr.abort) {
+                    xhr.abort();
+                }
+                setLoading(false);
                 hideDropdown();
                 lastTerm = '';
                 return;

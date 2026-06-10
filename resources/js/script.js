@@ -766,6 +766,9 @@ Template Name: DreamsTour - Bootstrap Template
 
   //Increment Decrement Numberes
   $(".quantity-right-plus").on("click", function (e) {
+    if ($(this).closest(".js-tour-traveler-dropdown").length) {
+      return;
+    }
     e.preventDefault();
     var input = $(this).closest(".custom-increment").find(".input-number");
     var quantity = parseInt(input.val());
@@ -773,7 +776,10 @@ Template Name: DreamsTour - Bootstrap Template
     input.val(quantity + 1);
   });
 
-  $(".quantity-left-minus").on("click", function (e) {   
+  $(".quantity-left-minus").on("click", function (e) {
+    if ($(this).closest(".js-tour-traveler-dropdown").length) {
+      return;
+    }
      e.preventDefault();
     var input = $(this).closest(".custom-increment").find(".input-number");
     var quantity = parseInt(input.val());

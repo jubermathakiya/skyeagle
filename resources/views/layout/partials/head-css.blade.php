@@ -76,7 +76,7 @@
     <link rel="stylesheet" href="{{URL::asset('build/plugins/intltelinput/css/intlTelInput.css')}}">
 @endif
 
-@if (Route::is(['agent-account-settings', 'agent-activities-booking', 'agent-bus-booking', 'agent-business-details', 'agent-cancellation-requests', 'agent-car-booking', 'agent-commission-summary', 'agent-cruise-booking', 'agent-earnings', 'agent-enquirers', 'agent-flight-booking', 'agent-hotel-booking', 'agent-payment-history', 'agent-pending-payouts', 'agent-plans-settings', 'agent-plans', 'agent-review', 'agent-security-settings', 'agent-settings-notifications', 'agent-settings', 'agent-tour-booking', 'agent-tour-guide', 'agent-visa-booking', 'customer-activities-booking', 'customer-bus-booking', 'customer-car-booking', 'customer-coupons', 'customer-cruise-booking', 'customer-flight-booking', 'customer-gift-cards', 'customer-hotel-booking', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-booking', 'customer-tour-guides', 'customer-visa-booking', 'destination', 'flight-grid', 'home', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-10', 'index-11', 'index-12', 'index-rtl', 'index', '/', 'integration-settings', 'notification-settings', 'payment', 'preferences-settings', 'profile-settings', 'review', 'security-settings', 'support-fixes', 'wallet', 'wishlist']))
+@if (Route::is(['agent-account-settings', 'agent-activities-booking', 'agent-bus-booking', 'agent-business-details', 'agent-cancellation-requests', 'agent-car-booking', 'agent-commission-summary', 'agent-cruise-booking', 'agent-earnings', 'agent-enquirers', 'agent-flight-booking', 'agent-hotel-booking', 'agent-payment-history', 'agent-pending-payouts', 'agent-plans-settings', 'agent-plans', 'agent-review', 'agent-security-settings', 'agent-settings-notifications', 'agent-settings', 'agent-tour-booking', 'agent-tour-guide', 'agent-visa-booking', 'customer-activities-booking', 'customer-bus-booking', 'customer-car-booking', 'customer-coupons', 'customer-cruise-booking', 'customer-flight-booking', 'customer-gift-cards', 'customer-hotel-booking', 'customer-loyalty-points', 'customer-referral-program', 'customer-reward-history', 'customer-tour-booking', 'customer-tour-guides', 'customer-visa-booking', 'destination', 'flight-grid', 'home', 'index-2', 'index-3', 'index-4', 'index-5', 'index-6', 'index-7', 'index-8', 'index-10', 'index-11', 'index-12', 'index-rtl', 'index', '/', 'integration-settings', 'notification-settings', 'payment', 'preferences-settings', 'profile-settings', 'review', 'security-settings', 'support-fixes', 'tour-list', 'wallet', 'wishlist']))
     <!-- Daterangepikcer CSS -->
     <link rel="stylesheet" href="{{URL::asset('build/plugins/daterangepicker/daterangepicker.css')}}">
 @endif
@@ -115,6 +115,27 @@
         }
         .js-tour-search-form .js-destination-field.has-validation-error .form-label {
             color: #dc3545;
+        }
+        .js-destination-field.is-loading .js-city-suggest-input {
+            padding-right: 2.25rem;
+        }
+        .destination-field-loader {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #d8e0ea;
+            border-top-color: #0d6efd;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            animation: destination-field-loader-spin 0.75s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes destination-field-loader-spin {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
         }
         .city-autocomplete-dropdown {
             background: #fff;

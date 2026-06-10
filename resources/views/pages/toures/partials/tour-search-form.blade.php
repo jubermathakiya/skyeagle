@@ -57,11 +57,14 @@
         <div class="d-flex form-info">
             <div class="form-item js-destination-field">
                 <label class="form-label fs-14 text-default mb-1">Destination</label>
-                <input type="text" class="form-control value-input js-city-suggest-input" name="destination_city"
-                    id="{{ $destinationInputId }}" value="{{ $selectedDestination }}"
-                    placeholder="Search destination city" autocomplete="off"
-                    data-city-url="{{ route('cities.autocomplete') }}"
-                    data-sync-to="#{{ $destinationInputId }}">
+                <div class="destination-input-wrap position-relative">
+                    <input type="text" class="form-control value-input js-city-suggest-input" name="destination_city"
+                        id="{{ $destinationInputId }}" value="{{ $selectedDestination }}"
+                        placeholder="Search destination city" autocomplete="off" aria-busy="false"
+                        data-city-url="{{ route('cities.autocomplete') }}"
+                        data-sync-to="#{{ $destinationInputId }}">
+                    <span class="destination-field-loader d-none" aria-hidden="true"></span>
+                </div>
             </div>
             <div class="form-item">
                 <label class="form-label fs-14 text-default mb-1">Dates</label>
