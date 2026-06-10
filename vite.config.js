@@ -54,6 +54,7 @@ export default defineConfig({
 
                 //Tour js
                 'resources/js/tour/city-suggestions.js',
+                'resources/js/tour/tour-search-form.js',
                 'resources/js/tour/trending-tours.js',
 
                 //Newsletter js

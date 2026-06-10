@@ -111,12 +111,8 @@ import $ from 'jquery';
     }
 
     $(function () {
-        if ($('#trending-tours-wrapper').length) {
-            loadTrendingTours();
-        }
-
         $(document).on('shown.bs.tab', 'a[data-bs-target="#Tour-list"]', function () {
             loadTrendingTours();
         });
     });
-})(jQuery);
+})($);

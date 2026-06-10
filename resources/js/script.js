@@ -2663,20 +2663,53 @@ $('.testimonial-slider-nine').each(function () {
 
   $('.form-info').each(function () {
     let formInfo = $(this);
+
+    if (formInfo.closest('.js-tour-search-form').length) {
+        return;
+    }
+
     let checkIn = formInfo.find('.check-in');
     let checkOut = formInfo.find('.check-out');
 
     // Only initialize if checkIn exists
     if (checkIn.length) {
-        let today = moment();
+        let today = moment().startOf('day');
         let tomorrow = today.clone().add(1, 'days');
+        let checkInVal = (checkIn.val() || '').trim();
+        let checkOutVal = checkOut.length ? (checkOut.val() || '').trim() : '';
+        let startDate = today;
+        let endDate = tomorrow;
+
+        if (checkInVal) {
+            let parsedStart = moment(checkInVal, 'DD-MM-YYYY', true);
+            if (parsedStart.isValid()) {
+                startDate = parsedStart;
+            }
+        }
+
+        if (checkOutVal) {
+            let parsedEnd = moment(checkOutVal, 'DD-MM-YYYY', true);
+            if (parsedEnd.isValid()) {
+                endDate = parsedEnd;
+            }
+        } else if (checkInVal && startDate.isValid()) {
+            endDate = startDate.clone().add(1, 'days');
+        }
+
+        if (!checkInVal) {
+            checkIn.val(startDate.format('DD-MM-YYYY'));
+        }
+
+        if (checkOut.length && !checkOutVal) {
+            checkOut.val(endDate.format('DD-MM-YYYY'));
+        }
 
         checkIn.daterangepicker({
             autoApply: true,
             autoUpdateInput: false,
             minDate: today,
-            startDate: today,
-            endDate: tomorrow,
+            startDate: startDate,
+            endDate: endDate,
             opens: 'center',
             locale: { format: 'DD-MM-YYYY' }
         }, function (start, end) {
@@ -2693,17 +2726,14 @@ $('.testimonial-slider-nine').each(function () {
             }
         });
 
-        // Initial values
-        checkIn.val(today.format('DD-MM-YYYY'));
         checkIn.closest('.form-item')
             .find('p.fs-12')
-            .text(today.format('dddd'));
+            .text(startDate.format('dddd'));
 
         if (checkOut.length) {
-            checkOut.val(tomorrow.format('DD-MM-YYYY'));
             checkOut.closest('.form-item')
                 .find('p.fs-12')
-                .text(tomorrow.format('dddd'));
+                .text(endDate.format('dddd'));
 
             // Clicking checkout opens checkIn picker
             checkOut.on('click', function () {

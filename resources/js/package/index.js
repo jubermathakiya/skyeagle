@@ -7,17 +7,40 @@ import { submitAjaxForm } from '../common/form-handler.js';
     var $resultsCount = $('#tour-results-count');
     var searchTimer = null;
 
-    function setDestinationFilter(city) {
-        $form.find('input[name="destination_city"]').remove();
-        if (city) {
+    function setHiddenFilterField(name, value) {
+        $form.find('input[name="' + name + '"]').remove();
+        if (value !== '' && value !== null && typeof value !== 'undefined') {
             $form.append(
                 $('<input>', {
                     type: 'hidden',
-                    name: 'destination_city',
-                    value: city,
+                    name: name,
+                    value: value,
                 })
             );
         }
+    }
+
+    function syncBannerToFilter($banner) {
+        var fields = [
+            'destination_city',
+            'check_in',
+            'check_out',
+            'adults',
+            'children',
+            'infants',
+            'is_trending',
+        ];
+
+        fields.forEach(function (name) {
+            var value = ($banner.find('[name="' + name + '"]').val() || '').trim();
+            setHiddenFilterField(name, value);
+        });
+    }
+
+    function setDestinationError($banner, hasError) {
+        var $destinationInput = $banner.find('[name="destination_city"]');
+        $destinationInput.toggleClass('is-invalid', hasError);
+        $banner.find('.js-destination-field').toggleClass('has-validation-error', hasError);
     }
 
     function updateResults(response, url) {
@@ -31,10 +54,11 @@ import { submitAjaxForm } from '../common/form-handler.js';
         window.history.replaceState({}, '', url);
     }
 
-    function applyFilters(customUrl = null) {
+    function applyFilters(customUrl = null, historyUrl = null) {
         if (!$form.length) {
             return;
         }
+        var listAction = $form.attr('action');
         if (customUrl) {
             $form.attr('action', customUrl);
         }
@@ -42,8 +66,11 @@ import { submitAjaxForm } from '../common/form-handler.js';
             onSuccess: function (response) {
                 updateResults(
                     response,
-                    $form.attr('action') + '?' + $form.serialize()
+                    historyUrl || customUrl || (listAction + '?' + $form.serialize())
                 );
+                if (customUrl) {
+                    $form.attr('action', listAction);
+                }
             },
             onError: function (response) {
 
@@ -68,9 +95,23 @@ import { submitAjaxForm } from '../common/form-handler.js';
     if ($bannerForm.length) {
         $bannerForm.on('submit', function (e) {
             e.preventDefault();
-            var city = ($('#tour-list-destination').val() || '').trim();
-            setDestinationFilter(city);
-            applyFilters();
+
+            var city = ($bannerForm.find('[name="destination_city"]').val() || '').trim();
+            if (!city) {
+                setDestinationError($bannerForm, true);
+                $bannerForm.find('[name="destination_city"]').trigger('focus');
+                if (typeof window.showToastmessage === 'function') {
+                    window.showToastmessage('Please enter a destination to search.', 'error');
+                }
+                return;
+            }
+
+            setDestinationError($bannerForm, false);
+            syncBannerToFilter($bannerForm);
+            applyFilters(
+                null,
+                $bannerForm.attr('action') + '?' + $bannerForm.serialize()
+            );
         });
     }
     $(document).on(

@@ -109,6 +109,13 @@
                 padding-bottom: 40px;
             }
         }
+        .js-tour-search-form .js-destination-field.has-validation-error {
+            box-shadow: inset 0 0 0 2px #dc3545;
+            border-radius: 4px;
+        }
+        .js-tour-search-form .js-destination-field.has-validation-error .form-label {
+            color: #dc3545;
+        }
         .city-autocomplete-dropdown {
             background: #fff;
             border: 1px solid #e4ebf1;

@@ -21,6 +21,17 @@ Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
+//Home routes
+Route::get('tours/trending', [HomeController::class, 'trending'])->name('tours.trending');
+
+Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+ 
+// Tour Routes
+Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
+Route::get('cities/autocomplete', [CityAutocompleteController::class, 'searchGeoapifyCities'])
+    ->name('cities.autocomplete');
+Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('agent-dashboard', [DashboardController::class, 'agent'])->name('agent-dashboard');
 });
@@ -45,13 +56,4 @@ Route::middleware(['auth', 'customer'])->group(function () {
     //Wishlist route
     Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
 });
-
-Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
- 
-// Tour Routes
-Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
-Route::get('cities/autocomplete', [CityAutocompleteController::class, 'searchGeoapifyCities'])
-    ->name('cities.autocomplete');
-Route::get('tours/trending', [ToursController::class, 'trending'])->name('tours.trending');
-Route::get('tours', [ToursController::class, 'index'])->name('tour-list');
 

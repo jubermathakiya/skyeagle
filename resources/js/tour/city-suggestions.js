@@ -85,6 +85,7 @@
             }
             $input.val(item.value);
             syncValue(item.value);
+            $input.trigger('input');
             hideDropdown();
             lastTerm = item.value;
             setTimeout(function () {

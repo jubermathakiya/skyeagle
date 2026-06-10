@@ -14,9 +14,8 @@
                     <h2 class="breadcrumb-title mb-2">Tours</h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{url('index')}}"><i class="isax isax-home5"></i></a></li>
-                            <li class="breadcrumb-item">Tours</li>
-                            <li class="breadcrumb-item active" aria-current="page">Tour Grid</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="isax isax-home5"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tours</li>
                         </ol>
                     </nav>
                 </div>
@@ -33,239 +32,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="banner-form">
-                        <form class="d-lg-flex" action="{{ route('tour-list') }}" method="GET" id="tour-banner-search-form">
-                            @if(!empty($isTrending))
-                                <input type="hidden" name="is_trending" value="1">
-                            @endif
-                            <div class="d-flex  form-info">
-                                <div class="form-item dropdown">
-                                    <div data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
-                                        role="menu">
-                                        <label class="form-label fs-14 text-default mb-1">Where would like to
-                                            go?</label>
-                                        <input type="text" class="form-control js-city-suggest-input" name="destination_city"
-                                            id="tour-list-destination"
-                                            value="{{ $selectedDestination ?? '' }}" placeholder="Newyork" autocomplete="off"
-                                            data-city-url="{{ route('cities.autocomplete') }}"
-                                            data-sync-to="#tour-list-destination"
-                                            data-subtitle-to="#tour-list-destination-subtitle">
-                                        <p class="fs-12 mb-0" id="tour-list-destination-subtitle">{{ $selectedDestination ?: 'Search destination city' }}</p>
-                                    </div>
-                                    {{-- <div class="dropdown-menu dropdown-md p-0 overflow-visible">
-                                        <div class="input-search p-3 border-bottom">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control js-city-suggest-input"
-                                                    data-city-url="{{ route('cities.autocomplete') }}"
-                                                    data-sync-to="#tour-list-destination"
-                                                    data-subtitle-to="#tour-list-destination-subtitle"
-                                                    placeholder="Search for City, Property name or Location"
-                                                    autocomplete="off">
-                                                <span class="input-group-text px-2 border-start-0"><i
-                                                        class="isax isax-search-normal"></i></span>
-                                            </div>
-                                        </div>
-                                        
-                                    </div> --}}
-                                </div>
-                                <div class="form-item">
-                                    <label class="form-label fs-14 text-default mb-1">Dates</label>
-                                    <input type="text" class="form-control datetimepicker" value="21-10-2025">
-                                    <p class="fs-12 mb-0">Monday</p>
-                                </div>
-                                <div class="form-item">
-                                    <label class="form-label fs-14 text-default mb-1">Check Out</label>
-                                    <input type="text" class="form-control datetimepicker" value="21-10-2025">
-                                    <p class="fs-12 mb-0">Monday</p>
-                                </div>
-                                <div class="form-item dropdown">
-                                    <div data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
-                                        role="menu">
-                                        <label class="form-label fs-14 text-default mb-1">Travellers </label>
-                                        <h5>4 <span class="fw-normal fs-14">Persons</span></h5>
-                                        <p class="fs-12 mb-0">2 Adult</p>
-                                    </div>
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-xl">
-                                        <h5 class="mb-3">Select Travelers & Class</h5>
-                                        <div class="mb-3 border br-10 info-item pb-1">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="mb-3 d-flex align-items-center justify-content-between">
-                                                        <label class="form-label text-gray-9 mb-2">Rooms</label>
-                                                        <div class="custom-increment">
-                                                            <div class="input-group">
-                                                                <span class="input-group-btn float-start">
-                                                                    <button type="button"
-                                                                        class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
-                                                                        <span><i class="isax isax-minus"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
-                                                                <span class="input-group-btn float-end">
-                                                                    <button type="button"
-                                                                        class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
-                                                                        <span><i class="isax isax-add"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="mb-3 d-flex align-items-center justify-content-between">
-                                                        <label class="form-label text-gray-9 mb-2">Adults</label>
-                                                        <div class="custom-increment">
-                                                            <div class="input-group">
-                                                                <span class="input-group-btn float-start">
-                                                                    <button type="button"
-                                                                        class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
-                                                                        <span><i class="isax isax-minus"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
-                                                                <span class="input-group-btn float-end">
-                                                                    <button type="button"
-                                                                        class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
-                                                                        <span><i class="isax isax-add"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="mb-3 d-flex align-items-center justify-content-between">
-                                                        <label class="form-label text-gray-9 mb-2">Children <span
-                                                                class="text-default fw-normal">( 2-12 Yrs
-                                                                )</span></label>
-                                                        <div class="custom-increment">
-                                                            <div class="input-group">
-                                                                <span class="input-group-btn float-start">
-                                                                    <button type="button"
-                                                                        class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
-                                                                        <span><i class="isax isax-minus"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
-                                                                <span class="input-group-btn float-end">
-                                                                    <button type="button"
-                                                                        class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
-                                                                        <span><i class="isax isax-add"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="mb-3 d-flex align-items-center justify-content-between">
-                                                        <label class="form-label text-gray-9 mb-2">Infants <span
-                                                                class="text-default fw-normal">( 0-12 Yrs
-                                                                )</span></label>
-                                                        <div class="custom-increment">
-                                                            <div class="input-group">
-                                                                <span class="input-group-btn float-start">
-                                                                    <button type="button"
-                                                                        class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
-                                                                        <span><i class="isax isax-minus"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
-                                                                <span class="input-group-btn float-end">
-                                                                    <button type="button"
-                                                                        class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
-                                                                        <span><i class="isax isax-add"></i></span>
-                                                                    </button>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 border br-10 info-item pb-1">
-                                            <h6 class="fs-16 fw-medium mb-2">Travellers</h6>
-                                            <div class="d-flex align-items-center flex-wrap">
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="room" id="room1"
-                                                        checked>
-                                                    <label class="form-check-label" for="room1">
-                                                        Single
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="room" id="room2">
-                                                    <label class="form-check-label" for="room2">
-                                                        Double
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="room" id="room3">
-                                                    <label class="form-check-label" for="room3">
-                                                        Delux
-                                                    </label>
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input class="form-check-input" type="radio" name="room" id="room4">
-                                                    <label class="form-check-label" for="room4">
-                                                        Suite
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 border br-10 info-item pb-1">
-                                            <h6 class="fs-16 fw-medium mb-2">Property Type</h6>
-                                            <div class="d-flex align-items-center flex-wrap">
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="property"
-                                                        id="property1" checked>
-                                                    <label class="form-check-label" for="property1">
-                                                        Villa
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="property"
-                                                        id="property2">
-                                                    <label class="form-check-label" for="property2">
-                                                        Condo
-                                                    </label>
-                                                </div>
-                                                <div class="form-check me-3 mb-3">
-                                                    <input class="form-check-input" type="radio" name="property"
-                                                        id="property3">
-                                                    <label class="form-check-label" for="property3">
-                                                        Cabin
-                                                    </label>
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input class="form-check-input" type="radio" name="property"
-                                                        id="property4">
-                                                    <label class="form-check-label" for="property4">
-                                                        Apartments
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-end">
-                                            <a href="#" class="btn btn-light btn-sm me-2">Cancel</a>
-                                            <button type="submit" class="btn btn-primary btn-sm">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary search-btn rounded">Search</button>
-                        </form>
+                        @include('pages.toures.partials.tour-search-form', [
+                            'formId' => 'tour-banner-search-form',
+                            'searchMode' => 'filter',
+                            'selectedDestination' => $selectedDestination ?? '',
+                            'showTitle' => false,
+                            'isTrending' => !empty($isTrending),
+                        ])
                     </div>
                 </div>
             </div>
@@ -831,7 +604,7 @@
 @endsection
 
 @section('script')
-    @vite(['resources/js/package/index.js', 'resources/js/tour/city-suggestions.js'])
+    @vite(['resources/js/package/index.js', 'resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js'])
 @endsection
 
 

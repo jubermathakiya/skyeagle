@@ -3,12 +3,6 @@
 @section('title', 'Home')
 @section('content')
     
-    <!-- ========================
-        Start Page Content
-    ========================= -->
-   
-
-    
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="banner-slider banner-sec owl-carousel">
@@ -1430,174 +1424,7 @@
                                             </form>
                                         </div>
                                         <div class="tab-pane fade" id="Tour">
-                                            <form action="{{ route('tour-list') }}" method="GET">
-                                                <div
-                                                    class="d-flex align-items-center justify-content-between flex-wrap mb-2">
-                                                    <div class="fw-medium fs-16 mb-2 text-dark">Search holiday packages
-                                                        & trips</div>
-                                                </div>
-                                                <div class="d-lg-flex">
-                                                    <div class="d-flex  form-info">
-                                                        <div class="form-item">
-                                                            <label class="form-label fs-14 text-default mb-1">Where
-                                                                would like to go?</label>
-                                                            <input type="text" class="form-control value-input js-city-suggest-input" name="destination_city"
-                                                                id="home-tour-destination" value="" placeholder="Search destination city" autocomplete="off"
-                                                                data-city-url="{{ route('cities.autocomplete') }}"
-                                                                data-sync-to="#home-tour-destination"
-                                                                data-subtitle-to="#home-tour-destination-subtitle">
-                                                            <p class="fs-12 mb-0" id="home-tour-destination-subtitle">Enter city name to search tours</p>
-                                                        </div>
-                                                        <div class="form-item">
-                                                            <label
-                                                                class="form-label fs-14 text-default mb-1">Dates</label>
-                                                            <input type="text" class="form-control check-in"
-                                                                value="21-10-2026">
-                                                            <p class="fs-12 mb-0">Monday</p>
-                                                        </div>
-                                                        <div class="form-item">
-                                                            <label class="form-label fs-14 text-default mb-1">Check
-                                                                Out</label>
-                                                            <input type="text" class="form-control check-out"
-                                                                value="21-10-2026">
-                                                            <p class="fs-12 mb-0">Wednesday</p>
-                                                        </div>
-                                                        <div class="form-item dropdown">
-                                                            <div data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                                                                aria-expanded="false" role="menu">
-                                                                <label
-                                                                    class="form-label fs-14 text-default mb-1">Travellers</label>
-                                                                <div class="home-eight-title text-dark member-count">4 <span
-                                                                        class="fw-normal fs-14">Persons</span></div>
-                                                                <p class="fs-12 mb-0"><span class="adult">2</span> Adult</p>
-                                                            </div>
-                                                            <div class="dropdown-menu dropdown-menu-end dropdown-xl">
-                                                                <div class="mb-3 home-eight-title text-dark">Select
-                                                                    Travelers</div>
-                                                                <div class="mb-3 border br-10 info-item pb-1">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div
-                                                                                class="mb-3 d-flex align-items-center justify-content-between">
-                                                                                <label
-                                                                                    class="form-label text-gray-9 mb-2">Adult</label>
-                                                                                <div class="custom-increment">
-                                                                                    <div class="input-group">
-                                                                                        <span
-                                                                                            class="input-group-btn float-start">
-                                                                                            <button type="button"
-                                                                                                class="quantity-left-minus btn btn-light btn-number"
-                                                                                                data-type="minus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-minus"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                        <input type="text"
-                                                                                            name="quantity"
-                                                                                            class=" input-number"
-                                                                                            value="1" data-type="adult">
-                                                                                        <span
-                                                                                            class="input-group-btn float-end">
-                                                                                            <button type="button"
-                                                                                                class="quantity-right-plus btn btn-light btn-number"
-                                                                                                data-type="plus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-add"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div
-                                                                                class="mb-3 d-flex align-items-center justify-content-between">
-                                                                                <label
-                                                                                    class="form-label text-gray-9 mb-2">Childrens
-                                                                                    <span
-                                                                                        class="text-default fw-normal">(
-                                                                                        12+ Yrs )</span></label>
-                                                                                <div class="custom-increment">
-                                                                                    <div class="input-group">
-                                                                                        <span
-                                                                                            class="input-group-btn float-start">
-                                                                                            <button type="button"
-                                                                                                class="quantity-left-minus btn btn-light btn-number"
-                                                                                                data-type="minus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-minus"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                        <input type="text"
-                                                                                            name="quantity"
-                                                                                            class=" input-number"
-                                                                                            value="1" data-type="children">
-                                                                                        <span
-                                                                                            class="input-group-btn float-end">
-                                                                                            <button type="button"
-                                                                                                class="quantity-right-plus btn btn-light btn-number"
-                                                                                                data-type="plus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-add"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div
-                                                                                class="mb-3 d-flex align-items-center justify-content-between">
-                                                                                <label
-                                                                                    class="form-label text-gray-9 mb-2">Infants
-                                                                                    <span
-                                                                                        class="text-default fw-normal">(
-                                                                                        12+ Yrs )</span></label>
-                                                                                <div class="custom-increment">
-                                                                                    <div class="input-group">
-                                                                                        <span
-                                                                                            class="input-group-btn float-start">
-                                                                                            <button type="button"
-                                                                                                class="quantity-left-minus btn btn-light btn-number"
-                                                                                                data-type="minus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-minus"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                        <input type="text"
-                                                                                            name="quantity"
-                                                                                            class=" input-number"
-                                                                                            value="1" data-type="infant">
-                                                                                        <span
-                                                                                            class="input-group-btn float-end">
-                                                                                            <button type="button"
-                                                                                                class="quantity-right-plus btn btn-light btn-number"
-                                                                                                data-type="plus"
-                                                                                                data-field="">
-                                                                                                <span><i
-                                                                                                        class="isax isax-add"></i></span>
-                                                                                            </button>
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex justify-content-end d-none banner-dropdown-actions">
-                                                                    <a href="#"
-                                                                        class="btn btn-light btn-sm me-2 d-none">Cancel</a>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit"
-                                                        class="btn btn-primary search-btn rounded">Search</button>
-                                                </div>
-                                            </form>
+                                            @include('pages.toures.partials.tour-search-form')
                                         </div>
                                         <div class="tab-pane fade" id="Bus">
                                             <form action="#">
@@ -3739,47 +3566,8 @@
         </div>
     </section>
     <!-- /Benefit Section -->
-
-
-    <!-- Client Section -->
-    {{-- <section class="section client-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12 text-center wow fadeInUp" data-wow-delay="0.2s">
-                    <h6 class="fs-16 fw-medium mb-4">Trusted By 40+ Clients Around the Globe</h6>
-                </div>
-            </div>
-            <div class="owl-carousel client-slider">
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-01.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-02.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-03.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-04.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-05.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-06.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-07.svg')}}" alt="img">
-                </div>
-                <div class="client-img">
-                    <img src="{{URL::asset('build/img/clients/client-04.svg')}}" alt="img">
-                </div>
-            </div>
-        </div>
-    </section> --}}
-    <!-- /Client Section -->
 @endsection
 
 @section('script')
-    @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/trending-tours.js'])
+    @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js', 'resources/js/tour/trending-tours.js'])
 @endsection
