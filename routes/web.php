@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CityAutocompleteController;
@@ -17,6 +18,8 @@ require __DIR__.'/auth.php';
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
+Route::get('blogs', [BlogController::class, 'index'])->name('blog-grid');
+Route::get('blogs/{slug}', [BlogController::class, 'show'])->name('blog-details');
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -56,4 +59,3 @@ Route::middleware(['auth', 'customer'])->group(function () {
     //Wishlist route
     Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
 });
-
