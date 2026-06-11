@@ -60,7 +60,7 @@
                                     <a href="#">Careers</a>
                                 </li>
                                 <li>
-                                    <a href="blog-grid.html">Blog</a>
+                                    <a href="{{ route('blog-grid') }}">Blog</a>
                                 </li>
                                 <li>
                                     <a href="#">Affiliate Program</a>
