@@ -1,5 +1,7 @@
 import $ from 'jquery';
 
+const pageJQuery = window.jQuery || $;
+
 (function ($) {
     'use strict';
 
@@ -115,4 +117,4 @@ import $ from 'jquery';
             loadTrendingTours();
         });
     });
-})($);
+})(pageJQuery);
