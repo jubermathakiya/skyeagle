@@ -110,76 +110,46 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h6>Comments</h6>
-                                <div class="my-3">
-                                    <div class="border border-light rounded p-3">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('build/img/users/user-21.jpg') }}" alt="image"
-                                                    class="img-fluid rounded-circle avatar avatar-md me-2">
-                                                <div>
-                                                    <h6>Charles Lozano</h6>
-                                                    <span class="fs-14 fw-normal text-gray-6">a week ago</span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="fs-14 fw-medium text-dark d-flex align-items-center">
-                                                    <i class="isax isax-back-square me-1"></i> Reply</a>
+                                <h6>Comments ({{ $blog->comments->count() }})</h6>
+                                <div id="blog-comments-list">
+                                    @forelse($blog->comments as $comment)
+                                        @include('pages.blogs.partials.comment-item', ['comment' => $comment])
+                                    @empty
+                                        <div class="my-3">
+                                            <div class="border border-light rounded p-3">
+                                                <p class="fs-14 text-gray-6 mb-0">No comments yet. Be the first to share your thoughts.</p>
                                             </div>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <p class="fs-14 text-gray-6">Great tips for travelers! Love how this guide captures the joy and confidence that comes with exploring new places.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="my-3">
-                                    <div class="border border-light rounded p-3">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                            <div class="d-flex align-items-center">
-                                                <img src="{{ asset('build/img/users/user-42.jpg') }}" alt="image"
-                                                    class="img-fluid rounded-circle avatar avatar-md me-2">
-                                                <div>
-                                                    <h6>Dennis Cheng</h6>
-                                                    <span class="fs-14 fw-normal text-gray-6">a week ago</span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <a href="#" class="fs-14 fw-medium text-dark d-flex align-items-center">
-                                                    <i class="isax isax-back-square me-1"></i> Reply</a>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <p class="fs-14 text-gray-6">This travel guide is incredibly helpful. The practical tips on safety and planning make the trip feel much easier.</p>
-                                        </div>
-                                    </div>
+                                    @endforelse
                                 </div>
                                 <h6 class="mb-3">Write A Comment</h6>
                                 <div>
-                                    <form action="#">
+                                    <form id="blog_comment_form" action="{{ route('blog-comments.store', $blog->id) }}" method="POST">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="commentName" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="commentName">
+                                                    <input type="text" name="name" class="form-control" id="commentName">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="commentEmail" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="commentEmail">
+                                                    <input type="email" name="email" class="form-control" id="commentEmail">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label class="form-label">Message</label>
-                                                    <textarea class="form-control" rows="4"></textarea>
+                                                    <textarea name="message" class="form-control" rows="4"></textarea>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-sm btn-primary">Post Comment</button>
+                                        </div>
                                     </form>
-                                    <div class="d-flex justify-content-end">
-                                        <a href="#" class="btn btn-sm btn-primary">Post Comment</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -298,4 +268,8 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
+@endsection
+
+@section('script')
+    @vite(['resources/js/blog/comments.js'])
 @endsection

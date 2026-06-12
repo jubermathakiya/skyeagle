@@ -19,6 +19,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
 Route::get('blogs', [BlogController::class, 'index'])->name('blog-grid');
+Route::post('blogs/{blog}/comments', [BlogController::class, 'storeComment'])
+    ->middleware('throttle:10,1')
+    ->name('blog-comments.store');
 Route::get('blogs/{slug}', [BlogController::class, 'show'])->name('blog-details');
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');

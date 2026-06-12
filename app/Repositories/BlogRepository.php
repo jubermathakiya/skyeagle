@@ -47,6 +47,10 @@ class BlogRepository extends BaseRepository
                 'category',
                 'images',
                 'tags' => fn ($query) => $query->active()->orderBy('name'),
+                'comments' => fn ($query) => $query->approved()
+                    ->whereNull('parent_id')
+                    ->with(['user', 'replies.user'])
+                    ->oldest(),
             ])
             ->active()
             ->where('slug', $slug)
@@ -57,9 +61,26 @@ class BlogRepository extends BaseRepository
             'category',
             'images',
             'tags' => fn ($query) => $query->active()->orderBy('name'),
+            'comments' => fn ($query) => $query->approved()
+                ->whereNull('parent_id')
+                ->with(['user', 'replies.user'])
+                ->oldest(),
         ]);
 
         return $blog;
+    }
+
+    public function storeComment(BlogPost $blog, Request $request)
+    {
+        return $blog->comments()->create([
+            'parent_id' => $request->input('parent_id'),
+            'user_id' => null,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'message' => $request->input('message'),
+            'status' => 'pending',
+            'approved_at' => null,
+        ]);
     }
 
     public function getRelatedPosts(BlogPost $blog, int $limit = 3)
