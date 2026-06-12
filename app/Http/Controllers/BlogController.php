@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Repositories\BlogRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
@@ -32,5 +35,39 @@ class BlogController extends Controller
         $popularTags = $this->blogRepository->getPopularTags();
 
         return view('pages.blogs.show', compact('blog', 'relatedPosts', 'popularTags'));
+    }
+
+    public function storeComment(Request $request, BlogPost $blog)
+    {
+        $request->validate([
+            'parent_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('blog_comments', 'id')->where(fn ($query) => $query->where('blog_post_id', $blog->id)),
+            ],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'message' => ['required', 'string', 'max:5000'],
+        ]);
+
+        try {
+            $this->blogRepository->storeComment($blog, $request);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Comment submitted successfully and is awaiting approval.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Blog Comment Store Error: ' . $e->getMessage(), [
+                'blog_post_id' => $blog->id,
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong. Please try again!',
+            ], 500);
+        }
     }
 }

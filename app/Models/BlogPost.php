@@ -38,6 +38,11 @@ class BlogPost extends Model
             ->orderBy('id');
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(BlogComment::class, 'blog_post_id');
+    }
+
     public function scopeActive($query)
     {
         return $query

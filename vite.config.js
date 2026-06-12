@@ -59,6 +59,7 @@ export default defineConfig({
 
                 //Blog js
                 'resources/js/blog/blog-list.js',
+                'resources/js/blog/comments.js',
 
                 //Newsletter js
                 'resources/js/newsletter/subscribe.js',
