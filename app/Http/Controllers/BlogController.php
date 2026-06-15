@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use App\Repositories\BlogRepository;
+use App\Repositories\FrontendRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
-    public function __construct(protected BlogRepository $blogRepository)
+    public function __construct(
+        protected BlogRepository $blogRepository,
+        protected FrontendRepository $frontendRepository
+    )
     {
     }
 
@@ -25,7 +29,9 @@ class BlogController extends Controller
             ]);
         }
 
-        return view('pages.blogs.index', compact('blogs'));
+        $blogMedia = $this->frontendRepository->getMediaByModuleSection('Blog');
+
+        return view('pages.blogs.index', compact('blogs', 'blogMedia'));
     }
 
     public function show(string $slug)
@@ -33,8 +39,9 @@ class BlogController extends Controller
         $blog = $this->blogRepository->getBlogDetails($slug);
         $relatedPosts = $this->blogRepository->getRelatedPosts($blog);
         $popularTags = $this->blogRepository->getPopularTags();
+        $blogMedia = $this->frontendRepository->getMediaByModuleSection('Blog');
 
-        return view('pages.blogs.show', compact('blog', 'relatedPosts', 'popularTags'));
+        return view('pages.blogs.show', compact('blog', 'relatedPosts', 'popularTags', 'blogMedia'));
     }
 
     public function storeComment(Request $request, BlogPost $blog)

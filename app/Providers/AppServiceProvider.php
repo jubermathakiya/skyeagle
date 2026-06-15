@@ -4,8 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\FlightApiContract;
 use App\Repositories\WishlistRepository;
-use App\Services\Flight\DummyFlightApiService;
-use App\Services\Flight\HttpFlightApiService;
+use App\Services\Flight\TravelpayoutsFlightApiService;
 use App\Support\PageTitle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -18,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-      
+        $this->app->bind(FlightApiContract::class, TravelpayoutsFlightApiService::class);
     }
 
     /**

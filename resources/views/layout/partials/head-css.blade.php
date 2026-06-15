@@ -160,4 +160,49 @@
         .city-autocomplete-option.is-active {
             background: #f5f8fa;
         }
+        .place-img .flight-card-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: #eef2f6;
+        }
+        .bootstrap-datetimepicker-widget,
+        .daterangepicker {
+            z-index: 3000;
+        }
+        .banner-form .form-info .form-item.round-drip:not(.d-none) {
+            display: flex;
+        }
+        @media (min-width: 992px) {
+            .flight-search-card .banner-form .form-info {
+                height: 122px;
+            }
+            .flight-search-card .banner-form .form-info .form-item {
+                height: 120px;
+                padding: 12px;
+                min-width: 0;
+            }
+            .flight-search-card .banner-form .search-btn {
+                height: 122px;
+                min-width: 108px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .flight-search-card .banner-form .form-info .form-item > div:first-child {
+                min-width: 0;
+            }
+            .flight-search-card .banner-form .form-info .form-item .form-control,
+            .flight-search-card .banner-form .form-info .form-item p,
+            .flight-search-card .banner-form .form-info .form-item .member-count {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 100%;
+            }
+            .flight-search-card .banner-form .form-info .form-item p {
+                line-height: 20px;
+            }
+        }
     </style>

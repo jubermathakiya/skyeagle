@@ -1,11 +1,14 @@
-<?php $page = 'blog-details'; ?>
+@php
+    $page = 'blog-details';
+    $blogBannerImage = $blogMedia?->images?->first()?->image_url;
+@endphp
 @extends('layout.mainlayout')
 
 @section('title', $blog->title)
 
 @section('content')
     <!-- Breadcrumb -->
-    <div class="breadcrumb-bar breadcrumb-bg-02 text-center">
+    <div class="breadcrumb-bar breadcrumb-bg-02 text-center" @if($blogBannerImage) style="background-image: url('{{ $blogBannerImage }}');" @endif>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-12">

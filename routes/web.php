@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CityAutocompleteController;
 use App\Http\Controllers\ToursController;
@@ -29,6 +30,11 @@ Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])-
 
 //Home routes
 Route::get('tours/trending', [HomeController::class, 'trending'])->name('tours.trending');
+Route::get('flights/trending', [FlightController::class, 'trending'])->name('flights.trending');
+
+// Flight Routes
+Route::get('flights', [FlightController::class, 'index'])->name('flight-grid');
+Route::get('flights/{flight}', [FlightController::class, 'show'])->name('flight-details');
 
 Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
  

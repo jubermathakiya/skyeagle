@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'airports' => [
+        ['code' => 'AMD', 'city' => 'Ahmedabad', 'airport' => 'Sardar Vallabhbhai Patel International Airport', 'aliases' => ['ahmedabad']],
+        ['code' => 'DEL', 'city' => 'Delhi', 'airport' => 'Indira Gandhi International Airport', 'aliases' => ['delhi', 'new delhi']],
+        ['code' => 'BOM', 'city' => 'Mumbai', 'airport' => 'Chhatrapati Shivaji Maharaj International Airport', 'aliases' => ['mumbai', 'bombay']],
+        ['code' => 'BLR', 'city' => 'Bengaluru', 'airport' => 'Kempegowda International Airport', 'aliases' => ['bengaluru', 'bangalore']],
+        ['code' => 'HYD', 'city' => 'Hyderabad', 'airport' => 'Rajiv Gandhi International Airport', 'aliases' => ['hyderabad']],
+        ['code' => 'MAA', 'city' => 'Chennai', 'airport' => 'Chennai International Airport', 'aliases' => ['chennai', 'madras']],
+        ['code' => 'CCU', 'city' => 'Kolkata', 'airport' => 'Netaji Subhas Chandra Bose International Airport', 'aliases' => ['kolkata', 'calcutta']],
+        ['code' => 'GOI', 'city' => 'Goa', 'airport' => 'Goa International Airport', 'aliases' => ['goa']],
+        ['code' => 'PNQ', 'city' => 'Pune', 'airport' => 'Pune Airport', 'aliases' => ['pune']],
+        ['code' => 'JAI', 'city' => 'Jaipur', 'airport' => 'Jaipur International Airport', 'aliases' => ['jaipur']],
+        ['code' => 'NYC', 'city' => 'New York', 'airport' => 'New York City Airports', 'aliases' => ['new york', 'newyork', 'newyyork', 'nyc']],
+        ['code' => 'JFK', 'city' => 'New York JFK', 'airport' => 'John F. Kennedy International Airport', 'aliases' => ['john f kennedy', 'jfk']],
+        ['code' => 'EWR', 'city' => 'Newark', 'airport' => 'Newark Liberty International Airport', 'aliases' => ['newark']],
+        ['code' => 'LAS', 'city' => 'Las Vegas', 'airport' => 'Harry Reid International Airport', 'aliases' => ['las vegas', 'lasvegas']],
+        ['code' => 'LAX', 'city' => 'Los Angeles', 'airport' => 'Los Angeles International Airport', 'aliases' => ['los angeles', 'losangeles']],
+        ['code' => 'BOS', 'city' => 'Boston', 'airport' => 'Boston Logan International Airport', 'aliases' => ['boston']],
+        ['code' => 'LON', 'city' => 'London', 'airport' => 'London Airports', 'aliases' => ['london']],
+        ['code' => 'PAR', 'city' => 'Paris', 'airport' => 'Paris Airports', 'aliases' => ['paris']],
+        ['code' => 'DXB', 'city' => 'Dubai', 'airport' => 'Dubai International Airport', 'aliases' => ['dubai']],
+        ['code' => 'SIN', 'city' => 'Singapore', 'airport' => 'Singapore Changi Airport', 'aliases' => ['singapore']],
+        ['code' => 'BKK', 'city' => 'Bangkok', 'airport' => 'Suvarnabhumi Airport', 'aliases' => ['bangkok']],
+        ['code' => 'SYD', 'city' => 'Sydney', 'airport' => 'Sydney Kingsford Smith Airport', 'aliases' => ['sydney']],
+        ['code' => 'CPT', 'city' => 'Cape Town', 'airport' => 'Cape Town International Airport', 'aliases' => ['cape town', 'capetown']],
+        ['code' => 'TYO', 'city' => 'Tokyo', 'airport' => 'Tokyo Airports', 'aliases' => ['tokyo']],
+    ],
+];
