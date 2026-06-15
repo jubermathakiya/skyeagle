@@ -57,4 +57,16 @@ return [
         'verify_ssl' => env('GEOAPIFY_VERIFY_SSL', true),
     ],
 
+    'travelpayouts' => [
+        'base_url' => env('TRAVELPAYOUTS_BASE_URL', 'https://api.travelpayouts.com'),
+        'prices_endpoint' => env('TRAVELPAYOUTS_PRICES_ENDPOINT', '/aviasales/v3/prices_for_dates'),
+        'token' => env('TRAVELPAYOUTS_TOKEN'),
+        'marker' => env('TRAVELPAYOUTS_MARKER'),
+        'currency' => env('TRAVELPAYOUTS_CURRENCY', 'inr'),
+        'timeout' => env('TRAVELPAYOUTS_TIMEOUT', 15),
+        'cache_ttl' => env('TRAVELPAYOUTS_CACHE_TTL', 15),
+        'verify_ssl' => env('TRAVELPAYOUTS_VERIFY_SSL', true),
+        'log_requests' => env('TRAVELPAYOUTS_LOG_REQUESTS', false),
+    ],
+
 ];

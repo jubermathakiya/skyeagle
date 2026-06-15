@@ -14,10 +14,24 @@ class FrontendRepository
     
     public function getHomeMedia()
     {
-        return Media::with('images')
-        ->where('module', 'Home')
-        ->where('is_active', 1)
-        ->first();
+        return $this->getMediaByModuleSection('Home');
+    }
+
+    public function getMediaByModuleSection(string $module, string $section = 'Banner'): ?Media
+    {
+        return Media::with([
+            'images' => function ($query) {
+                $query->where('is_active', 1)
+                    ->orderBy('sort_order', 'asc')
+                    ->orderBy('id', 'asc');
+            },
+        ])
+            ->where('module', $module)
+            ->where('section', $section)
+            ->where('is_active', 1)
+            ->orderBy('sort_order', 'asc')
+            ->latest('id')
+            ->first();
     }
 
     public function getCustomerReviews()

@@ -60,27 +60,27 @@
                                     <div class="tab-content">
                                         <div class="tab-pane fade active show" id="flight">
                                             
-                                            <form action="#" method="get">
+                                            <form action="{{ route('flight-grid') }}" method="get" class="js-flight-search-form" data-airports='@json(config('flight.airports'))'>
                                                 <div
                                                     class="d-flex align-items-center justify-content-between flex-wrap mb-2">
                                                     <div class="d-flex align-items-center">
                                                         <div class="form-check d-flex align-items-center me-3 mb-2">
                                                             <input class="form-check-input mt-0" type="radio"
-                                                                name="Radio" id="oneway" value="oneway" checked>
+                                                                name="trip_type" id="oneway" value="oneway" checked>
                                                             <label class="form-check-label fs-14 ms-2" for="oneway">
                                                                 Oneway
                                                             </label>
                                                         </div>
                                                         <div class="form-check d-flex align-items-center me-3 mb-2">
                                                             <input class="form-check-input mt-0" type="radio"
-                                                                name="Radio" id="roundtrip" value="roundtrip">
+                                                                name="trip_type" id="roundtrip" value="roundtrip">
                                                             <label class="form-check-label fs-14 ms-2" for="roundtrip">
                                                                 Round Trip
                                                             </label>
                                                         </div>
                                                         <div class="form-check d-flex align-items-center me-3 mb-2">
                                                             <input class="form-check-input mt-0" type="radio"
-                                                                name="Radio" id="multiway" value="multiway">
+                                                                name="trip_type" id="multiway" value="multiway">
                                                             <label class="form-check-label fs-14 ms-2" for="multiway">
                                                                 Multi Trip
                                                             </label>
@@ -92,15 +92,15 @@
                                                 <div class="normal-trip">
                                                     <div class="d-lg-flex">
                                                         <div class="d-flex  form-info">
-                                                            <div class="form-item change-drop booking-dropdown dropdown">
+                                                            <div class="form-item change-drop booking-dropdown dropdown js-flight-airport-dropdown js-flight-origin-dropdown">
                                                                 <div data-bs-toggle="dropdown"
                                                                     data-bs-auto-close="outside" aria-expanded="false"
                                                                     role="menu">
                                                                     <label
                                                                         class="form-label fs-14 text-default mb-1">From</label>
-                                                                    <input type="text" class="form-control value-input"
-                                                                        value="Newyork">
-                                                                    <p class="fs-12 mb-0">Ken International Airport</p>
+                                                                    <input type="text" class="form-control value-input js-flight-airport-input"
+                                                                        name="origin" value="" placeholder="From City or Airport Code" autocomplete="off">
+                                                                    <p class="fs-12 mb-0 js-flight-airport-name">Select origin airport</p>
                                                                 </div>
                                                                 <div class="dropdown-menu dropdown-md p-0">
                                                                     <div class="input-search p-3 border-bottom">
@@ -152,15 +152,15 @@
                                                                     </ul>
                                                                 </div>
                                                             </div>
-                                                            <div class="form-item change-drop booking-dropdown dropdown ps-2 ps-sm-3">
+                                                            <div class="form-item change-drop booking-dropdown dropdown ps-2 ps-sm-3 js-flight-airport-dropdown js-flight-destination-dropdown">
                                                                 <div data-bs-toggle="dropdown"
                                                                     data-bs-auto-close="outside" aria-expanded="false"
                                                                     role="menu">
                                                                     <label
                                                                         class="form-label fs-14 text-default mb-1">To</label>
-                                                                    <input type="text" class="form-control value-input"
-                                                                        value="Las Vegas">
-                                                                    <p class="fs-12 mb-0">Martini International Airport
+                                                                    <input type="text" class="form-control value-input js-flight-airport-input"
+                                                                        name="destination" value="" placeholder="To City or Airport Code" autocomplete="off">
+                                                                    <p class="fs-12 mb-0 js-flight-airport-name">Select destination airport
                                                                     </p>
                                                                     <span
                                                                         class="way-icon badge badge-primary rounded-pill translate-middle">
@@ -221,16 +221,16 @@
                                                             <div class="form-item">
                                                                 <label
                                                                     class="form-label fs-14 text-default mb-1">Departure</label>
-                                                                <input type="text" class="form-control datetimepicker"
-                                                                    value="21-10-2024">
-                                                                <p class="fs-12 mb-0">Monday</p>
+                                                                <input type="text" class="form-control js-flight-departure"
+                                                                    name="departure_at" value="{{ now()->addMonth()->format('d-m-Y') }}">
+                                                                <p class="fs-12 mb-0 js-flight-departure-day">{{ now()->addMonth()->format('l') }}</p>
                                                             </div>
                                                             <div class="form-item round-drip">
                                                                 <label
                                                                     class="form-label fs-14 text-default mb-1">Return</label>
-                                                                <input type="text" class="form-control datetimepicker"
-                                                                    value="23-10-2024">
-                                                                <p class="fs-12 mb-0">Wednesday</p>
+                                                                <input type="text" class="form-control js-flight-return"
+                                                                    name="return_at" value="{{ now()->addMonth()->addDays(2)->format('d-m-Y') }}">
+                                                                <p class="fs-12 mb-0 js-flight-return-day">{{ now()->addMonth()->addDays(2)->format('l') }}</p>
                                                             </div>
                                                             <div class="form-item dropdown">
                                                                 <div data-bs-toggle="dropdown"
@@ -239,8 +239,8 @@
                                                                     <label
                                                                         class="form-label fs-14 text-default mb-1">Travellers
                                                                         and cabin class</label>
-                                                                    <div class="home-eight-title text-dark member-count">4 <span
-                                                                            class="fw-normal fs-14">Persons</span></div>
+                                                                    <div class="home-eight-title text-dark member-count">1 <span
+                                                                            class="fw-normal fs-14">Person</span></div>
                                                                     <p class="fs-12 mb-0"><span class="adult">1</span> Adult, <span class="class-name">Economy</span></p>
                                                                 </div>
                                                                 <div
@@ -310,7 +310,7 @@
                                                                                             <input type="text"
                                                                                                 name="quantity"
                                                                                                 class=" input-number"
-                                                                                                value="1" data-type="children">
+                                                                                                value="0" data-type="children">
                                                                                             <span
                                                                                                 class="input-group-btn float-end">
                                                                                                 <button type="button"
@@ -346,7 +346,7 @@
                                                                                             <input type="text"
                                                                                                 name="quantity"
                                                                                                 class=" input-number"
-                                                                                                value="1" data-type="infant">
+                                                                                                value="0" data-type="infant">
                                                                                             <span
                                                                                                 class="input-group-btn float-end">
                                                                                                 <button type="button"
@@ -415,6 +415,11 @@
                                                                             class="btn btn-primary btn-sm apply-btn d-none">Apply</button>
                                                                     </div>
                                                                 </div>
+                                                                <input type="hidden" name="adults" class="js-flight-adults" value="1">
+                                                                <input type="hidden" name="children" class="js-flight-children" value="0">
+                                                                <input type="hidden" name="infants" class="js-flight-infants" value="0">
+                                                                <input type="hidden" name="cabin_class" class="js-flight-cabin-class" value="Economy">
+                                                                <input type="hidden" name="currency" value="inr">
                                                             </div>
                                                         </div>
                                                         <button type="submit"
@@ -2210,6 +2215,12 @@
 
                 <!-- Flight List -->
                 <div class="tab-pane fade" id="flight-list">
+                    <div id="trending-flights-wrapper" data-url="{{ route('flights.trending') }}">
+                        <div class="text-center py-4">
+                            <p class="fs-14 mb-0">Loading trending flights...</p>
+                        </div>
+                    </div>
+                    @if(false)
                     <div class="owl-carousel place-slider nav-center">
 
                         <!-- Flight Item-->
@@ -2501,6 +2512,7 @@
                         <!-- /Flight Item-->
 
                     </div>
+                    @endif
                 </div>
                 <!-- /Flight List -->
 
@@ -3493,7 +3505,7 @@
 
             </div>
             <div class="text-center view-all wow fadeInUp">
-                <a href="{{ route('tour-list', ['is_trending' => 1]) }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
+                <a href="{{ route('flight-grid') }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>
@@ -3569,5 +3581,5 @@
 @endsection
 
 @section('script')
-    @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js', 'resources/js/tour/trending-tours.js'])
+    @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js', 'resources/js/tour/trending-tours.js', 'resources/js/flight/flight-search.js'])
 @endsection
