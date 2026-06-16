@@ -58,24 +58,16 @@ class FrontendRepository
             'email' => $email,
             'subscribed_at' => now(),
         ]);
-        $media = Media::with([
-            'images' => function ($query) {
-                $query->where('is_active', 1)
-                    ->orderBy('sort_order', 'asc');
-            }
-        ])
-        ->where('module', 'Newsletter Subscribe')
-        ->where('is_active', 1)
-        ->latest('id')
-        ->first();
-        
-        $bannerImage = null;
-        if ($media && $media->images->isNotEmpty()) {
-            $filePath = $media->images->first()->file_path;
-            $bannerImage = config('constants.email_media_url'). '/storage/'. ltrim($filePath, '/');
-        }
+        $media = $this->getMediaByModuleSection('Newsletter Subscribe');
+        $bannerFilePath = $media?->images?->first()?->file_path;
+        $bannerImage = backend_storage_url(
+            $bannerFilePath,
+            config('constants.email_media_url')
+        );
+        $bannerImagePath = backend_storage_path($bannerFilePath);
+
         Mail::to($email)->queue(
-            new NewsletterSubscribedMail($email, $bannerImage)
+            new NewsletterSubscribedMail($email, $bannerImage, $bannerImagePath)
         );
         return $subscriber;
     }

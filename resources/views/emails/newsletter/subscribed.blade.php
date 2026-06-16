@@ -25,11 +25,20 @@
                     </tr>
 
                     <!-- Banner -->
-                    @if(!empty($bannerImage))
+                    @php
+                        $bannerSrc = null;
+
+                        if (!empty($bannerImagePath) && isset($message) && is_file($bannerImagePath)) {
+                            $bannerSrc = $message->embed($bannerImagePath);
+                        } elseif (!empty($bannerImage)) {
+                            $bannerSrc = $bannerImage;
+                        }
+                    @endphp
+                    @if($bannerSrc)
                     <tr>
                         <td align="center">
                             <img
-                                src="{{ $bannerImage }}"
+                                src="{{ $bannerSrc }}"
                                 alt="Newsletter Banner"
                                 width="650"
                                 style="display:block;width:100%;max-width:650px;height:auto;border:0;"

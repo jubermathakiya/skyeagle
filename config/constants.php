@@ -11,4 +11,5 @@ return [
     'currency_symbol' => '₹',
     'backend_url' => env('BACKEND_URL'),
     'email_media_url' => env('EMAIL_MEDIA_URL'),
+    'email_media_disk_path' => env('EMAIL_MEDIA_DISK_PATH', base_path('../skyeagle-admin/storage/app/public')),
 ];
