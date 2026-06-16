@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,7 @@ class BlogRepository extends BaseRepository
     public function getBlogs(Request $request, int $perPage = 9)
     {
         $search = trim((string) $request->query('search', ''));
+        $categoryId = (int) $request->query('category', 0);
 
         return BlogPost::query()
             ->with([
@@ -34,10 +36,13 @@ class BlogRepository extends BaseRepository
                         ->orWhere('content', 'like', $like);
                 });
             })
+            ->when($categoryId > 0, function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
+            })
             ->latest('published_at')
             ->latest('id')
             ->paginate($perPage)
-            ->appends($request->only('search'));
+            ->appends($request->only('search', 'category'));
     }
 
     public function getBlogDetails(string $slug): BlogPost
@@ -121,6 +126,21 @@ class BlogRepository extends BaseRepository
             ->groupBy('blog_tags.id', 'blog_tags.name', 'blog_tags.slug', 'blog_tags.status', 'blog_tags.created_at', 'blog_tags.updated_at')
             ->orderByDesc('posts_count')
             ->orderBy('blog_tags.name')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getTopCategories(int $limit = 6)
+    {
+        return Category::query()
+            ->select('categories.*')
+            ->whereNull('categories.deleted_at')
+            ->withCount([
+                'blogPosts as posts_count' => fn ($query) => $query->active(),
+            ])
+            ->having('posts_count', '>', 0)
+            ->orderByDesc('posts_count')
+            ->orderBy('categories.name')
             ->limit($limit)
             ->get();
     }

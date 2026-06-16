@@ -182,30 +182,16 @@
                             </div>
                         </div>
                         <div class="card-body pt-3">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-medium mb-0"><a href="#">Travel</a></h6>
-                                <p>(12)</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-medium mb-0"><a href="#">Guide</a></h6>
-                                <p>(10)</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-medium mb-0"><a href="#">Rental</a></h6>
-                                <p>(14)</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="text-dark fw-medium mb-0"><a href="#">Adventure</a></h6>
-                                <p>(16)</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-medium mb-0"><a href="#">Vacation</a></h6>
-                                <p>(20)</p>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="fw-medium mb-0"><a href="#">Tips</a></h6>
-                                <p>(15)</p>
-                            </div>
+                            @forelse($topCategories as $category)
+                                <div class="d-flex justify-content-between align-items-center {{ $loop->last ? '' : 'mb-3' }}">
+                                    <h6 class="fw-medium mb-0">
+                                        <a href="{{ route('blog-grid', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                                    </h6>
+                                    <p>({{ number_format($category->posts_count) }})</p>
+                                </div>
+                            @empty
+                                <p class="fs-14 mb-0">No categories found.</p>
+                            @endforelse
                         </div>
                     </div>
 
