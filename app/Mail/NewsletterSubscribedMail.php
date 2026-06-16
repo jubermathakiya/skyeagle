@@ -13,14 +13,16 @@ class NewsletterSubscribedMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public string $email;
-     public ?string $bannerImage;
+    public ?string $bannerImage;
+    public ?string $bannerImagePath;
     /**
      * Create a new message instance.
      */
-    public function __construct(string $email, ?string $bannerImage = null)
+    public function __construct(string $email, ?string $bannerImage = null, ?string $bannerImagePath = null)
     {
         $this->email = $email;
         $this->bannerImage = $bannerImage;
+        $this->bannerImagePath = $bannerImagePath;
     }
 
     /**
@@ -43,6 +45,7 @@ class NewsletterSubscribedMail extends Mailable implements ShouldQueue
             with: [
                 'email' => $this->email,
                 'bannerImage' => $this->bannerImage,
+                'bannerImagePath' => $this->bannerImagePath,
             ]
         );
     }

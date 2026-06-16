@@ -3,7 +3,61 @@
 if (!function_exists('backend_image')) {
     function backend_image($path)
     {
-        return config('constants.backend_url') . '/storage/' . $path;
+        return backend_storage_url($path);
+    }
+}
+
+if (!function_exists('backend_storage_url')) {
+    function backend_storage_url($path, ?string $baseUrl = null): ?string
+    {
+        $path = trim((string) $path);
+
+        if ($path === '') {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $path)) {
+            return $path;
+        }
+
+        $baseUrl = trim((string) ($baseUrl ?: config('constants.backend_url')));
+
+        if ($baseUrl === '') {
+            return null;
+        }
+
+        return rtrim($baseUrl, '/') . '/storage/' . ltrim($path, '/');
+    }
+}
+
+if (!function_exists('backend_storage_path')) {
+    function backend_storage_path($path, ?string $diskRoot = null): ?string
+    {
+        $path = trim((string) $path);
+
+        if ($path === '' || preg_match('#^https?://#i', $path)) {
+            return null;
+        }
+
+        $relativePath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, ltrim($path, '/\\'));
+        $roots = array_filter(array_unique([
+            $diskRoot,
+            config('constants.email_media_disk_path'),
+            public_path('storage'),
+            storage_path('app/public'),
+            base_path('../skyeagle-admin/storage/app/public'),
+            base_path('../skyeagle-admin/public/storage'),
+        ]));
+
+        foreach ($roots as $root) {
+            $filePath = rtrim((string) $root, '/\\') . DIRECTORY_SEPARATOR . $relativePath;
+
+            if (is_file($filePath)) {
+                return $filePath;
+            }
+        }
+
+        return null;
     }
 }
 
