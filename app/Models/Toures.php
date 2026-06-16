@@ -29,6 +29,30 @@ class Toures extends Model
         ];
     }
 
+    public function getMapLocationQueryAttribute(): string
+    {
+        if (filled($this->destination_city)) {
+            return trim((string) $this->destination_city);
+        }
+
+        if (filled($this->source_city)) {
+            return trim((string) $this->source_city);
+        }
+
+        return '';
+    }
+
+    public function getMapEmbedUrlAttribute(): ?string
+    {
+        $query = $this->map_location_query;
+
+        if ($query === '') {
+            return null;
+        }
+
+        return 'https://www.google.com/maps?q=' . urlencode($query) . '&output=embed';
+    }
+
     public function images()
     {
         return $this->hasMany(PackageImage::class, 'package_id');
