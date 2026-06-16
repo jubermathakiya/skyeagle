@@ -159,22 +159,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12 theiaStickySidebar">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="pb-3 border-bottom mb-3">
-                                <h5 class="d-flex align-items-center"><span class="me-1 fs-16"><i
-                                            class="isax isax-search-normal text-primary"></i></span> Search</h5>
-                            </div>
-                            <div class="blog-search">
-                                <form action="{{ route('blog-grid') }}" method="GET" class="search-content">
-                                    <div class="search-feild position-relative">
-                                        <span><i class="isax isax-search-normal"></i></span>
-                                        <input type="text" name="search" class="form-control" placeholder="Search">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="card mb-3">
                         <div class="card-header border-0 pb-0">
                             <div class="pb-3 border-bottom">
