@@ -38,10 +38,11 @@ class BlogController extends Controller
     {
         $blog = $this->blogRepository->getBlogDetails($slug);
         $relatedPosts = $this->blogRepository->getRelatedPosts($blog);
+        $topCategories = $this->blogRepository->getTopCategories();
         $popularTags = $this->blogRepository->getPopularTags();
         $blogMedia = $this->frontendRepository->getMediaByModuleSection('Blog');
 
-        return view('pages.blogs.show', compact('blog', 'relatedPosts', 'popularTags', 'blogMedia'));
+        return view('pages.blogs.show', compact('blog', 'relatedPosts', 'topCategories', 'popularTags', 'blogMedia'));
     }
 
     public function storeComment(Request $request, BlogPost $blog)
