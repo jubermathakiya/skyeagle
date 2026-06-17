@@ -1,3 +1,24 @@
+    @php
+        $loginOtpBannerUrl = $loginWithOtpMedia?->images?->first()?->image_url ?: URL::asset('build/img/tours/tours-01.jpg');
+        $loginPasswordBannerUrl = $loginWithPasswordMedia?->images?->first()?->image_url ?: $loginOtpBannerUrl;
+
+        $loginOtpBanner = [
+            'eyebrow' => $loginWithOtpMedia?->sub_title ?: 'Plan your next adventure:',
+            'title' => $loginWithOtpMedia?->title ?: 'Grab up to 50% OFF*',
+            'description' => $loginWithOtpMedia?->button_text ?: 'on Flights, Stays, Tours, Packages & More.',
+            'note' => '*T&C Apply',
+            'url' => $loginOtpBannerUrl,
+        ];
+
+        $loginPasswordBanner = [
+            'eyebrow' => $loginWithPasswordMedia?->sub_title ?: $loginOtpBanner['eyebrow'],
+            'title' => $loginWithPasswordMedia?->title ?: $loginOtpBanner['title'],
+            'description' => $loginWithPasswordMedia?->button_text ?: $loginOtpBanner['description'],
+            'note' => '*T&C Apply',
+            'url' => $loginPasswordBannerUrl,
+        ];
+    @endphp
+
     <!-- Login Modal -->
     <div class="modal fade" id="login-modal" tabindex="-1" aria-hidden="true" data-jquery-modal="true">
         <div class="modal-dialog modal-dialog-centered login-modal-dialog">
@@ -6,12 +27,23 @@
                     {{-- Left: advertising banner --}}
                     <div class="col-lg-5 login-modal-banner">
                         <div class="login-modal-banner-inner">
-                            <img src="{{ URL::asset('build/img/tours/tours-01.jpg') }}" class="login-modal-banner-img" alt="Sky Eagle Trip offers">
-                            <div class="login-modal-promo-card">
-                                <p class="fs-12 text-gray-6 mb-1">Plan your next adventure:</p>
-                                <p class="fw-bold fs-18 mb-1 lh-sm">Grab up to 50% OFF*</p>
-                                <p class="fw-semibold fs-14 mb-2 lh-sm">on Flights, Stays, Tours, Packages &amp; More.</p>
-                                <p class="fs-12 text-gray-6 mb-0">*T&amp;C Apply</p>
+                            <div class="login-modal-banner-panel" data-login-banner="otp">
+                                <img src="{{ $loginOtpBanner['url'] }}" class="login-modal-banner-img" alt="Login with OTP banner">
+                                <div class="login-modal-promo-card">
+                                    <p class="fs-12 text-gray-6 mb-1">{{ $loginOtpBanner['eyebrow'] }}</p>
+                                    <p class="fw-bold fs-18 mb-1 lh-sm">{{ $loginOtpBanner['title'] }}</p>
+                                    <p class="fw-semibold fs-14 mb-2 lh-sm">{{ $loginOtpBanner['description'] }}</p>
+                                    <p class="fs-12 text-gray-6 mb-0">{{ $loginOtpBanner['note'] }}</p>
+                                </div>
+                            </div>
+                            <div class="login-modal-banner-panel d-none" data-login-banner="password">
+                                <img src="{{ $loginPasswordBanner['url'] }}" class="login-modal-banner-img" alt="Login with password banner">
+                                <div class="login-modal-promo-card">
+                                    <p class="fs-12 text-gray-6 mb-1">{{ $loginPasswordBanner['eyebrow'] }}</p>
+                                    <p class="fw-bold fs-18 mb-1 lh-sm">{{ $loginPasswordBanner['title'] }}</p>
+                                    <p class="fw-semibold fs-14 mb-2 lh-sm">{{ $loginPasswordBanner['description'] }}</p>
+                                    <p class="fs-12 text-gray-6 mb-0">{{ $loginPasswordBanner['note'] }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -186,9 +218,18 @@
             position: relative;
             min-height: 200px;
             height: 100%;
+            background: #eef6ff;
+        }
+        #login-modal .login-modal-banner-panel {
+            position: relative;
+            min-height: 200px;
+            height: 100%;
         }
         @media (min-width: 992px) {
             #login-modal .login-modal-banner-inner {
+                min-height: 100%;
+            }
+            #login-modal .login-modal-banner-panel {
                 min-height: 100%;
             }
         }
@@ -196,7 +237,8 @@
             width: 100%;
             height: 100%;
             min-height: 200px;
-            object-fit: cover;
+            object-fit: fill;
+            object-position: center center;
             display: block;
         }
         @media (min-width: 992px) {

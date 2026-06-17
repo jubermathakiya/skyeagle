@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\FlightApiContract;
+use App\Repositories\FrontendRepository;
 use App\Repositories\WishlistRepository;
 use App\Services\Flight\TravelpayoutsFlightApiService;
 use App\Support\PageTitle;
@@ -43,6 +44,15 @@ class AppServiceProvider extends ServiceProvider
                 $data['page'] ?? null,
                 request()->route()?->getName()
             ));
+        });
+
+        View::composer('components.partials.login-modal', function ($view) {
+            $frontendRepository = app(FrontendRepository::class);
+
+            $view->with([
+                'loginWithOtpMedia' => $frontendRepository->getMediaByModuleSection('Login With OTP'),
+                'loginWithPasswordMedia' => $frontendRepository->getMediaByModuleSection('Login With Password'),
+            ]);
         });
     }
 }
