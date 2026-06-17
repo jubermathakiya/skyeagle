@@ -10,11 +10,23 @@ export function showLoginPanel(panel) {
     $(`#login-modal [data-login-panel="${panel}"]`).removeClass("d-none");
 }
 
+function setLoginBanner(tab) {
+    const $banners = $("#login-modal [data-login-banner]");
+
+    if (!$banners.length) {
+        return;
+    }
+
+    $banners.addClass("d-none");
+    $(`#login-modal [data-login-banner="${tab}"]`).removeClass("d-none");
+}
+
 export function setLoginTab(tab) {
     $("#login-modal [data-login-tab]").removeClass("active");
     $(`#login-modal [data-login-tab="${tab}"]`).addClass("active");
     $("#login-modal [data-login-tab-pane]").addClass("d-none");
     $(`#login-modal [data-login-tab-pane="${tab}"]`).removeClass("d-none");
+    setLoginBanner(tab);
 }
 
 export function openCompleteNameModal(redirect = "/") {
