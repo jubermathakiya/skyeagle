@@ -10,7 +10,7 @@
                                     @foreach($package->images as $image)
                                         <div class="slide-images">
                                             <a href="{{ route('tour-details', $package->slug) }}">
-                                                <img src="{{ backend_image($image->image) }}" style="width:100%; height:250px; object-fit:cover;" class="img-fluid" alt="img">
+                                                <img src="{{ backend_image($image->image) }}" class="img-fluid" alt="img">
                                             </a>
                                         </div>
                                     @endforeach

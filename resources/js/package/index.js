@@ -6,6 +6,41 @@ import { submitAjaxForm } from '../common/form-handler.js';
     var $bannerForm = $('#tour-banner-search-form');
     var $resultsCount = $('#tour-results-count');
     var searchTimer = null;
+    var imgSliderOptions = {
+        loop: true,
+        margin: 20,
+        nav: true,
+        dots: true,
+        smartSpeed: 2000,
+        autoplay: false,
+        navText: [
+            '<i class="fa-solid fa-chevron-left"></i>',
+            '<i class="fa-solid fa-chevron-right"></i>',
+        ],
+        responsive: {
+            0: { items: 1 },
+            550: { items: 1 },
+            768: { items: 1 },
+            1000: { items: 1 },
+        },
+    };
+
+    function initTourResultSliders($wrapper) {
+        if (!$.fn.owlCarousel) {
+            return;
+        }
+
+        $wrapper.find('.img-slider').each(function () {
+            var $slider = $(this);
+
+            if ($slider.hasClass('owl-loaded')) {
+                $slider.trigger('refresh.owl.carousel');
+                return;
+            }
+
+            $slider.owlCarousel(imgSliderOptions);
+        });
+    }
 
     function setHiddenFilterField(name, value) {
         $form.find('input[name="' + name + '"]').remove();
@@ -48,6 +83,7 @@ import { submitAjaxForm } from '../common/form-handler.js';
             return;
         }
         $('#tour-results-wrapper').replaceWith(response.html);
+        initTourResultSliders($('#tour-results-wrapper'));
         $resultsCount.text(
             (response.total || 0) + ' Tours Found on Your Search'
         );
@@ -84,9 +120,30 @@ import { submitAjaxForm } from '../common/form-handler.js';
         });
     }
 
-    $(document).on('change', '[data-category-filter="1"]', function () {
+    $(document).on('change', '[data-category-filter="1"], [data-attribute-filter="1"]', function () {
         applyFilters();
     });
+
+    $(document).on('click', '#tour-filter-reset', function (e) {
+        e.preventDefault();
+
+        var resetUrl = $(this).attr('href');
+        if (!resetUrl) {
+            return;
+        }
+
+        $form.find('input[type="checkbox"]').prop('checked', false);
+        $form.find('input[type="text"]').val('');
+        $form.find('input[type="hidden"]').remove();
+
+        if ($bannerForm.length) {
+            $bannerForm[0].reset();
+            setDestinationError($bannerForm, false);
+        }
+
+        applyFilters(resetUrl, resetUrl);
+    });
+
     $form.on('submit', function (e) {
         e.preventDefault();
         applyFilters();
@@ -139,6 +196,10 @@ import { submitAjaxForm } from '../common/form-handler.js';
         searchTimer = setTimeout(function () {
             applyFilters();
         }, 350);
+    });
+
+    $(function () {
+        initTourResultSliders($('#tour-results-wrapper'));
     });
 
 })(jQuery);

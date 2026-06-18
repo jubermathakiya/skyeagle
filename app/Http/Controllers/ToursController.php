@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ToureRepository;
+use App\Repositories\FrontendRepository;
 use App\Repositories\WishlistRepository;
 use Illuminate\Http\Request;
 
 class ToursController extends Controller
 {
     protected $touresRepository;
+    protected $frontendRepository;
     protected $wishlistRepository;
 
     public function __construct(
         ToureRepository $touresRepository,
+        FrontendRepository $frontendRepository,
         WishlistRepository $wishlistRepository
     ) {
         $this->touresRepository = $touresRepository;
+        $this->frontendRepository = $frontendRepository;
         $this->wishlistRepository = $wishlistRepository;
     }
     
@@ -40,10 +44,13 @@ class ToursController extends Controller
             ]);
         }
 
+        $tourPackageMedia = $this->frontendRepository->getMediaByModuleSection('Tour Package');
+
         return view(
             'pages.toures.tour-list',
             array_merge($data, [
                 'wishlistPackageIds' => $wishlistPackageIds,
+                'tourPackageMedia' => $tourPackageMedia,
             ])
         );
     }
