@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use App\Models\PackageAttribute;
 use App\Models\Toures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -26,6 +27,12 @@ class ToureRepository extends BaseRepository
             ->unique()
             ->values()
             ->all();
+        $selectedAttributeIds = collect($request->query('attributes', []))
+            ->map(static fn ($id) => (int) $id)
+            ->filter(static fn ($id) => $id > 0)
+            ->unique()
+            ->values()
+            ->all();
         $categories = Category::query()
             ->select(['id', 'name'])
             ->when($tourTypeSearch !== '', function ($query) use ($tourTypeSearch) {
@@ -33,6 +40,14 @@ class ToureRepository extends BaseRepository
             })
             ->orderBy('name')
             ->get();
+        $packageAttributeGroups = PackageAttribute::query()
+            ->select(['id', 'type', 'name', 'sort_order'])
+            ->where('status', 1)
+            ->orderBy('type')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('type');
         $isTrending = $request->boolean('is_trending');
         $imageLimit = $isTrending ? 3 : 4;
         $packagesQuery = Toures::with([
@@ -40,6 +55,7 @@ class ToureRepository extends BaseRepository
                 $query->limit($imageLimit);
             },
             'category',
+            'packageAttributes',
         ])->where('status', 1);
         if ($isTrending) {
             $packagesQuery->where('is_trending', 1);
@@ -57,6 +73,12 @@ class ToureRepository extends BaseRepository
         if (!empty($selectedCategoryIds)) {
             $packagesQuery->whereIn('categories_id', $selectedCategoryIds);
         }
+        foreach ($selectedAttributeIds as $attributeId) {
+            $packagesQuery->whereHas('packageAttributes', function ($query) use ($attributeId) {
+                $query->where('package_attributes.id', $attributeId)
+                    ->where('package_attributes.status', 1);
+            });
+        }
         if ($tourTypeSearch !== '') {
             $packagesQuery->whereHas('category', function ($query) use ($tourTypeSearch) {
                 $query->where('name', 'like', '%' . $tourTypeSearch . '%');
@@ -73,6 +95,8 @@ class ToureRepository extends BaseRepository
             'selectedType' => $selectedType,
             'selectedDestination' => $selectedDestination,
             'selectedCategoryIds' => $selectedCategoryIds,
+            'selectedAttributeIds' => $selectedAttributeIds,
+            'packageAttributeGroups' => $packageAttributeGroups,
             'tourTypeSearch' => $tourTypeSearch,
             'isTrending' => $isTrending,
         ];

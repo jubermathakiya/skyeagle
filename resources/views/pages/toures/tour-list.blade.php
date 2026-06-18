@@ -1,4 +1,7 @@
 <?php $page="tour-list";?>
+@php
+    $tourPackageBannerImage = $tourPackageMedia?->images?->first()?->image_url;
+@endphp
 @extends('layout.mainlayout')
 @section('content')
 
@@ -7,7 +10,7 @@
     ========================= -->
 
     <!-- Breadcrumb -->
-    <div class="breadcrumb-bar breadcrumb-bg-02 text-center">
+    <div class="breadcrumb-bar breadcrumb-bg-02 text-center" @if($tourPackageBannerImage) style="background-image: url('{{ $tourPackageBannerImage }}');" @endif>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-12">
@@ -127,7 +130,7 @@
                     <div class="card filter-sidebar mb-4 mb-lg-0">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <h5>Filters</h5>
-                            <a href="#" class="fs-14 link-primary">Reset</a>
+                            <a href="{{ route('tour-list') }}" class="fs-14 link-primary" id="tour-filter-reset">Reset</a>
                         </div>
                         <div class="card-body p-0">
                             <form action="{{ route('tour-list') }}" method="GET" id="tour-filter-form">
@@ -157,51 +160,63 @@
                                     </div>
                                 </div>
                                 <div class="accordion accordion-list">
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#s" aria-expanded="true"
-                                                aria-controls="accordion-populars" role="button">
-                                                <i class="isax isax-ranking me-2 text-primary"></i>Popular
+                                    @php
+                                        $attributeSectionMeta = [
+                                            'popular' => ['label' => 'Popular', 'icon' => 'isax isax-ranking', 'inline' => true],
+                                            'accommodation' => ['label' => 'Accommodation Type', 'icon' => 'isax isax-candle', 'inline' => false],
+                                            'activity' => ['label' => 'Activities', 'icon' => 'isax isax-activity', 'inline' => false],
+                                            'meal_plan' => ['label' => 'Meal plans available', 'icon' => 'isax isax-reserve', 'inline' => true],
+                                        ];
+                                        $orderedAttributeTypes = collect(['popular', 'accommodation', 'activity', 'meal_plan'])
+                                            ->merge(($packageAttributeGroups ?? collect())->keys())
+                                            ->unique()
+                                            ->values();
+                                    @endphp
+                                    @foreach($orderedAttributeTypes as $attributeType)
+                                        @php
+                                            $attributes = ($packageAttributeGroups ?? collect())->get($attributeType, collect());
+                                            $meta = $attributeSectionMeta[$attributeType] ?? [
+                                                'label' => \Illuminate\Support\Str::headline($attributeType),
+                                                'icon' => 'isax isax-tag',
+                                                'inline' => false,
+                                            ];
+                                            $collapseId = 'accordion-attribute-' . \Illuminate\Support\Str::slug($attributeType);
+                                        @endphp
+                                        @if($attributes->isNotEmpty())
+                                            <div class="accordion-item border-bottom p-3">
+                                                <div class="accordion-header">
+                                                    <div class="accordion-button p-0" data-bs-toggle="collapse"
+                                                        data-bs-target="#{{ $collapseId }}" aria-expanded="true"
+                                                        aria-controls="{{ $collapseId }}" role="button">
+                                                        <i class="{{ $meta['icon'] }} me-2 text-primary"></i>{{ $meta['label'] }}
+                                                    </div>
+                                                </div>
+                                                <div id="{{ $collapseId }}" class="accordion-collapse collapse show">
+                                                    <div class="accordion-body {{ $meta['inline'] ? 'pt-2' : '' }}">
+                                                        <div>
+                                                            @foreach($attributes as $attribute)
+                                                                @php $isChecked = in_array($attribute->id, $selectedAttributeIds ?? [], true); @endphp
+                                                                <div class="{{ $meta['inline'] ? 'form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2' : 'form-check d-flex align-items-center ps-0 mb-2' }}">
+                                                                    <input
+                                                                        class="form-check-input ms-0 mt-0"
+                                                                        name="attributes[]"
+                                                                        type="checkbox"
+                                                                        id="package-attribute-{{ $attribute->id }}"
+                                                                        value="{{ $attribute->id }}"
+                                                                        {{ $isChecked ? 'checked' : '' }}
+                                                                        data-attribute-filter="1"
+                                                                    >
+                                                                    <label class="form-check-label ms-2" for="package-attribute-{{ $attribute->id }}">
+                                                                        {{ $attribute->name }}
+                                                                    </label>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div id="accordion-populars" class="accordion-collapse collapse show">
-                                            <div class="accordion-body pt-2">
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="popular1"
-                                                        type="checkbox" id="popular1">
-                                                    <label class="form-check-label ms-2" for="popular1">
-                                                        Local Guide
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="popular2"
-                                                        type="checkbox" id="popular2">
-                                                    <label class="form-check-label ms-2" for="popular2">
-                                                        VIP Access
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="popular3"
-                                                        type="checkbox" id="popular3">
-                                                    <label class="form-check-label ms-2" for="popular3">
-                                                        Photographs
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="popular4"
-                                                        type="checkbox" id="popular4">
-                                                    <label class="form-check-label ms-2" for="popular4">
-                                                        Adventure Gears
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        @endif
+                                    @endforeach
                                     <div class="accordion-item border-bottom p-3">
                                         <div class="accordion-header">
                                             <div class="accordion-button p-0" data-bs-toggle="collapse"
@@ -254,260 +269,6 @@
                                                     @endforelse
                                                 </div>
                                                 <a href="#" class="more-view text-primary fw-medium fs-14">See Less</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-amenity" aria-expanded="true"
-                                                aria-controls="accordion-amenity" role="button">
-                                                <i class="isax isax-candle me-2 text-primary"></i>Accommodation Type
-                                            </div>
-                                        </div>
-                                        <div id="accordion-amenity" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="amenity1"
-                                                            type="checkbox" id="amenity1">
-                                                        <label class="form-check-label ms-2" for="amenity1">
-                                                            Hotel
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="amenity2"
-                                                            type="checkbox" id="amenity2">
-                                                        <label class="form-check-label ms-2" for="amenity2">
-                                                            Campsite
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="amenity3"
-                                                            type="checkbox" id="amenity3">
-                                                        <label class="form-check-label ms-2" for="amenity3">
-                                                            Resort
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-0">
-                                                        <input class="form-check-input ms-0 mt-0" name="amenity4"
-                                                            type="checkbox" id="amenity4" checked>
-                                                        <label class="form-check-label ms-2" for="amenity4">
-                                                            Cabin
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-cusine" aria-expanded="true"
-                                                aria-controls="accordion-cusine" role="button">
-                                                <i class="isax isax-activity me-2 text-primary"></i>Activities
-                                            </div>
-                                        </div>
-                                        <div id="accordion-cusine" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="cusine1"
-                                                            type="checkbox" id="cusine1">
-                                                        <label class="form-check-label ms-2" for="cusine1">
-                                                            Hiking
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="cusine2"
-                                                            type="checkbox" id="cusine2">
-                                                        <label class="form-check-label ms-2" for="cusine2">
-                                                            Sightseeing
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="cusine3"
-                                                            type="checkbox" id="cusine3">
-                                                        <label class="form-check-label ms-2" for="cusine3">
-                                                            Wildlife Safari
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-0">
-                                                        <input class="form-check-input ms-0 mt-0" name="cusine4"
-                                                            type="checkbox" id="cusine4" checked>
-                                                        <label class="form-check-label ms-2" for="cusine4">
-                                                            Boat Tours
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-meal" aria-expanded="true"
-                                                aria-controls="accordion-meal" role="button">
-                                                <i class="isax isax-reserve me-2 text-primary"></i>Meal plans available
-                                            </div>
-                                        </div>
-                                        <div id="accordion-meal" class="accordion-collapse collapse show">
-                                            <div class="accordion-body pt-2">
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="meals1"
-                                                        type="checkbox" id="meals1">
-                                                    <label class="form-check-label ms-2" for="meals1">
-                                                        All inclusive
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="meals2"
-                                                        type="checkbox" id="meals2">
-                                                    <label class="form-check-label ms-2" for="meals2">
-                                                        Breakfast
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="meals3"
-                                                        type="checkbox" id="meals3">
-                                                    <label class="form-check-label ms-2" for="meals3">
-                                                        Lunch
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    class="form-checkbox form-check form-check-inline d-inline-flex align-items-center mt-2 me-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="meals4"
-                                                        type="checkbox" id="meals4" checked>
-                                                    <label class="form-check-label ms-2" for="meals4">
-                                                        Dinner
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-style" aria-expanded="true"
-                                                aria-controls="accordion-style" role="button">
-                                                <i class="isax isax-profile-2user me-2 text-primary"></i>Guests
-                                            </div>
-                                        </div>
-                                        <div id="accordion-style" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="style1"
-                                                            type="checkbox" id="style1">
-                                                        <label class="form-check-label ms-2" for="style1">
-                                                            1 - 5
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="style2"
-                                                            type="checkbox" id="style2">
-                                                        <label class="form-check-label ms-2" for="style2">
-                                                            5 - 10
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="style3"
-                                                            type="checkbox" id="style3">
-                                                        <label class="form-check-label ms-2" for="style3">
-                                                            10 - 15
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                        <input class="form-check-input ms-0 mt-0" name="style4"
-                                                            type="checkbox" id="style4" checked>
-                                                        <label class="form-check-label ms-2" for="style4">
-                                                            15 - 20
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check d-flex align-items-center ps-0 mb-0">
-                                                        <input class="form-check-input ms-0 mt-0" name="style5"
-                                                            type="checkbox" id="style5">
-                                                        <label class="form-check-label ms-2" for="style5">
-                                                            20+
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-brand" aria-expanded="true"
-                                                aria-controls="accordion-brand" role="button">
-                                                <i class="isax isax-discount-shape me-2 text-primary"></i>Reviews
-                                            </div>
-                                        </div>
-                                        <div id="accordion-brand" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="review1"
-                                                        type="checkbox" id="review1">
-                                                    <label class="form-check-label ms-2" for="review1">
-                                                        <span class="rating d-flex align-items-center">
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary"></i>
-                                                            <span class="ms-2">5 Star</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="review2"
-                                                        type="checkbox" id="review2">
-                                                    <label class="form-check-label ms-2" for="review2">
-                                                        <span class="rating d-flex align-items-center">
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary"></i>
-                                                            <span class="ms-2">4 Star</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="review3"
-                                                        type="checkbox" id="review3">
-                                                    <label class="form-check-label ms-2" for="review3">
-                                                        <span class="rating d-flex align-items-center">
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary"></i>
-                                                            <span class="ms-2">3 Star</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check d-flex align-items-center ps-0 mb-2">
-                                                    <input class="form-check-input ms-0 mt-0" name="review4"
-                                                        type="checkbox" id="review4">
-                                                    <label class="form-check-label ms-2" for="review4">
-                                                        <span class="rating d-flex align-items-center">
-                                                            <i class="fas fa-star filled text-primary me-1"></i>
-                                                            <i class="fas fa-star filled text-primary"></i>
-                                                            <span class="ms-2">2 Star</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                <div class="form-check d-flex align-items-center ps-0 mb-0">
-                                                    <input class="form-check-input ms-0 mt-0" name="review5"
-                                                        type="checkbox" id="review5">
-                                                    <label class="form-check-label ms-2" for="review5">
-                                                        <span class="rating d-flex align-items-center">
-                                                            <i class="fas fa-star filled text-primary"></i>
-                                                            <span class="ms-2">1 Star</span>
-                                                        </span>
-                                                    </label>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -606,6 +367,3 @@
 @section('script')
     @vite(['resources/js/package/index.js', 'resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js'])
 @endsection
-
-
-

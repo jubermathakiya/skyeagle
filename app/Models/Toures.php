@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Toures extends Model
@@ -61,6 +62,16 @@ class Toures extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'categories_id');
+    }
+
+    public function packageAttributes(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            PackageAttribute::class,
+            'package_attribute_package',
+            'package_id',
+            'package_attribute_id'
+        )->withTimestamps();
     }
 
     public function faqs()
