@@ -83,6 +83,9 @@ import { submitAjaxForm } from '../common/form-handler.js';
             return;
         }
         $('#tour-results-wrapper').replaceWith(response.html);
+        if (typeof response.topCategoriesHtml !== 'undefined') {
+            $('#top-tour-categories-wrapper').replaceWith(response.topCategoriesHtml);
+        }
         initTourResultSliders($('#tour-results-wrapper'));
         $resultsCount.text(
             (response.total || 0) + ' Tours Found on Your Search'
@@ -121,6 +124,34 @@ import { submitAjaxForm } from '../common/form-handler.js';
     }
 
     $(document).on('change', '[data-category-filter="1"], [data-attribute-filter="1"]', function () {
+        applyFilters();
+    });
+
+    $(document).on('click', '[data-top-tour-category]', function (e) {
+        e.preventDefault();
+
+        var categoryId = String($(this).data('top-tour-category') || '');
+        if (!categoryId) {
+            return;
+        }
+
+        $form.find('[data-category-filter="1"]').prop('checked', false);
+        $form.find('[data-top-category-hidden="1"]').remove();
+
+        var $categoryInput = $form.find('input[name="categories[]"][value="' + categoryId + '"]');
+        if ($categoryInput.length) {
+            $categoryInput.prop('checked', true);
+        } else {
+            $form.append(
+                $('<input>', {
+                    type: 'hidden',
+                    name: 'categories[]',
+                    value: categoryId,
+                    'data-top-category-hidden': '1',
+                })
+            );
+        }
+
         applyFilters();
     });
 
