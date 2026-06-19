@@ -48,79 +48,9 @@
             <!-- /Tour Search -->
 
             <!-- Tour Types -->
-            <div class="mb-2">
-                <div class="mb-3">
-                    <h5 class="mb-2">Choose type of Tours you are interested</h5>
-                </div>
-                <div class="row">
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-01.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Ecotourism</a></h6>
-                                <p class="fs-14">216 Hotels</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-02.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Adventure Tour</a></h6>
-                                <p class="fs-14">569 tours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-03.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Group Tours</a></h6>
-                                <p class="fs-14">129 tours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-04.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Beach Tours</a></h6>
-                                <p class="fs-14">600 tours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-05.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Historical Tours</a></h6>
-                                <p class="fs-14">200 tours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="d-flex align-items-center hotel-type-item mb-3">
-                            <a href="{{url('tour-grid')}}" class="avatar avatar-lg">
-                                <img src="{{URL::asset('build/img/tours/tours-06.jpg')}}" class="rounded-circle" alt="img">
-                            </a>
-                            <div class="ms-2">
-                                <h6 class="fs-16 fw-medium"><a href="{{url('tour-grid')}}">Summer Trip</a></h6>
-                                <p class="fs-14">200 tours</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('pages.toures.partials.top-tour-categories', [
+                'topTourCategories' => $topTourCategories,
+            ])
             <!-- /Tour Types -->
 
             <div class="row">

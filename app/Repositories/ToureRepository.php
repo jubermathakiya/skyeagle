@@ -7,9 +7,12 @@ use App\Models\PackageAttribute;
 use App\Models\Toures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ToureRepository extends BaseRepository
 {
+    private const ALLOWED_TYPES = ['Domestic', 'International'];
+
     public function __construct(Toures $model)
     {
         parent::__construct($model);
@@ -17,7 +20,6 @@ class ToureRepository extends BaseRepository
 
     public function getTours(Request $request)
     {
-        $allowedTypes = ['Domestic', 'International'];
         $selectedType = $request->query('type');
         $selectedDestination = trim((string) $request->query('destination_city', ''));
         $tourTypeSearch = trim((string) $request->query('tour_type_search', ''));
@@ -57,33 +59,15 @@ class ToureRepository extends BaseRepository
             'category',
             'packageAttributes',
         ])->where('status', 1);
-        if ($isTrending) {
-            $packagesQuery->where('is_trending', 1);
-        }
-        if (in_array($selectedType, $allowedTypes, true)) {
-            $packagesQuery->where('booking_type', $selectedType);
-        }
-        if ($selectedDestination !== '') {
-            $like = '%' . addcslashes($selectedDestination, '%_\\') . '%';
-            $packagesQuery->where(function ($query) use ($like) {
-                $query->where('destination_city', 'like', $like)
-                    ->orWhere('source_city', 'like', $like);
-            });
-        }
-        if (!empty($selectedCategoryIds)) {
-            $packagesQuery->whereIn('categories_id', $selectedCategoryIds);
-        }
-        foreach ($selectedAttributeIds as $attributeId) {
-            $packagesQuery->whereHas('packageAttributes', function ($query) use ($attributeId) {
-                $query->where('package_attributes.id', $attributeId)
-                    ->where('package_attributes.status', 1);
-            });
-        }
-        if ($tourTypeSearch !== '') {
-            $packagesQuery->whereHas('category', function ($query) use ($tourTypeSearch) {
-                $query->where('name', 'like', '%' . $tourTypeSearch . '%');
-            });
-        }
+        $this->applyTourFilters(
+            $packagesQuery,
+            $selectedType,
+            $selectedDestination,
+            $selectedCategoryIds,
+            $selectedAttributeIds,
+            $tourTypeSearch,
+            $isTrending
+        );
         $perPage = $isTrending ? 8 : 5;
         $packages = $packagesQuery
             ->latest()
@@ -92,6 +76,13 @@ class ToureRepository extends BaseRepository
         return [
             'packages' => $packages,
             'categories' => $categories,
+            'topTourCategories' => $this->getTopTourCategories(
+                $selectedType,
+                $selectedDestination,
+                $selectedAttributeIds,
+                $tourTypeSearch,
+                $isTrending
+            ),
             'selectedType' => $selectedType,
             'selectedDestination' => $selectedDestination,
             'selectedCategoryIds' => $selectedCategoryIds,
@@ -100,6 +91,138 @@ class ToureRepository extends BaseRepository
             'tourTypeSearch' => $tourTypeSearch,
             'isTrending' => $isTrending,
         ];
+    }
+
+    private function applyTourFilters(
+        $query,
+        ?string $selectedType,
+        string $selectedDestination,
+        array $selectedCategoryIds,
+        array $selectedAttributeIds,
+        string $tourTypeSearch,
+        bool $isTrending,
+        bool $includeCategoryFilter = true
+    ): void {
+        if ($isTrending) {
+            $query->where('is_trending', 1);
+        }
+
+        if (in_array($selectedType, self::ALLOWED_TYPES, true)) {
+            $query->where('booking_type', $selectedType);
+        }
+
+        if ($selectedDestination !== '') {
+            $like = '%' . addcslashes($selectedDestination, '%_\\') . '%';
+            $query->where(function ($query) use ($like) {
+                $query->where('destination_city', 'like', $like)
+                    ->orWhere('source_city', 'like', $like);
+            });
+        }
+
+        if ($includeCategoryFilter && !empty($selectedCategoryIds)) {
+            $query->whereIn('categories_id', $selectedCategoryIds);
+        }
+
+        foreach ($selectedAttributeIds as $attributeId) {
+            $query->whereHas('packageAttributes', function ($query) use ($attributeId) {
+                $query->where('package_attributes.id', $attributeId)
+                    ->where('package_attributes.status', 1);
+            });
+        }
+
+        if ($tourTypeSearch !== '') {
+            $query->whereHas('category', function ($query) use ($tourTypeSearch) {
+                $query->where('name', 'like', '%' . $tourTypeSearch . '%');
+            });
+        }
+    }
+
+    private function getTopTourCategories(
+        ?string $selectedType,
+        string $selectedDestination,
+        array $selectedAttributeIds,
+        string $tourTypeSearch,
+        bool $isTrending,
+        int $limit = 6
+    ): Collection
+    {
+        $topCategoryRows = Toures::query()
+            ->select('categories_id', DB::raw('COUNT(*) as tours_count'))
+            ->where('status', 1)
+            ->whereNotNull('categories_id');
+
+        $this->applyTourFilters(
+            $topCategoryRows,
+            $selectedType,
+            $selectedDestination,
+            [],
+            $selectedAttributeIds,
+            $tourTypeSearch,
+            $isTrending,
+            false
+        );
+
+        $topCategoryRows = $topCategoryRows
+            ->groupBy('categories_id')
+            ->orderByDesc('tours_count')
+            ->orderBy('categories_id')
+            ->limit($limit)
+            ->get();
+
+        if ($topCategoryRows->isEmpty()) {
+            return collect();
+        }
+
+        $categories = Category::query()
+            ->select(['id', 'name'])
+            ->whereIn('id', $topCategoryRows->pluck('categories_id'))
+            ->get()
+            ->keyBy('id');
+
+        return $topCategoryRows
+            ->map(function ($row) use ($categories, $selectedType, $selectedDestination, $selectedAttributeIds, $tourTypeSearch, $isTrending) {
+                $category = $categories->get((int) $row->categories_id);
+
+                if (!$category) {
+                    return null;
+                }
+
+                $package = Toures::with([
+                    'images' => function ($query) {
+                        $query->where('status', 1)
+                            ->orderBy('id')
+                            ->limit(1);
+                    },
+                ])
+                    ->where('status', 1)
+                    ->where('categories_id', $category->id)
+                    ->whereHas('images', function ($query) {
+                        $query->where('status', 1);
+                    });
+
+                $this->applyTourFilters(
+                    $package,
+                    $selectedType,
+                    $selectedDestination,
+                    [],
+                    $selectedAttributeIds,
+                    $tourTypeSearch,
+                    $isTrending,
+                    false
+                );
+
+                $package = $package
+                    ->latest()
+                    ->first();
+
+                $category->setAttribute('top_count', (int) $row->tours_count);
+                $category->setAttribute('tours_count', (int) $row->tours_count);
+                $category->setAttribute('image_url', backend_image($package?->images?->first()?->image));
+
+                return $category;
+            })
+            ->filter()
+            ->values();
     }
 
     public function getTrendingTours(int $limit = 8)

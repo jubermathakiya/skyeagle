@@ -40,6 +40,12 @@ class ToursController extends Controller
                         'wishlistPackageIds' => $wishlistPackageIds,
                     ]
                 )->render(),
+                'topCategoriesHtml' => view(
+                    'pages.toures.partials.top-tour-categories',
+                    [
+                        'topTourCategories' => $data['topTourCategories'],
+                    ]
+                )->render(),
                 'total' => $data['packages']->total(),
             ]);
         }
