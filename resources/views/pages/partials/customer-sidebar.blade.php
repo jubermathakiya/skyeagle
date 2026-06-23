@@ -58,8 +58,8 @@
                                 class="fs-14 d-inline-flex align-items-center">Cruise</a>
                         </li>
                         <li>
-                            <a href="{{ url('customer-tour-booking') }}"
-                                class="fs-14 d-inline-flex align-items-center">Tour</a>
+                            <a href="{{ route('customer-tour-booking') }}"
+                                class="fs-14 d-inline-flex align-items-center{{ $active === 'tour-bookings' ? ' active' : '' }}">Tour</a>
                         </li>
                         <li>
                             <a href="{{ url('customer-tour-guides') }}"

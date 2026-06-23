@@ -10,6 +10,7 @@ use App\Http\Controllers\CityAutocompleteController;
 use App\Http\Controllers\ToursController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TourBookingRequestController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,9 @@ Route::get('flights', [FlightController::class, 'index'])->name('flight-grid');
 Route::get('flights/{flight}', [FlightController::class, 'show'])->name('flight-details');
 
 Route::post('wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+Route::post('tour-booking-requests', [TourBookingRequestController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('tour-booking-requests.store');
  
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
@@ -67,4 +71,5 @@ Route::middleware(['auth', 'customer'])->group(function () {
 
     //Wishlist route
     Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::get('customer-tour-booking', [TourBookingRequestController::class, 'index'])->name('customer-tour-booking');
 });
