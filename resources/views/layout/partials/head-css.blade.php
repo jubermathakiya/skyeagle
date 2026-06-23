@@ -85,7 +85,7 @@
     <link rel="stylesheet" href="{{URL::asset('build/css/style.css')}}">
 
     <style>
-        .dropdown-menu:not(.show) {
+        .dropdown-menu:not(.show):not(.bootstrap-datetimepicker-widget) {
             display: none !important;
         }
         .banner-form .tab-content > .tab-pane:not(.active) {

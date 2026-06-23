@@ -109,7 +109,7 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium p-2"
-                                            href="{{url('customer-hotel-booking')}}">My Booking</a>
+                                            href="{{ route('customer-tour-booking') }}">My Booking</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium p-2"

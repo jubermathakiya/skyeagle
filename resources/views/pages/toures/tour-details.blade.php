@@ -347,23 +347,60 @@
                     </div>
                     <div class="card shadow-none">
                         <div class="card-body">
+                            @php
+                                $bookingUser = auth()->user();
+                                $bookingDate = now();
+                            @endphp
                             <div class="mb-3">
                                 <p class="fs-13 fw-medium mb-1">Starts From</p>
-                                <h5 class="text-primary mb-1">$500 <span class="fs-14 text-default fw-normal">/
-                                        Night</span></h5>
+                                <h5 class="text-primary mb-1">
+                                    {{ config('constants.currency_symbol') }}{{ $packageDetails->price }}
+                                    <span class="fs-14 text-default fw-normal">/ Person</span>
+                                </h5>
                             </div>
                             <div class="banner-form">
-                                <form action="{{url('tour-booking')}}">
+                                <form action="{{ route('tour-booking-requests.store') }}" method="POST" id="tour_booking_request_form">
+                                    @csrf
+                                    <input type="hidden" name="package_id" value="{{ $packageDetails->id }}">
                                     <div class="form-info border-0">
-                                        <div class="form-item border rounded p-3 mb-3 w-100">
+                                        <div class="form-item border rounded p-3 mb-3 w-100 js-tour-booking-date-field">
                                             <label class="form-label fs-14 text-default mb-0">From</label>
-                                            <input type="text" class="form-control datetoday">
-                                            <p class="fs-12">Monday</p>
+                                            <input type="text" name="travel_from_date"
+                                                class="form-control datetoday js-tour-booking-date"
+                                                value="{{ $bookingDate->format('d-m-Y') }}"
+                                                autocomplete="off" readonly>
+                                            <p class="fs-12 js-tour-booking-date-day">{{ $bookingDate->format('l') }}</p>
                                         </div>
-                                        <div class="form-item border rounded p-3 mb-3 w-100">
+                                        <div class="form-item border rounded p-3 mb-3 w-100 js-tour-booking-date-field">
                                             <label class="form-label fs-14 text-default mb-0">To</label>
-                                            <input type="text" class="form-control datetoday">
-                                            <p class="fs-12">Monday</p>
+                                            <input type="text" name="travel_to_date"
+                                                class="form-control datetoday js-tour-booking-date"
+                                                value="{{ $bookingDate->format('d-m-Y') }}"
+                                                autocomplete="off" readonly>
+                                            <p class="fs-12 js-tour-booking-date-day">{{ $bookingDate->format('l') }}</p>
+                                        </div>
+                                        <div class="card shadow-none mb-3">
+                                            <div class="card-body p-3 pb-0">
+                                                <div class="border-bottom pb-2 mb-2">
+                                                    <h6>Customer Details</h6>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label text-gray-9 mb-1">Name</label>
+                                                    <input type="text" name="name" class="form-control"
+                                                        value="{{ old('name', $bookingUser?->name) }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label text-gray-9 mb-1">Email</label>
+                                                    <input type="email" name="email" class="form-control"
+                                                        value="{{ old('email', $bookingUser?->email) }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label text-gray-9 mb-1">Phone</label>
+                                                    <input type="text" name="phone" class="form-control" maxlength="15"
+                                                        value="{{ old('phone', $bookingUser?->phone) }}"
+                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card shadow-none mb-3">
                                             <div class="card-body p-3 pb-0">
@@ -378,16 +415,16 @@
                                                                 <span class="input-group-btn float-start">
                                                                     <button type="button"
                                                                         class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
+                                                                        data-type="minus" data-field="adults">
                                                                         <span><i class="isax isax-minus"></i></span>
                                                                     </button>
                                                                 </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
+                                                                <input type="text" name="adults" class="input-number"
+                                                                    value="1">
                                                                 <span class="input-group-btn float-end">
                                                                     <button type="button"
                                                                         class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
+                                                                        data-type="plus" data-field="adults">
                                                                         <span><i class="isax isax-add"></i></span>
                                                                     </button>
                                                                 </span>
@@ -403,16 +440,16 @@
                                                                 <span class="input-group-btn float-start">
                                                                     <button type="button"
                                                                         class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
+                                                                        data-type="minus" data-field="infants">
                                                                         <span><i class="isax isax-minus"></i></span>
                                                                     </button>
                                                                 </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
+                                                                <input type="text" name="infants" class="input-number"
+                                                                    value="0">
                                                                 <span class="input-group-btn float-end">
                                                                     <button type="button"
                                                                         class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
+                                                                        data-type="plus" data-field="infants">
                                                                         <span><i class="isax isax-add"></i></span>
                                                                     </button>
                                                                 </span>
@@ -428,16 +465,16 @@
                                                                 <span class="input-group-btn float-start">
                                                                     <button type="button"
                                                                         class="quantity-left-minus btn btn-light btn-number"
-                                                                        data-type="minus" data-field="">
+                                                                        data-type="minus" data-field="children">
                                                                         <span><i class="isax isax-minus"></i></span>
                                                                     </button>
                                                                 </span>
-                                                                <input type="text" name="quantity" class=" input-number"
-                                                                    value="01">
+                                                                <input type="text" name="children" class="input-number"
+                                                                    value="0">
                                                                 <span class="input-group-btn float-end">
                                                                     <button type="button"
                                                                         class="quantity-right-plus btn btn-light btn-number"
-                                                                        data-type="plus" data-field="">
+                                                                        data-type="plus" data-field="children">
                                                                         <span><i class="isax isax-add"></i></span>
                                                                     </button>
                                                                 </span>
@@ -447,9 +484,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-item border rounded p-3 mb-3 w-100">
+                                            <label class="form-label fs-14 text-default mb-1">Special Request</label>
+                                            <textarea name="special_request" class="form-control" rows="3"
+                                                placeholder="Tell us about preferred hotels, food, pickup, or custom plans"></textarea>
+                                        </div>
                                     </div>
                                     <button type="submit"
-                                        class="btn btn-primary btn-lg search-btn ms-0 w-100 fs-14">Book Now</button>
+                                        class="btn btn-primary btn-lg search-btn ms-0 w-100 fs-14"
+                                        data-loading-text="Submitting">Book Now</button>
                                 </form>
                             </div>
                         </div>
@@ -517,5 +560,139 @@
 
 @endsection
 @section('script')
-    @vite(['resources/js/enquiry/create.js'])
+    <script>
+        (function () {
+            var assets = {
+                jquery: "{{ URL::asset('build/js/jquery-3.7.1.min.js') }}",
+                moment: "{{ URL::asset('build/js/moment.js') }}",
+                datetimepicker: "{{ URL::asset('build/js/bootstrap-datetimepicker.min.js') }}"
+            };
+            var formSelector = '#tour_booking_request_form';
+            var dateSelector = '.js-tour-booking-date';
+            var fieldSelector = '.js-tour-booking-date-field';
+            var dateFormat = 'DD-MM-YYYY';
+
+            function loadScript(src, isLoaded, done) {
+                if (isLoaded()) {
+                    done();
+                    return;
+                }
+
+                var script = document.createElement('script');
+                script.src = src;
+                script.onload = done;
+                document.body.appendChild(script);
+            }
+
+            function ready(done) {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', done);
+                    return;
+                }
+
+                done();
+            }
+
+            function updateDateDay($input) {
+                if (!window.moment) {
+                    return;
+                }
+
+                var selectedDate = window.moment($input.val(), dateFormat, true);
+                $input.closest(fieldSelector)
+                    .find('.js-tour-booking-date-day')
+                    .text(selectedDate.isValid() ? selectedDate.format('dddd') : '');
+            }
+
+            function initTourBookingDatepicker() {
+                var $ = window.jQuery;
+
+                if (!$ || !$(formSelector).length || !window.moment || !$.fn.datetimepicker) {
+                    return;
+                }
+
+                var today = window.moment().startOf('day');
+
+                $(formSelector).find(dateSelector).each(function () {
+                    var $input = $(this);
+                    var picker = $input.data('DateTimePicker');
+
+                    if (picker) {
+                        picker.destroy();
+                    }
+
+                    $input.datetimepicker({
+                        format: dateFormat,
+                        minDate: today,
+                        defaultDate: today,
+                        useCurrent: false,
+                        allowInputToggle: true,
+                        ignoreReadonly: true,
+                        icons: {
+                            up: 'fas fa-angle-up',
+                            down: 'fas fa-angle-down',
+                            next: 'fas fa-angle-right',
+                            previous: 'fas fa-angle-left'
+                        }
+                    });
+
+                    $input.val(today.format(dateFormat));
+                    updateDateDay($input);
+                });
+            }
+
+            function bindTourBookingDatepicker() {
+                var $ = window.jQuery;
+
+                $(document).on('click mousedown', formSelector + ' ' + fieldSelector + ', ' + formSelector + ' ' + dateSelector, function (event) {
+                    if ($(event.target).closest('.bootstrap-datetimepicker-widget').length) {
+                        return;
+                    }
+
+                    var $input = $(this).is(dateSelector)
+                        ? $(this)
+                        : $(this).find(dateSelector).first();
+
+                    if (!$input.length) {
+                        return;
+                    }
+
+                    var picker = $input.data('DateTimePicker');
+                    if (!picker) {
+                        initTourBookingDatepicker();
+                        picker = $input.data('DateTimePicker');
+                    }
+
+                    if (picker) {
+                        event.preventDefault();
+                        picker.show();
+                    }
+                });
+
+                $(document).on('dp.change', formSelector + ' ' + dateSelector, function () {
+                    updateDateDay($(this));
+                });
+            }
+
+            function bootTourBookingDatepicker() {
+                loadScript(assets.jquery, function () {
+                    return !!window.jQuery;
+                }, function () {
+                    loadScript(assets.moment, function () {
+                        return !!window.moment;
+                    }, function () {
+                        loadScript(assets.datetimepicker, function () {
+                            return !!(window.jQuery && window.jQuery.fn && window.jQuery.fn.datetimepicker);
+                        }, function () {
+                            initTourBookingDatepicker();
+                            bindTourBookingDatepicker();
+                        });
+                    });
+                });
+            }
+
+            ready(bootTourBookingDatepicker);
+        })();
+    </script>
+    @vite(['resources/js/enquiry/create.js', 'resources/js/tour/booking-request.js'])
 @endsection
