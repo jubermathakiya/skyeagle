@@ -1,10 +1,14 @@
-<div id="tour-results-wrapper">
+<div
+    id="tour-results-wrapper"
+    data-next-page-url="{{ $packages->nextPageUrl() }}"
+    data-has-more-pages="{{ $packages->hasMorePages() ? '1' : '0' }}"
+>
     @if($packages->count() > 0)
         <div class="hotel-list">
             <div class="row justify-content-center">
-                <div class="col-md-12">
+                <div class="col-md-12" id="tour-results-list">
                     @foreach($packages as $package)
-                        <div class="place-item mb-4">
+                        <div class="place-item mb-4" data-tour-result-item="1">
                             <div class="place-img">
                                 <div class="img-slider image-slide owl-carousel nav-center">
                                     @foreach($package->images as $image)
@@ -77,31 +81,10 @@
             </div>
         </div>
 
-        @if($packages->lastPage() > 1)
-            <nav class="pagination-nav">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item {{ $packages->onFirstPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $packages->previousPageUrl() }}" aria-label="Previous">
-                            <span aria-hidden="true">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </span>
-                        </a>
-                    </li>
-                    @foreach ($packages->getUrlRange(1, $packages->lastPage()) as $page => $url)
-                        <li class="page-item {{ $page == $packages->currentPage() ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                        </li>
-                    @endforeach
-                    <li class="page-item {{ $packages->hasMorePages() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $packages->nextPageUrl() }}" aria-label="Next">
-                            <span aria-hidden="true">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        @endif
+        <div class="tour-infinite-status text-center py-3 {{ $packages->hasMorePages() ? '' : 'd-none' }}" data-tour-infinite-status>
+            <span class="spinner-border spinner-border-sm text-primary d-none me-2" role="status" aria-hidden="true"></span>
+            <span class="fs-14 text-gray-6" data-tour-infinite-text></span>
+        </div>
     @else
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body text-center py-5">

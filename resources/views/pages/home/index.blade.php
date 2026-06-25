@@ -3505,7 +3505,7 @@
 
             </div>
             <div class="text-center view-all wow fadeInUp">
-                <a href="{{ route('flight-grid') }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
+                <a href="{{ route('tour-list', ['is_trending' => 1]) }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>
