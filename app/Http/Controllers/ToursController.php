@@ -47,6 +47,8 @@ class ToursController extends Controller
                     ]
                 )->render(),
                 'total' => $data['packages']->total(),
+                'nextPageUrl' => $data['packages']->nextPageUrl(),
+                'hasMorePages' => $data['packages']->hasMorePages(),
             ]);
         }
 
@@ -84,10 +86,11 @@ class ToursController extends Controller
     {
         $packageDetails = $this->touresRepository->getTourDetails($slug);
         $isWishlisted = $this->wishlistRepository->isPackageWishlistedForAuthenticatedUser($packageDetails->id);
+        $tourDetailsMedia = $this->frontendRepository->getMediaByModuleSection('Tour Details');
 
         return view(
             'pages.toures.tour-details',
-            compact('packageDetails', 'isWishlisted')
+            compact('packageDetails', 'isWishlisted', 'tourDetailsMedia')
         );
     }
 

@@ -1,4 +1,7 @@
 <?php $page="tour-details";?>
+@php
+    $tourDetailsBannerImage = ($tourDetailsMedia ?? null)?->images?->first()?->image_url;
+@endphp
 @extends('layout.mainlayout')
 @section('content')
 
@@ -7,7 +10,7 @@
     ========================= -->
 
     <!-- Breadcrumb -->
-    <div class="breadcrumb-bar breadcrumb-bg-02 text-center">
+    <div class="breadcrumb-bar breadcrumb-bg-02 text-center" @if($tourDetailsBannerImage) style="background-image: url('{{ $tourDetailsBannerImage }}'); min-height: 251px; background-size: cover; background-position: center;" @endif>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-12">
