@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\TourBookingRequestRepository;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    public function __construct(
+        protected TourBookingRequestRepository $tourBookingRequestRepository
+    ) {
+    }
+
     public function customer()
     {
+        $user = Auth::user();
+
         return view('pages.dashboard.customer', [
-            'user' => Auth::user(),
+            'user' => $user,
+            'bookingStats' => $this->tourBookingRequestRepository->getCustomerStats($user),
+            'recentBookingRequests' => $this->tourBookingRequestRepository->getRecentForCustomer($user, 5),
         ]);
     }
 

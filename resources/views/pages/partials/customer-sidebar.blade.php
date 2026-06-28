@@ -9,7 +9,7 @@
             <div class="profile-content rounded-pill">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center justify-content-center">
-                        <img src="{{ URL::asset('build/img/users/user-01.jpg') }}" alt="image"
+                        <img src="{{ $user->profile_photo_url }}" alt="image"
                             class="img-fluid avatar avatar-lg rounded-circle flex-shrink-0 me-1">
                         <div>
                             <h6 class="fs-16">{{ $user->name }}</h6>

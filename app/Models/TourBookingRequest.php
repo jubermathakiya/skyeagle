@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TourBookingRequest extends Model
 {
+    use SoftDeletes;
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONTACTED = 'contacted';
     public const STATUS_CONFIRMED = 'confirmed';
@@ -45,6 +48,26 @@ class TourBookingRequest extends Model
         'package_price_snapshot' => 'decimal:2',
     ];
 
+    public static function statuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_CONTACTED,
+            self::STATUS_CONFIRMED,
+            self::STATUS_CANCELLED,
+        ];
+    }
+
+    public static function statusOptions(): array
+    {
+        return [
+            self::STATUS_PENDING => 'Pending',
+            self::STATUS_CONTACTED => 'Contacted',
+            self::STATUS_CONFIRMED => 'Confirmed',
+            self::STATUS_CANCELLED => 'Cancelled',
+        ];
+    }
+
     public function package(): BelongsTo
     {
         return $this->belongsTo(Toures::class, 'package_id');
@@ -77,12 +100,7 @@ class TourBookingRequest extends Model
 
     public function getStatusLabelAttribute(): string
     {
-        return match ($this->status) {
-            self::STATUS_CONTACTED => 'Contacted',
-            self::STATUS_CONFIRMED => 'Confirmed',
-            self::STATUS_CANCELLED => 'Cancelled',
-            default => 'Pending',
-        };
+        return self::statusOptions()[$this->status] ?? 'Pending';
     }
 
     public function getStatusBadgeClassAttribute(): string
@@ -93,5 +111,10 @@ class TourBookingRequest extends Model
             self::STATUS_CANCELLED => 'badge-danger',
             default => 'badge-warning',
         };
+    }
+
+    public function getTotalTravellersAttribute(): int
+    {
+        return (int) $this->adults + (int) $this->children + (int) $this->infants;
     }
 }

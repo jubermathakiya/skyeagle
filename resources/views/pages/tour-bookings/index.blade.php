@@ -41,6 +41,7 @@
                             $packageName = $package?->package_name ?: $bookingRequest->package_name;
                             $packageSlug = $package?->slug ?: $bookingRequest->package_slug;
                             $detailUrl = $packageSlug ? route('tour-details', $packageSlug) : route('tour-list');
+                            $bookingDetailUrl = route('customer-tour-booking.show', $bookingRequest->id);
                         @endphp
 
                         <div class="card booking-list shadow-none">
@@ -69,7 +70,7 @@
                                     </div>
 
                                     <div class="row g-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p class="fs-13 text-gray-6 mb-1">Travel Date</p>
                                             <h6 class="fs-14 fw-medium">
                                                 {{ $bookingRequest->travel_from_date?->format('d M Y') }}
@@ -77,18 +78,22 @@
                                                 {{ $bookingRequest->travel_to_date?->format('d M Y') }}
                                             </h6>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p class="fs-13 text-gray-6 mb-1">Travellers</p>
                                             <h6 class="fs-14 fw-medium">
-                                                {{ $bookingRequest->adults }} Adults,
-                                                {{ $bookingRequest->children }} Children,
-                                                {{ $bookingRequest->infants }} Infants
+                                                {{ $bookingRequest->total_travellers }} Total
                                             </h6>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p class="fs-13 text-gray-6 mb-1">Estimated Price</p>
                                             <h6 class="fs-14 fw-medium">
-                                                {{ $bookingRequest->currency }}{{ $bookingRequest->estimated_price ?: '0.00' }}
+                                                {{ $bookingRequest->currency }}{{ number_format((float) ($bookingRequest->estimated_price ?: 0), 2) }}
+                                            </h6>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p class="fs-13 text-gray-6 mb-1">Requested Date</p>
+                                            <h6 class="fs-14 fw-medium">
+                                                {{ $bookingRequest->created_at?->format('d M Y') }}
                                             </h6>
                                         </div>
                                     </div>
@@ -98,6 +103,12 @@
                                             <p class="fs-14 mb-0">{{ $bookingRequest->special_request }}</p>
                                         </div>
                                     @endif
+
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <a href="{{ $bookingDetailUrl }}" class="btn btn-primary btn-sm">
+                                            <i class="isax isax-eye me-1"></i>View Details
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -72,4 +72,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     //Wishlist route
     Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::get('customer-tour-booking', [TourBookingRequestController::class, 'index'])->name('customer-tour-booking');
+    Route::get('customer-tour-booking/{bookingRequest}', [TourBookingRequestController::class, 'show'])
+        ->whereNumber('bookingRequest')
+        ->name('customer-tour-booking.show');
 });
