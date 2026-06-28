@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\TourBookingRequest;
 use App\Models\Toures;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,47 @@ class TourBookingRequestRepository extends BaseRepository
 
     public function getForCustomer(User $user, int $perPage = 10)
     {
+        return $this->queryForCustomer($user)
+            ->latest()
+            ->paginate($perPage);
+    }
+
+    public function getRecentForCustomer(User $user, int $limit = 5)
+    {
+        return $this->queryForCustomer($user)
+            ->latest()
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getCustomerStats(User $user): array
+    {
+        $baseQuery = $this->model->newQuery()
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+
+                if (filled($user->email)) {
+                    $query->orWhere('email', $user->email);
+                }
+            });
+
+        return [
+            'total' => (clone $baseQuery)->count(),
+            'pending' => (clone $baseQuery)->where('status', TourBookingRequest::STATUS_PENDING)->count(),
+            'confirmed' => (clone $baseQuery)->where('status', TourBookingRequest::STATUS_CONFIRMED)->count(),
+            'cancelled' => (clone $baseQuery)->where('status', TourBookingRequest::STATUS_CANCELLED)->count(),
+        ];
+    }
+
+    public function findForCustomer(User $user, int $id): TourBookingRequest
+    {
+        return $this->queryForCustomer($user)
+            ->whereKey($id)
+            ->firstOrFail();
+    }
+
+    protected function queryForCustomer(User $user): Builder
+    {
         return $this->model
             ->newQuery()
             ->with([
@@ -59,8 +101,6 @@ class TourBookingRequestRepository extends BaseRepository
                 if (filled($user->email)) {
                     $query->orWhere('email', $user->email);
                 }
-            })
-            ->latest()
-            ->paginate($perPage);
+            });
     }
 }

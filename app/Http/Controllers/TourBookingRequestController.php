@@ -50,4 +50,14 @@ class TourBookingRequestController extends Controller
             'bookingRequests' => $bookingRequests,
         ]);
     }
+
+    public function show(int $bookingRequest)
+    {
+        $bookingRequest = $this->tourBookingRequestRepository->findForCustomer(Auth::user(), $bookingRequest);
+
+        return view('pages.tour-bookings.show', [
+            'user' => Auth::user(),
+            'bookingRequest' => $bookingRequest,
+        ]);
+    }
 }
