@@ -7,6 +7,7 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CityAutocompleteController;
+use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\ToursController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
@@ -28,6 +29,9 @@ Route::get('blogs/{slug}', [BlogController::class, 'show'])->name('blog-details'
 Route::resource('contact', ContactController::class);
 Route::post('enquiry', [ContactController::class,'saveEnquiry'])->name('enquiry.store');
 Route::post('newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('destination', fn () => redirect()->route('destinations.index'))->name('destination');
+Route::get('destinations', [DestinationController::class, 'index'])->name('destinations.index');
+Route::get('destinations/{slug}', [DestinationController::class, 'show'])->name('destinations.show');
 
 //Home routes
 Route::get('tours/trending', [HomeController::class, 'trending'])->name('tours.trending');
