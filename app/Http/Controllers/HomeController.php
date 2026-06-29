@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\FrontendRepository;
+use App\Repositories\DestinationRepository;
 use App\Repositories\ToureRepository;
 use App\Repositories\WishlistRepository;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ class HomeController extends Controller
 {
     public function __construct(
         protected FrontendRepository $frontendRepository,
+        protected DestinationRepository $destinationRepository,
         protected ToureRepository $touresRepository,
         protected WishlistRepository $wishlistRepository
     ) {
@@ -20,8 +22,9 @@ class HomeController extends Controller
     public function index()
     {
         $homeMedia = $this->frontendRepository->getHomeMedia();
+        $destinations = $this->destinationRepository->getHomeDestinations();
 
-        return view('pages.home.index', compact('homeMedia'));
+        return view('pages.home.index', compact('homeMedia', 'destinations'));
     }
 
     public function trending(Request $request)

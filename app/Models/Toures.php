@@ -64,6 +64,11 @@ class Toures extends Model
         return $this->belongsTo(Category::class, 'categories_id');
     }
 
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class, 'destination_id');
+    }
+
     public function packageAttributes(): BelongsToMany
     {
         return $this->belongsToMany(
