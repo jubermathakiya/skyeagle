@@ -112,8 +112,9 @@
                                     </p>
                                     <div class="d-flex align-items-center mb-2">
                                         <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">{{ $reviewRating }}</span>
-                                        <p class="fs-14"><a href="#reviews">{{ review_count_text($reviewCount) }}</a></p>
+                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2"
+                                            data-tour-review-rating>{{ $reviewRating }}</span>
+                                        <p class="fs-14"><a href="#reviews" data-tour-review-count>{{ review_count_text($reviewCount) }}</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -314,52 +315,11 @@
                     <!-- /FAQ -->
 
                     <!-- Reviews -->
-                    <div class="bg-light-200 card-bg-light mb-4" id="reviews">
-                        <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
-                            <h5 class="fs-18 mb-0">Reviews</h5>
-                            <div class="d-flex align-items-center">
-                                <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">{{ $reviewRating }}</span>
-                                <p class="fs-14 mb-0">{{ review_count_text($reviewCount) }}</p>
-                            </div>
-                        </div>
-                        @forelse($packageDetails->reviews as $review)
-                            @php
-                                $rating = number_format((float) ($review->rating ?? 0), 1);
-                            @endphp
-                            <div class="card shadow-none mb-3">
-                                <div class="card-body p-3">
-                                    <div class="d-flex align-items-start justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <span class="avatar avatar-md flex-shrink-0">
-                                                @if($review->reviewer_image)
-                                                    <img src="{{ backend_image($review->reviewer_image) }}" class="rounded-circle" alt="{{ $review->reviewer_name }}">
-                                                @else
-                                                    <span
-                                                        class="testimonial-card__avatar-initials rounded-circle d-flex align-items-center justify-content-center w-100 h-100 text-white"
-                                                        style="background-color: {{ reviewer_avatar_color($review->reviewer_name) }};"
-                                                        aria-hidden="true"
-                                                    >{{ reviewer_initials($review->reviewer_name) }}</span>
-                                                @endif
-                                            </span>
-                                            <div class="ms-2">
-                                                <h6 class="fs-16 fw-medium mb-0">{{ $review->reviewer_name }}</h6>
-                                                <p class="fs-14 mb-0">{{ $review->reviewer_location }}</p>
-                                            </div>
-                                        </div>
-                                        <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium">{{ $rating }}</span>
-                                    </div>
-                                    @if($review->review_title)
-                                        <h6 class="fs-15 fw-medium mt-3 mb-1">{{ $review->review_title }}</h6>
-                                    @endif
-                                    <div class="fs-14 text-gray-6 mt-2">{!! strip_tags($review->review_description, '<strong><b><em><i><br>') !!}</div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="border rounded p-3 bg-white">
-                                <p class="mb-0">No reviews available for this package yet.</p>
-                            </div>
-                        @endforelse
-                    </div>
+                    @include('pages.toures.partials.reviews', [
+                        'packageDetails' => $packageDetails,
+                        'reviewCount' => $reviewCount,
+                        'reviewRating' => $reviewRating,
+                    ])
                     <!-- /Reviews -->
                 </div>
                 <!-- Tour Sidebar -->
@@ -612,6 +572,8 @@
         End Page Content
     ========================= -->
 
+    @include('pages.toures.partials.review-modal', ['packageDetails' => $packageDetails])
+
 @endsection
 @section('script')
     <script>
@@ -748,5 +710,5 @@
             ready(bootTourBookingDatepicker);
         })();
     </script>
-    @vite(['resources/js/enquiry/create.js', 'resources/js/tour/booking-request.js'])
+    @vite(['resources/js/enquiry/create.js', 'resources/js/tour/booking-request.js', 'resources/js/tour/review.js'])
 @endsection

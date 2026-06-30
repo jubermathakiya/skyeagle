@@ -12,6 +12,7 @@ use App\Http\Controllers\ToursController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TourBookingRequestController;
+use App\Http\Controllers\TourReviewController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\NewsletterController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,9 @@ Route::post('tour-booking-requests', [TourBookingRequestController::class, 'stor
  
 // Tour Routes
 Route::get('tour-details/{slug}', [ToursController::class, 'show'])->name('tour-details');
+Route::post('tours/{tour}/reviews', [TourReviewController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('tour-reviews.store');
 Route::get('cities/autocomplete', [CityAutocompleteController::class, 'searchGeoapifyCities'])
     ->name('cities.autocomplete');
 Route::get('tours', [ToursController::class, 'index'])->name('tour-list');

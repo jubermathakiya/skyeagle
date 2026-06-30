@@ -57,6 +57,7 @@ export default defineConfig({
                 'resources/js/tour/tour-search-form.js',
                 'resources/js/tour/trending-tours.js',
                 'resources/js/tour/booking-request.js',
+                'resources/js/tour/review.js',
 
                 //Flight js
                 'resources/js/flight/flight-search.js',
