@@ -8,27 +8,27 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (! Schema::hasTable('customer_reviews')) {
+        if (! Schema::hasTable('customer_reviews') || Schema::hasColumn('customer_reviews', 'package_id')) {
             return;
         }
 
         Schema::table('customer_reviews', function (Blueprint $table) {
-            if (! Schema::hasColumn('customer_reviews', 'reviewer_email')) {
-                $table->string('reviewer_email')->nullable()->after('reviewer_name');
-            }
+            $table->foreignId('package_id')
+                ->nullable()
+                ->after('id')
+                ->constrained('packages')
+                ->nullOnDelete();
         });
     }
 
     public function down(): void
     {
-        if (! Schema::hasTable('customer_reviews')) {
+        if (! Schema::hasTable('customer_reviews') || ! Schema::hasColumn('customer_reviews', 'package_id')) {
             return;
         }
 
         Schema::table('customer_reviews', function (Blueprint $table) {
-            if (Schema::hasColumn('customer_reviews', 'reviewer_email')) {
-                $table->dropColumn('reviewer_email');
-            }
+            $table->dropConstrainedForeignId('package_id');
         });
     }
 };

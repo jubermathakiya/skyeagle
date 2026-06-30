@@ -8,6 +8,7 @@ use App\Models\Media;
 use App\Models\NewsletterSubscriber;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Schema;
 
 class FrontendRepository
 {
@@ -38,20 +39,21 @@ class FrontendRepository
     {
         $query = CustomerReview::query()
             ->active()
-            ->whereNull('package_id')
             ->orderBy('sort_order')
             ->latest('id');
 
-        $reviews = (clone $query)->limit(5)->get();
+        if (Schema::hasColumn('customer_reviews', 'package_id')) {
+            $reviews = (clone $query)
+                ->whereNull('package_id')
+                ->limit(5)
+                ->get();
 
-        if ($reviews->isNotEmpty()) {
-            return $reviews;
+            if ($reviews->isNotEmpty()) {
+                return $reviews;
+            }
         }
 
-        return CustomerReview::query()
-            ->active()
-            ->orderBy('sort_order')
-            ->latest('id')
+        return $query
             ->limit(5)
             ->get();
     }
