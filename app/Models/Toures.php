@@ -98,4 +98,14 @@ class Toures extends Model
     {
         return $this->hasMany(Wishlist::class, 'package_id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(CustomerReview::class, 'package_id');
+    }
+
+    public function activeReviews()
+    {
+        return $this->reviews()->active();
+    }
 }

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 class ToureRepository extends BaseRepository
 {
     private const ALLOWED_TYPES = ['Domestic', 'International'];
+    private const REVIEW_COUNT_ALIAS = 'active_reviews_count';
+    private const REVIEW_AVG_ALIAS = 'active_reviews_avg_rating';
 
     public function __construct(Toures $model)
     {
@@ -58,7 +60,14 @@ class ToureRepository extends BaseRepository
             },
             'category',
             'packageAttributes',
-        ])->where('status', 1);
+        ])
+            ->withCount([
+                'reviews as ' . self::REVIEW_COUNT_ALIAS => fn ($query) => $query->active(),
+            ])
+            ->withAvg([
+                'reviews as ' . self::REVIEW_AVG_ALIAS => fn ($query) => $query->active(),
+            ], 'rating')
+            ->where('status', 1);
         $this->applyTourFilters(
             $packagesQuery,
             $selectedType,
@@ -233,6 +242,12 @@ class ToureRepository extends BaseRepository
             },
             'category',
         ])
+            ->withCount([
+                'reviews as ' . self::REVIEW_COUNT_ALIAS => fn ($query) => $query->active(),
+            ])
+            ->withAvg([
+                'reviews as ' . self::REVIEW_AVG_ALIAS => fn ($query) => $query->active(),
+            ], 'rating')
             ->where('status', 1)
             ->where('is_trending', 1)
             ->latest()
@@ -281,8 +296,19 @@ class ToureRepository extends BaseRepository
             'images',
             'faqs',
             'highlights',
-            'itinerary'
+            'itinerary',
+            'reviews' => function ($query) {
+                $query->active()
+                    ->orderBy('sort_order')
+                    ->latest('id');
+            },
         ])
+        ->withCount([
+            'reviews as ' . self::REVIEW_COUNT_ALIAS => fn ($query) => $query->active(),
+        ])
+        ->withAvg([
+            'reviews as ' . self::REVIEW_AVG_ALIAS => fn ($query) => $query->active(),
+        ], 'rating')
         ->where('slug', $slug)
         ->where('status', 1)
         ->firstOrFail();

@@ -4,6 +4,8 @@
             @php
                 $isWishlisted = isset($wishlistPackageIds) && $wishlistPackageIds->contains($package->id);
                 $images = $package->images->take(3);
+                $reviewCount = package_review_count($package);
+                $reviewRating = package_review_rating($package);
             @endphp
             <div class="place-item mb-4 flex-fill h-100 d-flex flex-column">
                 <div class="place-img">
@@ -45,8 +47,8 @@
                             <span class="bg-light text-light d-flex align-items-center justify-content-center"></span>
                         </span>
                         <div class="d-flex align-items-center flex-shrink-0">
-                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">5.0</span>
-                            <p class="fs-14 mb-0">(105 Reviews)</p>
+                            <span class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-1">{{ $reviewRating }}</span>
+                            <p class="fs-14 mb-0">{{ review_count_text($reviewCount) }}</p>
                         </div>
                     </div>
                     <h5 class="mb-1 text-truncate"><a href="{{ route('tour-details', $package->slug) }}">{{ $package->package_name }}</a></h5>

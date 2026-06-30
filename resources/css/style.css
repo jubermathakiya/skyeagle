@@ -23810,6 +23810,38 @@ footer.footer-eleven .footer-bottom a:hover {
   height: 36px;
 }
 
+.tour-grid-results #tour-results-list {
+  --bs-gutter-y: 0.5rem;
+}
+.tour-grid-results .place-item {
+  min-width: 0;
+}
+.tour-grid-results .place-img {
+  width: 100%;
+  flex-shrink: 0;
+}
+.tour-grid-results .img-slider,
+.tour-grid-results .image-slide {
+  width: 100%;
+}
+.tour-grid-results .img-slider .owl-stage-outer,
+.tour-grid-results .img-slider .owl-stage,
+.tour-grid-results .img-slider .owl-item,
+.tour-grid-results .img-slider .slide-images,
+.tour-grid-results .image-slide .owl-stage-outer,
+.tour-grid-results .image-slide .owl-stage,
+.tour-grid-results .image-slide .owl-item,
+.tour-grid-results .image-slide .slide-images {
+  height: 100%;
+}
+.tour-grid-results .img-slider .slide-images a,
+.tour-grid-results .image-slide .slide-images a {
+  width: 100%;
+}
+.tour-grid-results .place-content {
+  min-width: 0;
+}
+
 /*---------------------------------------------------------------------------------
 
     Template Name: DreamsTour

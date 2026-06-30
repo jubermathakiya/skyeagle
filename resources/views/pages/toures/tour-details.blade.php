@@ -1,6 +1,8 @@
 <?php $page="tour-details";?>
 @php
     $tourDetailsBannerImage = ($tourDetailsMedia ?? null)?->images?->first()?->image_url;
+    $reviewCount = package_review_count($packageDetails);
+    $reviewRating = package_review_rating($packageDetails);
 @endphp
 @extends('layout.mainlayout')
 @section('content')
@@ -110,8 +112,9 @@
                                     </p>
                                     <div class="d-flex align-items-center mb-2">
                                         <span
-                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2">5.0</span>
-                                        <p class="fs-14"><a href="#reviews">(400 Reviews)</a></p>
+                                            class="badge badge-warning badge-xs text-gray-9 fs-13 fw-medium me-2"
+                                            data-tour-review-rating>{{ $reviewRating }}</span>
+                                        <p class="fs-14"><a href="#reviews" data-tour-review-count>{{ review_count_text($reviewCount) }}</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -310,6 +313,14 @@
                         </div>
                     </div>
                     <!-- /FAQ -->
+
+                    <!-- Reviews -->
+                    @include('pages.toures.partials.reviews', [
+                        'packageDetails' => $packageDetails,
+                        'reviewCount' => $reviewCount,
+                        'reviewRating' => $reviewRating,
+                    ])
+                    <!-- /Reviews -->
                 </div>
                 <!-- Tour Sidebar -->
                 <div class="col-xl-4 theiaStickySidebar">
@@ -561,6 +572,8 @@
         End Page Content
     ========================= -->
 
+    @include('pages.toures.partials.review-modal', ['packageDetails' => $packageDetails])
+
 @endsection
 @section('script')
     <script>
@@ -697,5 +710,5 @@
             ready(bootTourBookingDatepicker);
         })();
     </script>
-    @vite(['resources/js/enquiry/create.js', 'resources/js/tour/booking-request.js'])
+    @vite(['resources/js/enquiry/create.js', 'resources/js/tour/booking-request.js', 'resources/js/tour/review.js'])
 @endsection
