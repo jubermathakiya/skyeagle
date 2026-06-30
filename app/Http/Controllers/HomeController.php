@@ -23,8 +23,9 @@ class HomeController extends Controller
     {
         $homeMedia = $this->frontendRepository->getHomeMedia();
         $destinations = $this->destinationRepository->getHomeDestinations();
+        $customerReviews = $this->frontendRepository->getCustomerReviews();
 
-        return view('pages.home.index', compact('homeMedia', 'destinations'));
+        return view('pages.home.index', compact('homeMedia', 'destinations', 'customerReviews'));
     }
 
     public function trending(Request $request)

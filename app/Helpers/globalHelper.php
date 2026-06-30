@@ -136,3 +136,26 @@ if (!function_exists('reviewer_avatar_color')) {
         return $palette[$index];
     }
 }
+
+if (!function_exists('package_review_count')) {
+    function package_review_count($package): int
+    {
+        return (int) ($package->active_reviews_count ?? $package->reviews_count ?? $package->reviews?->count() ?? 0);
+    }
+}
+
+if (!function_exists('package_review_rating')) {
+    function package_review_rating($package): string
+    {
+        $rating = (float) ($package->active_reviews_avg_rating ?? $package->reviews_avg_rating ?? 0);
+
+        return $rating > 0 ? number_format($rating, 1) : '0.0';
+    }
+}
+
+if (!function_exists('review_count_text')) {
+    function review_count_text(int $count): string
+    {
+        return $count === 1 ? '(1 Review)' : '(' . $count . ' Reviews)';
+    }
+}

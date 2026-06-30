@@ -36,13 +36,24 @@ class FrontendRepository
 
     public function getCustomerReviews()
     {
+        $query = CustomerReview::query()
+            ->active()
+            ->whereNull('package_id')
+            ->orderBy('sort_order')
+            ->latest('id');
+
+        $reviews = (clone $query)->limit(5)->get();
+
+        if ($reviews->isNotEmpty()) {
+            return $reviews;
+        }
+
         return CustomerReview::query()
-            ->orderByDesc('created_at')
-            ->orderByDesc('id')
+            ->active()
+            ->orderBy('sort_order')
+            ->latest('id')
             ->limit(5)
-            ->get()
-            ->sortBy('sort_order')
-            ->values();
+            ->get();
     }
 
     public function alreadySubscribed(string $email): bool
