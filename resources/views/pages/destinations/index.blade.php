@@ -20,7 +20,7 @@
 
     <div class="content">
         <div class="container">
-            <div class="row g-4">
+            <div class="row g-4 destination-page-grid">
                 @forelse($destinations as $destination)
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         @include('pages.destinations.partials.destination-card', [

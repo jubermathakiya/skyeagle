@@ -6,7 +6,7 @@
                 <div class="col-xl-6 col-lg-10 text-center wow fadeInUp" data-wow-delay="0.2s">
                     <div class="section-header text-center">
                         <h2 class="mb-2">Search by <span
-                                class="text-primary text-decoration-underline">Destinations</span> Around the World
+                                class="destination-title-highlight text-decoration-underline">Destinations</span> Around the World
                         </h2>
                         <p class="sub-title">Explore curated destination guides and tour packages from Sky Eagle Trip.</p>
                     </div>
