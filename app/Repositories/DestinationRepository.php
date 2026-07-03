@@ -6,6 +6,7 @@ use App\Models\Destination;
 use App\Models\Toures;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class DestinationRepository extends BaseRepository
 {
@@ -16,48 +17,66 @@ class DestinationRepository extends BaseRepository
 
     public function getActiveDestinations(int $perPage = 12): LengthAwarePaginator
     {
-        return Destination::query()
-            ->withCount(['packages' => fn ($query) => $query->where('status', 1)])
+        $destinations = Destination::query()
             ->where('status', 1)
             ->latest()
             ->paginate($perPage);
+
+        $destinations->getCollection()->each(fn (Destination $destination) => $this->setPackagesCount($destination));
+
+        return $destinations;
     }
 
     public function getHomeDestinations(int $limit = 8): Collection
     {
-        return Destination::query()
-            ->withCount(['packages' => fn ($query) => $query->where('status', 1)])
+        $destinations = Destination::query()
             ->where('status', 1)
             ->latest()
             ->limit($limit)
             ->get();
+
+        $destinations->each(fn (Destination $destination) => $this->setPackagesCount($destination));
+
+        return $destinations;
     }
 
     public function getDestinationDetails(string $slug): Destination
     {
-        return Destination::query()
-            ->withCount(['packages' => fn ($query) => $query->where('status', 1)])
+        $destination = Destination::query()
             ->where('slug', $slug)
             ->where('status', 1)
             ->firstOrFail();
+
+        return $this->setPackagesCount($destination);
     }
 
     public function getPackagesForDestination(Destination $destination, int $perPage = 6): LengthAwarePaginator
     {
-        return Toures::with(['images' => fn ($query) => $query->limit(4), 'category'])
-            ->where('status', 1)
-            ->where(function ($query) use ($destination) {
-                $query->where('destination_id', $destination->id);
-
-                if (filled($destination->city)) {
-                    $query->orWhere('destination_city', 'like', '%' . addcslashes($destination->city, '%_\\') . '%');
-                }
-
-                if (filled($destination->name)) {
-                    $query->orWhere('destination_city', 'like', '%' . addcslashes($destination->name, '%_\\') . '%');
-                }
-            })
+        return $this->matchingPackagesQuery($destination)
+            ->with(['images' => fn ($query) => $query->limit(4), 'category'])
             ->latest()
             ->paginate($perPage);
+    }
+
+    protected function setPackagesCount(Destination $destination): Destination
+    {
+        $destination->setAttribute('packages_count', $this->matchingPackagesQuery($destination)->count());
+
+        return $destination;
+    }
+
+    protected function matchingPackagesQuery(Destination $destination): Builder
+    {
+        return Toures::query()
+            ->where('status', 1)
+            ->where(function (Builder $query) use ($destination) {
+                $query->where('destination_id', $destination->id);
+
+                foreach ([$destination->city, $destination->name] as $location) {
+                    if (filled($location)) {
+                        $query->orWhere('destination_city', 'like', '%' . addcslashes($location, '%_\\') . '%');
+                    }
+                }
+            });
     }
 }

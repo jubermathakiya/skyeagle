@@ -167,6 +167,27 @@
             display: block;
             background: #eef2f6;
         }
+        .destination-section .destination-title-highlight {
+            color: #d92d20;
+        }
+        .destination-section .destination-item,
+        .destination-page-grid .destination-item {
+            aspect-ratio: 0.85 / 1;
+            min-height: 0;
+        }
+        .destination-section .destination-item > img,
+        .destination-page-grid .destination-item > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        @media (max-width: 575.98px) {
+            .destination-section .destination-item,
+            .destination-page-grid .destination-item {
+                aspect-ratio: 0.92 / 1;
+            }
+        }
         .bootstrap-datetimepicker-widget,
         .daterangepicker {
             z-index: 3000;
