@@ -333,24 +333,12 @@
                             </h5>
                             <div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
-                                    <h6 class="fw-medium">Date</h6>
-                                    <p class="flex-fill">{{ $packageDetails->start_date }} - {{ $packageDetails->end_date }}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Destination</h6>
                                     <p class="flex-fill">{{ $packageDetails->destination_city ?? '' }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Duration</h6>
                                     <p class="flex-fill">{{ $packageDetails->duration['text'] ?? '-' }}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between details-info">
-                                    <h6 class="fw-medium">Departure</h6>
-                                    <p class="flex-fill">{{ $packageDetails->start_date }}</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between details-info">
-                                    <h6 class="fw-medium">Return</h6>
-                                    <p class="flex-fill">{{ $packageDetails->end_date }}</p>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between details-info">
                                     <h6 class="fw-medium">Total Peoples</h6>

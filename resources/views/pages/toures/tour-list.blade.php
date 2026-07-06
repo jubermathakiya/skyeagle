@@ -150,26 +150,6 @@
                                     <div class="accordion-item border-bottom p-3">
                                         <div class="accordion-header">
                                             <div class="accordion-button p-0" data-bs-toggle="collapse"
-                                                data-bs-target="#accordion-popular" aria-expanded="true"
-                                                aria-controls="accordion-popular" role="button">
-                                                <i class="isax isax-coin me-2 text-primary"></i>Price Per Night
-                                            </div>
-                                        </div>
-                                        <div id="accordion-popular" class="accordion-collapse collapse show">
-                                            <div class="accordion-body">
-                                                <div class="filter-range">
-                                                    <input type="text" id="range_03">
-                                                </div>
-                                                <div class="filter-range-amount">
-                                                    <p class="fs-14">Range : <span class="text-gray-9 fw-medium">$200 -
-                                                            $800</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item border-bottom p-3">
-                                        <div class="accordion-header">
-                                            <div class="accordion-button p-0" data-bs-toggle="collapse"
                                                 data-bs-target="#accordion-hotel" aria-expanded="true"
                                                 aria-controls="accordion-hotel" role="button">
                                                 <i class="isax isax-buildings me-2 text-primary"></i>Tour Types

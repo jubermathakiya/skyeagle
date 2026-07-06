@@ -1925,32 +1925,38 @@
             <div class="place-nav">
                 <ul class="nav justify-content-center">
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#flight-list">
+                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#flight-list"
+                            data-list-url="{{ route('flight-grid') }}">
                             Flights
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link active" data-bs-toggle="tab" data-bs-target="#Hotels-list">
+                        <a href="#" class="nav-link active" data-bs-toggle="tab" data-bs-target="#Hotels-list"
+                            data-list-url="{{ url('hotel-grid') }}">
                             Hotels
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cars-list">
+                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cars-list"
+                            data-list-url="{{ url('car-grid') }}">
                             Cars
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cruise-list">
+                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cruise-list"
+                            data-list-url="{{ url('cruise-grid') }}">
                             Cruise
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Tour-list">
+                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Tour-list"
+                            data-list-url="{{ route('tour-list', ['is_trending' => 1]) }}">
                             Tour
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Bus-list">
+                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Bus-list"
+                            data-list-url="{{ url('bus-list') }}">
                             Bus
                         </a>
                     </li>
@@ -3505,7 +3511,7 @@
 
             </div>
             <div class="text-center view-all wow fadeInUp">
-                <a href="{{ route('tour-list', ['is_trending' => 1]) }}" class="btn btn-dark d-inline-flex align-items-center">View All Places<i
+                <a href="{{ url('hotel-grid') }}" class="btn btn-dark d-inline-flex align-items-center" id="view-all-places-link">View All Places<i
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>

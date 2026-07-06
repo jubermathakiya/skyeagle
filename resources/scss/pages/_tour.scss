@@ -40,3 +40,38 @@
     height: 36px;
   }
 }
+
+.tour-grid-results {
+  #tour-results-list {
+    --bs-gutter-y: 0.5rem;
+  }
+
+  .place-item {
+    min-width: 0;
+  }
+
+  .place-img {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .img-slider,
+  .image-slide {
+    width: 100%;
+
+    .owl-stage-outer,
+    .owl-stage,
+    .owl-item,
+    .slide-images {
+      height: 100%;
+    }
+
+    .slide-images a {
+      width: 100%;
+    }
+  }
+
+  .place-content {
+    min-width: 0;
+  }
+}
