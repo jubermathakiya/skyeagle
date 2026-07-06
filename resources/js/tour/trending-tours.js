@@ -113,6 +113,22 @@ const pageJQuery = window.jQuery || $;
     }
 
     $(function () {
+        function syncViewAllPlacesLink($tab) {
+            var url = $tab.data('list-url');
+            if (url) {
+                $('#view-all-places-link').attr('href', url);
+            }
+        }
+
+        var $activePlacesTab = $('.place-nav .nav-link.active[data-list-url]').first();
+        if ($activePlacesTab.length) {
+            syncViewAllPlacesLink($activePlacesTab);
+        }
+
+        $(document).on('shown.bs.tab', '.place-nav .nav-link[data-list-url]', function () {
+            syncViewAllPlacesLink($(this));
+        });
+
         $(document).on('shown.bs.tab', 'a[data-bs-target="#Tour-list"]', function () {
             loadTrendingTours();
         });
