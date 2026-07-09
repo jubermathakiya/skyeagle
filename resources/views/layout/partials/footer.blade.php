@@ -34,17 +34,13 @@
                                 <li>
                                     <a href="#">Legal Notice</a>
                                 </li>
-                                <li>
-                                    <a href="{{url('privacy-policy')}}">Privacy Policy</a>
-                                </li>
-                                <li>
-                                    <a href="{{url('terms-conditions')}}">Terms and Conditions</a>
-                                </li>
+                                @foreach($footerPolicyPages ?? collect() as $footerPolicyPage)
+                                    <li>
+                                        <a href="{{ url($footerPolicyPage->slug) }}">{{ $footerPolicyPage->title }}</a>
+                                    </li>
+                                @endforeach
                                 <li>
                                     <a href="{{url('chat')}}">Chat Support</a>
-                                </li>
-                                <li>
-                                    <a href="#">Refund Policy</a>
                                 </li>
                             </ul>
                         </div>
