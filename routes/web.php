@@ -22,6 +22,15 @@ require __DIR__.'/auth.php';
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('about-us', [FrontController::class, 'aboutUs'])->name('about-us');
+Route::get('privacy-policy', [FrontController::class, 'contentPage'])
+    ->defaults('slug', 'privacy-policy')
+    ->name('content-pages.privacy-policy');
+Route::get('terms-conditions', [FrontController::class, 'contentPage'])
+    ->defaults('slug', 'terms-conditions')
+    ->name('content-pages.terms-conditions');
+Route::get('refund-policy', [FrontController::class, 'contentPage'])
+    ->defaults('slug', 'refund-policy')
+    ->name('content-pages.refund-policy');
 Route::get('blogs', [BlogController::class, 'index'])->name('blog-grid');
 Route::post('blogs/{blog}/comments', [BlogController::class, 'storeComment'])
     ->middleware('throttle:10,1')

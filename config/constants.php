@@ -9,7 +9,7 @@ return [
     'company_address' => env('COMPANY_ADDRESS', '401, PV Enclave, Before In The Lane Of ICICI Bank, Sindhu Bhavan Marg, near Bodakdev, Ahmedabad, Gujarat 380059'),
 
     'currency_symbol' => '₹',
-    'backend_url' => env('BACKEND_URL'),
-    'email_media_url' => env('EMAIL_MEDIA_URL'),
+    'backend_url' => env('BACKEND_URL', env('APP_URL')),
+    'email_media_url' => env('EMAIL_MEDIA_URL', env('APP_URL')),
     'email_media_disk_path' => env('EMAIL_MEDIA_DISK_PATH', base_path('../skyeagle-admin/storage/app/public')),
 ];

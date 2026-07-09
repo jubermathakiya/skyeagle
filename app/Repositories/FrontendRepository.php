@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Mail\NewsletterSubscribedMail;
+use App\Models\ContentPage;
 use App\Models\CustomerReview;
 use App\Models\Media;
 use App\Models\NewsletterSubscriber;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 
@@ -55,6 +57,31 @@ class FrontendRepository
 
         return $query
             ->limit(5)
+            ->get();
+    }
+
+    public function getContentPageBySlug(string $slug): ?ContentPage
+    {
+        if (!Schema::hasTable('content_pages')) {
+            return null;
+        }
+
+        return ContentPage::query()
+            ->active()
+            ->where('slug', $slug)
+            ->first();
+    }
+
+    public function getPolicyPagesForFooter(): Collection
+    {
+        if (!Schema::hasTable('content_pages')) {
+            return collect();
+        }
+
+        return ContentPage::query()
+            ->active()
+            ->whereIn('slug', array_keys(ContentPage::MANAGED_PAGES))
+            ->orderBy('sort_order')
             ->get();
     }
 

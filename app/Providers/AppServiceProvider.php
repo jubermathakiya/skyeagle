@@ -36,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('wishlistCount', $wishlistCount);
         });
 
+        View::composer('layout.partials.footer', function ($view) {
+            $view->with('footerPolicyPages', app(FrontendRepository::class)->getPolicyPagesForFooter());
+        });
+
         View::composer('layout.mainlayout', function ($view) {
             $data = $view->getData();
 
