@@ -3588,4 +3588,39 @@
 
 @section('script')
     @vite(['resources/js/tour/city-suggestions.js', 'resources/js/tour/tour-search-form.js', 'resources/js/tour/trending-tours.js', 'resources/js/flight/flight-search.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var viewAllPlacesLink = document.getElementById('view-all-places-link');
+
+            if (!viewAllPlacesLink) {
+                return;
+            }
+
+            function syncViewAllPlacesLink(tab) {
+                var url = tab && tab.getAttribute('data-list-url');
+
+                if (url) {
+                    viewAllPlacesLink.setAttribute('href', url);
+                }
+            }
+
+            var activePlacesTab = document.querySelector('.place-nav .nav-link.active[data-list-url]');
+            syncViewAllPlacesLink(activePlacesTab);
+
+            document.querySelectorAll('.place-nav .nav-link[data-list-url]').forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    syncViewAllPlacesLink(tab);
+                });
+
+                tab.addEventListener('shown.bs.tab', function () {
+                    syncViewAllPlacesLink(tab);
+                });
+            });
+
+            viewAllPlacesLink.addEventListener('click', function () {
+                var currentTab = document.querySelector('.place-nav .nav-link.active[data-list-url]');
+                syncViewAllPlacesLink(currentTab);
+            });
+        });
+    </script>
 @endsection

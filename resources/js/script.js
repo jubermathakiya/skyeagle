@@ -1772,12 +1772,39 @@ Template Name: DreamsTour - Bootstrap Template
 	}
 
   if($('.read-more').length > 0) {
-		$(".more-text").hide();
-		$(".more-link").on("click", function() {
-			$(this).addClass("less");
-	 		$(this).text($(this).text() === "Show Less" ? "Show More" : "Show Less");
-	 		$(".more-text").slideToggle(900);
-		});	  	
+		$(".read-more").each(function() {
+			var $container = $(this);
+			var $moreText = $container.find(".more-text").first();
+			var $moreLink = $container.find(".more-link").first();
+			var lineHeight = parseFloat($moreText.css("line-height")) || 24;
+			var collapsedHeight = lineHeight * 2;
+
+			if (!$moreText.length || !$moreLink.length) {
+				return;
+			}
+
+			$moreText.css({
+				"max-height": collapsedHeight + "px",
+				"overflow": "hidden"
+			});
+
+			if ($moreText[0].scrollHeight <= Math.ceil(collapsedHeight) + 1) {
+				$moreLink.hide();
+			}
+
+			$moreLink.on("click", function(e) {
+				e.preventDefault();
+				var previousTop = $container[0].getBoundingClientRect().top;
+				var isExpanded = !$container.hasClass("is-expanded");
+
+				$container.toggleClass("is-expanded", isExpanded);
+				$(this).toggleClass("less", isExpanded);
+				$(this).text(isExpanded ? "Show Less" : "Show More");
+				$moreText.css("max-height", isExpanded ? "none" : collapsedHeight + "px");
+
+				window.scrollBy(0, $container[0].getBoundingClientRect().top - previousTop);
+			});
+		});
 	}
 
   //Add Additional Service
@@ -2839,4 +2866,3 @@ $('.testimonial-slider-nine').each(function () {
 });
 
 })(jQuery);
-

@@ -114,7 +114,7 @@ const pageJQuery = window.jQuery || $;
 
     $(function () {
         function syncViewAllPlacesLink($tab) {
-            var url = $tab.data('list-url');
+            var url = $tab.attr('data-list-url') || $tab.data('list-url');
             if (url) {
                 $('#view-all-places-link').attr('href', url);
             }
@@ -127,6 +127,17 @@ const pageJQuery = window.jQuery || $;
 
         $(document).on('shown.bs.tab', '.place-nav .nav-link[data-list-url]', function () {
             syncViewAllPlacesLink($(this));
+        });
+
+        $(document).on('click', '.place-nav .nav-link[data-list-url]', function () {
+            syncViewAllPlacesLink($(this));
+        });
+
+        $(document).on('click', '#view-all-places-link', function () {
+            var $activeTab = $('.place-nav .nav-link.active[data-list-url]').first();
+            if ($activeTab.length) {
+                syncViewAllPlacesLink($activeTab);
+            }
         });
 
         $(document).on('shown.bs.tab', 'a[data-bs-target="#Tour-list"]', function () {
