@@ -129,29 +129,18 @@
                     </div>
                     <!-- /Slider -->
                         @php
-                            use Illuminate\Support\Str;
                             $fullText = $packageDetails->description ?? '';
-                            $plainText = strip_tags($fullText);
-                            $shortText = Str::limit($plainText, 200);
-                            $remainingText = substr($plainText, 200);
+                            $plainText = trim(strip_tags($fullText));
                         @endphp
                         <!-- Description -->
                         <div class="bg-light-200 card-bg-light mb-4">
                             <h5 class="fs-18 mb-3">Description</h5>
-                            <div class="mb-2">
-                                <p>
-                                    {{ $shortText }}
-                                    @if(strlen($remainingText) > 0) ... @endif
-                                </p>
-                            </div>
-                            @if(strlen($remainingText) > 0)
-                                <div class="read-more">
-                                    <div class="more-text">
-                                        <p>{{ $remainingText }}</p>
-                                    </div>
-                                    <a href="#" class="fs-14 fw-medium more-link text-decoration-underline mb-2">Show More</a>
+                            <div class="read-more tour-description-read-more">
+                                <div class="more-text tour-description-text" style="line-height: 1.5; max-height: 3em; overflow: hidden;">
+                                    <p>{{ $plainText }}</p>
                                 </div>
-                            @endif
+                                <a href="#" class="fs-14 fw-medium more-link text-decoration-underline mb-2">Show More</a>
+                            </div>
                         </div>
                         <!-- /Description -->
 
@@ -563,6 +552,7 @@
     @include('pages.toures.partials.review-modal', ['packageDetails' => $packageDetails])
 
 @endsection
+
 @section('script')
     <script>
         (function () {
