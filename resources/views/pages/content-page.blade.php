@@ -25,8 +25,8 @@
     <div class="content">
         <div class="container">
             <div class="policy-content">
-                @if(filled($contentPage->content))
-                    {!! $contentPage->content !!}
+                @if($contentPage->is_active && filled($content))
+                    {!! $content !!}
                 @else
                     <p class="mb-0">Content will be updated soon.</p>
                 @endif

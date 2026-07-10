@@ -32,7 +32,8 @@ class FrontController extends Controller
 
         $mediaModule = ContentPage::MANAGED_PAGES[$contentPage->slug] ?? $contentPage->title;
         $contentPageMedia = $this->frontendRepository->getMediaByModuleSection($mediaModule);
+        $content = $this->frontendRepository->normalizedContent($contentPage->content);
 
-        return view('pages.content-page', compact('contentPage', 'contentPageMedia'));
+        return view('pages.content-page', compact('contentPage', 'contentPageMedia', 'content'));
     }
 }
