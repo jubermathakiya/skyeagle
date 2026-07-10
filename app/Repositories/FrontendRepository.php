@@ -67,7 +67,6 @@ class FrontendRepository
         }
 
         return ContentPage::query()
-            ->active()
             ->where('slug', $slug)
             ->first();
     }
@@ -83,6 +82,28 @@ class FrontendRepository
             ->whereIn('slug', array_keys(ContentPage::MANAGED_PAGES))
             ->orderBy('sort_order')
             ->get();
+    }
+
+    public function normalizedContent(?string $value): ?string
+    {
+        $value = trim($this->normalizeStoredHtml((string) $value));
+
+        return $value === '' ? null : $value;
+    }
+
+    private function normalizeStoredHtml(string $value): string
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $decoded = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+            if ($decoded === $value) {
+                break;
+            }
+
+            $value = $decoded;
+        }
+
+        return $value;
     }
 
     public function alreadySubscribed(string $email): bool
