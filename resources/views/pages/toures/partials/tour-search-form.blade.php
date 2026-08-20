@@ -71,11 +71,13 @@
                 <input type="text" class="form-control check-in" name="check_in"
                     value="{{ $checkIn }}" data-initial-date="{{ $checkIn }}">
             </div>
-            <div class="form-item">
+            <input type="hidden" class="check-out" name="check_out"
+                value="{{ $checkOut }}" data-initial-date="{{ $checkOut }}">
+            {{-- <div class="form-item">
                 <label class="form-label fs-14 text-default mb-1">Check Out</label>
                 <input type="text" class="form-control check-out" name="check_out"
                     value="{{ $checkOut }}" data-initial-date="{{ $checkOut }}">
-            </div>
+            </div> --}}
             <div class="form-item dropdown js-tour-traveler-dropdown">
                 <div data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" role="menu">
                     <label class="form-label fs-14 text-default mb-1">Travellers</label>

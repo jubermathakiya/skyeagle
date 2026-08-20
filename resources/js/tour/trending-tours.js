@@ -78,6 +78,7 @@ const pageJQuery = window.jQuery || $;
     function loadTrendingTours() {
         var $wrapper = $('#trending-tours-wrapper');
         if (!$wrapper.length || $wrapper.data('loaded') === '1') {
+            initTrendingSliders($wrapper);
             refreshTrendingSliders();
             return;
         }
@@ -143,5 +144,9 @@ const pageJQuery = window.jQuery || $;
         $(document).on('shown.bs.tab', 'a[data-bs-target="#Tour-list"]', function () {
             loadTrendingTours();
         });
+
+        if ($('.place-nav .nav-link.active[data-bs-target="#Tour-list"]').length) {
+            loadTrendingTours();
+        }
     });
 })(pageJQuery);

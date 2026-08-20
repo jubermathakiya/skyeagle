@@ -22,43 +22,43 @@
                         <div class="banner-form card mb-0 banner-form-offset">
                             <div class="card-header">
                                 <ul class="nav">
-                                    <li>
+                                    {{-- <li>
                                         <a href="#" class="nav-link active" data-bs-toggle="tab"
                                             data-bs-target="#flight">
                                             <i class="isax isax-airplane5 me-2"></i>Flights
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Hotels">
                                             <i class="isax isax-buildings5 me-2"></i>Hotels
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cars">
                                             <i class="isax isax-car5 me-2"></i>Cars
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cruise">
                                             <i class="isax isax-ship5 me-2"></i>Cruise
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
-                                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Tour">
+                                        <a href="#" class="nav-link active" data-bs-toggle="tab" data-bs-target="#Tour">
                                             <i class="isax isax-camera5 me-2"></i>Tour
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Bus">
                                             <i class="isax isax-bus5 me-2"></i>Bus
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="card-body">
                                 <div>
                                     <div class="tab-content">
-                                        <div class="tab-pane fade active show" id="flight">
+                                        <div class="tab-pane fade" id="flight">
                                             
                                             <form action="{{ route('flight-grid') }}" method="get" class="js-flight-search-form" data-airports='@json(config('flight.airports'))'>
                                                 <div
@@ -1428,7 +1428,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="tab-pane fade" id="Tour">
+                                        <div class="tab-pane fade active show" id="Tour">
                                             @include('pages.toures.partials.tour-search-form')
                                         </div>
                                         <div class="tab-pane fade" id="Bus">
@@ -1924,48 +1924,48 @@
             </div>
             <div class="place-nav">
                 <ul class="nav justify-content-center">
-                    <li>
+                    {{-- <li>
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#flight-list"
                             data-list-url="{{ route('flight-grid') }}">
                             Flights
                         </a>
-                    </li>
-                    <li>
+                    </li> --}}
+                    {{-- <li>
                         <a href="#" class="nav-link active" data-bs-toggle="tab" data-bs-target="#Hotels-list"
                             data-list-url="{{ url('hotel-grid') }}">
                             Hotels
                         </a>
-                    </li>
-                    <li>
+                    </li> --}}
+                    {{-- <li>
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cars-list"
                             data-list-url="{{ url('car-grid') }}">
                             Cars
                         </a>
-                    </li>
-                    <li>
+                    </li> --}}
+                    {{-- <li>
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Cruise-list"
                             data-list-url="{{ url('cruise-grid') }}">
                             Cruise
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
-                        <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Tour-list"
+                        <a href="#" class="nav-link active" data-bs-toggle="tab" data-bs-target="#Tour-list"
                             data-list-url="{{ route('tour-list', ['is_trending' => 1]) }}">
                             Tour
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#" class="nav-link" data-bs-toggle="tab" data-bs-target="#Bus-list"
                             data-list-url="{{ url('bus-list') }}">
                             Bus
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="tab-content">
 
                 <!-- Hotels List -->
-                <div class="tab-pane fade active show" id="Hotels-list">
+                <div class="tab-pane fade" id="Hotels-list">
                     <div class="owl-carousel place-slider nav-center">
 
                         <!-- Place Item-->
@@ -3237,11 +3237,17 @@
                 <!-- /Cruise List -->
 
                 <!-- Tour List -->
-                <div class="tab-pane fade" id="Tour-list">
-                    <div id="trending-tours-wrapper" data-url="{{ route('tours.trending') }}">
+                <div class="tab-pane fade active show" id="Tour-list">
+                    <div id="trending-tours-wrapper" data-url="{{ route('tours.trending') }}" data-loaded="1">
+                        @include('pages.home.partials.trending-tours', [
+                            'packages' => $trendingTours ?? collect(),
+                            'wishlistPackageIds' => $wishlistPackageIds ?? collect(),
+                        ])
+                        {{--
                         <div class="text-center py-4">
                             <p class="fs-14 mb-0">Loading trending tours...</p>
                         </div>
+                        --}}
                     </div>
                 </div>
                 <!-- /Tour List -->
@@ -3511,7 +3517,7 @@
 
             </div>
             <div class="text-center view-all wow fadeInUp">
-                <a href="{{ url('hotel-grid') }}" class="btn btn-dark d-inline-flex align-items-center" id="view-all-places-link">View All Places<i
+                <a href="{{ route('tour-list', ['is_trending' => 1]) }}" class="btn btn-dark d-inline-flex align-items-center" id="view-all-places-link">View All Places<i
                         class="isax isax-arrow-right-3 ms-2"></i></a>
             </div>
         </div>

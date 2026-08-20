@@ -50,6 +50,27 @@
             margin-bottom: 1rem;
         }
 
+        .policy-content ul,
+        .policy-content ol {
+            padding-left: 1.5rem;
+        }
+
+        .policy-content ul {
+            list-style: disc;
+        }
+
+        .policy-content ol {
+            list-style: decimal;
+        }
+
+        .policy-content ul ul {
+            list-style-type: circle;
+        }
+
+        .policy-content li {
+            margin-bottom: 0.25rem;
+        }
+
         .policy-content img {
             max-width: 100%;
             height: auto;
