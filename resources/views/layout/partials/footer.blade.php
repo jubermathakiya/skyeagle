@@ -31,17 +31,17 @@
                                 <li>
                                     <a href="{{url('contact-us')}}">Contact Us</a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="#">Legal Notice</a>
-                                </li>
+                                </li> --}}
                                 @foreach($footerPolicyPages ?? collect() as $footerPolicyPage)
                                     <li>
                                         <a href="{{ url($footerPolicyPage->slug) }}">{{ $footerPolicyPage->title }}</a>
                                     </li>
                                 @endforeach
-                                <li>
+                                {{-- <li>
                                     <a href="{{url('chat')}}">Chat Support</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
@@ -50,23 +50,24 @@
                             <h5>Company</h5>
                             <ul class="footer-menu">
                                 <li>
-                                    <a href="about-us.html">About Us</a>
+                                    {{-- <a href="about-us.html">About Us</a> --}}
+                                    <a href="{{ route('about-us') }}">About Us</a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="#">Careers</a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ route('blog-grid') }}">Blog</a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="#">Affiliate Program</a>
-                                </li>
-                                <li>
+                                </li> --}}
+                                {{-- <li>
                                     <a href="add-flight.html">Add Your Listing</a>
-                                </li>
-                                <li>
+                                </li> --}}
+                                {{-- <li>
                                     <a href="#">Our Partners</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
