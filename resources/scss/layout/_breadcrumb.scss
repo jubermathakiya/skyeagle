@@ -7,6 +7,7 @@
 
 .breadcrumb-bar {
     padding: 150px 0 40px;
+    min-height: 251px;
     position: relative;
     z-index: 1;
     .breadcrumb-title {
@@ -59,6 +60,7 @@
 .breadcrumb-bg-01 {
     background: url('../img/bg/breadcrumb.jpg') no-repeat;
     background-size: cover;
+    background-position: center;
 }
 .breadcrumb-bg-02 {
     background: url('../img/bg/breadcrumb-02.jpg') no-repeat;
