@@ -220,8 +220,10 @@
                                     </ul>
                                 </nav>
                                 <div class="mt-4">              
+                                    {{--
                                     <div><a href="#" class="text-white btn btn-dark w-100 mb-3 mt-3 login-btn">Login / Register</a></div>
                                     <a href="{{url('become-an-expert')}}" class="btn btn-primary w-100">Become Expert</a>
+                                    --}}
                                 </div>
                             </div>
                         </div>
@@ -243,13 +245,15 @@
 
                         <div class="header-btn d-flex align-items-center">
                             
-                            <a href="#" class="btn btn-primary me-3 login-btn">Login / Register</a>
-                            <a href="{{url('become-an-expert')}}" class="btn btn-white me-0">Become Expert</a>
+                            {{-- <a href="#" class="btn btn-primary me-3 login-btn">Login / Register</a> --}}
+                            {{-- <a href="{{url('become-an-expert')}}" class="btn btn-white me-0">Become Expert</a> --}}
 
                             <!-- Mpbile screen -->
+                            {{--
                             <a href="#" class="d-xl-none my-auto me-3 login-btn">
                                 <i class="isax isax-user"></i> Login / Register
                             </a>
+                            --}}
                             <div class="header__hamburger d-xl-none my-auto">
                                 <div class="sidebar-menu">
                                     <i class="isax isax-menu5"></i>
